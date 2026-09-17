@@ -1,0 +1,72 @@
+{
+  "schema": "afterbell-judge-run/1",
+  "generatedAt": "2026-09-17T16:23:47.737Z",
+  "truthNotice": "This baseline run uses SIMULATED and ADVERSARIAL_TEST data. No mainnet transaction is claimed.",
+  "stages": {
+    "safe": {
+      "state": "PROTECTED",
+      "reasons": [],
+      "checks": {
+        "mandateActive": true,
+        "subjectMatches": true,
+        "platformAllowed": true,
+        "positionWithinLimit": true,
+        "premiumWithinLimit": true,
+        "marketNotHalted": true,
+        "evidenceSufficient": true,
+        "attestationFresh": true,
+        "exitLiquiditySufficient": true,
+        "tradeWithinLimit": true,
+        "dailyBudgetAvailable": true,
+        "slippageWithinLimit": true,
+        "rightDividend": true,
+        "rightOneToOne": true
+      },
+      "mandateHash": "0x031629f156efcfe181e3547f5fdfabbcf62e5f24f04c7b530abd99b1f16ae8af",
+      "evidenceHash": "0x29113d47e05dc002b5dc4fd8466ab4fa7e911e05bbe2ea1c12b06ef5db97cf3f"
+    },
+    "rescue": {
+      "state": "RESCUE_REQUIRED",
+      "reasons": [
+        "premiumWithinLimit",
+        "exitLiquiditySufficient"
+      ],
+      "checks": {
+        "mandateActive": true,
+        "subjectMatches": true,
+        "platformAllowed": true,
+        "positionWithinLimit": true,
+        "premiumWithinLimit": false,
+        "marketNotHalted": true,
+        "evidenceSufficient": true,
+        "attestationFresh": true,
+        "exitLiquiditySufficient": false,
+        "rightDividend": true,
+        "rightOneToOne": true
+      },
+      "mandateHash": "0x031629f156efcfe181e3547f5fdfabbcf62e5f24f04c7b530abd99b1f16ae8af",
+      "evidenceHash": "0x45ff9c46a9091742ecac015ec902bfddd573adb08d29ec28a5ffe1351108920d"
+    },
+    "equivalence": {
+      "classification": "SAFE_EQUIVALENT",
+      "reasons": [],
+      "ratioDeltaBps": 0,
+      "rightsCompatible": true
+    },
+    "tamperedExecution": {
+      "result": "CHALLENGE",
+      "checks": {
+        "simulationPassed": true,
+        "simulationBound": true,
+        "calldataBound": false,
+        "quoteFresh": true,
+        "slippageWithinMandate": true,
+        "transactionPresent": true
+      },
+      "reasons": [
+        "calldataBound"
+      ],
+      "evidenceHash": "0xdd672fe6bed4faeb4ec693974a042326b85081f1c9c3ca34f5c0b9788d1fed3a"
+    }
+  }
+}

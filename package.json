@@ -1,0 +1,42 @@
+{
+  "name": "afterbell-continuity",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Economic-equivalence, rights-continuity, and verifiable rescue infrastructure for tokenized stocks on BNB Chain.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.18.0"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env --import tsx src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test test/*.test.ts",
+    "judge": "node --import tsx scripts/judge-run.ts",
+    "benchmark": "node --import tsx scripts/benchmark.ts",
+    "data:gate": "node --env-file-if-exists=.env --import tsx scripts/data-gate.ts",
+    "contracts:compile": "node --import tsx scripts/compile-contracts.ts",
+    "check": "npm run typecheck && npm test && npm run contracts:compile && npm run judge && npm run benchmark",
+    "security:audit": "npm audit --omit=dev --audit-level=high"
+  },
+  "dependencies": {
+    "viem": "^2.45.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.24",
+    "solc": "0.8.30",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.2"
+  },
+  "overrides": {
+    "tmp": "0.2.7"
+  },
+  "keywords": [
+    "bnb-chain",
+    "tokenized-stocks",
+    "rwa",
+    "agentic-wallet",
+    "continuity",
+    "verifiable-execution"
+  ],
+  "license": "MIT"
+}

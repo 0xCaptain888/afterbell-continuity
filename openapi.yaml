@@ -1,0 +1,77 @@
+openapi: 3.1.0
+info:
+  title: AfterBell Continuity API
+  version: 0.1.0
+  description: Policy-bound continuity checks, rescue plans, credentials, and execution passports for tokenized stocks.
+servers:
+  - url: http://127.0.0.1:4173/api
+paths:
+  /health:
+    get:
+      operationId: health
+      responses:
+        "200":
+          description: Service health and evidence mode
+  /v1/demo/position:
+    get:
+      operationId: demoPosition
+      responses:
+        "200":
+          description: Clearly labelled simulated position data
+  /v1/demo/check:
+    get:
+      operationId: demoContinuityCheck
+      responses:
+        "200":
+          description: Deterministic continuity decision
+  /v1/demo/judge:
+    get:
+      operationId: demoJudgeRun
+      responses:
+        "200":
+          description: Reproducible simulated and adversarial Judge Run
+  /v1/continuity/check:
+    post:
+      operationId: checkContinuity
+      responses:
+        "200":
+          description: Continuity decision
+        "422":
+          description: Missing or unverifiable evidence
+  /v1/rescue/plan:
+    post:
+      operationId: planRescue
+      responses:
+        "200":
+          description: Unsigned rescue plan
+  /v1/credentials/issue:
+    post:
+      operationId: issueCredential
+      responses:
+        "200":
+          description: Short-lived EIP-712 signed credential
+  /v1/credentials/verify:
+    post:
+      operationId: verifyCredential
+      responses:
+        "200":
+          description: Credential validity result
+  /v1/passports/{id}:
+    get:
+      operationId: getPassport
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Execution passport
+        "404":
+          description: Passport not found
+  /v1/passports/verify:
+    post:
+      operationId: verifyPassport
+      responses:
+        "200":
+          description: Independent replay result

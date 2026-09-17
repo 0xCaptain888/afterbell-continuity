@@ -1,0 +1,55 @@
+{
+  "schema": "afterbell-benchmark/1",
+  "generatedAt": "2026-09-17T16:23:48.255Z",
+  "truthNotice": "All v0.1.0 benchmark scenarios are simulated or adversarial. No avoided-loss amount is claimed.",
+  "scenarios": [
+    {
+      "id": "false-arbitrage",
+      "baseline": "BUY",
+      "afterbell": "BLOCKED",
+      "evidence": {
+        "nominalSpreadBps": 180,
+        "normalizedSpreadBps": 11,
+        "reason": "economic_structure_not_equivalent",
+        "mode": "ADVERSARIAL_TEST"
+      }
+    },
+    {
+      "id": "stale-attestation",
+      "baseline": "BUY",
+      "afterbell": "RESCUE_REQUIRED",
+      "evidence": {
+        "mode": "ADVERSARIAL_TEST"
+      }
+    },
+    {
+      "id": "liquidity-collapse",
+      "baseline": "HOLD",
+      "afterbell": "RESCUE_REQUIRED",
+      "evidence": {
+        "mode": "ADVERSARIAL_TEST"
+      }
+    },
+    {
+      "id": "premium-breach",
+      "baseline": "BUY",
+      "afterbell": "RESCUE_REQUIRED",
+      "evidence": {
+        "mode": "ADVERSARIAL_TEST"
+      }
+    },
+    {
+      "id": "tampered-calldata",
+      "baseline": "UNDETECTED",
+      "afterbell": "CHALLENGE",
+      "evidence": {
+        "mode": "ADVERSARIAL_TEST"
+      }
+    }
+  ],
+  "metrics": {
+    "scenarios": 5,
+    "unsafeBaselineActions": 5,
+    "afterbellInterventions": 5
+  }
+}

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="AfterBell Continuity protects tokenized-stock exposure with economic equivalence, policy-bound rescue, and independently verifiable credentials.">
+  <title>AfterBell Continuity</title>
+  <link rel="icon" href="./favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="nav shell">
+    <a class="brand" href="#top" aria-label="AfterBell home">
+      <span class="brand-mark">A</span>
+      <span>AfterBell <b>Continuity</b></span>
+    </a>
+    <nav>
+      <a href="#control">Control center</a>
+      <a href="#protocol">Protocol</a>
+      <a href="#developers">Developers</a>
+    </nav>
+    <button class="wallet" id="connectButton">Connect wallet</button>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-copy">
+        <div class="eyebrow"><span></span> Tokenized-stock continuity protocol</div>
+        <h1>Own the exposure.<br><em>Preserve the rights.</em></h1>
+        <p>AfterBell verifies what a tokenized stock economically represents, keeps it inside your mandate, and proves every rescue independently.</p>
+        <div class="hero-actions">
+          <button class="primary" id="judgeButton">Run Judge Demo <span>→</span></button>
+          <a class="secondary" href="#protocol">Explore the protocol</a>
+        </div>
+        <div class="truth-row">
+          <span class="truth simulated">SIMULATED BASELINE</span>
+          <span>No mainnet claim until transaction evidence exists.</span>
+        </div>
+      </div>
+      <aside class="position-card" id="control">
+        <div class="card-topline">
+          <div><span class="muted">Protected exposure</span><h2>NVDA</h2></div>
+          <span class="status protected">Protected</span>
+        </div>
+        <div class="value-row"><strong>$21.34</strong><span>+0.18% normalized premium</span></div>
+        <div class="health-grid">
+          <div><span>Backing evidence</span><b>Current</b></div>
+          <div><span>Reference age</span><b>18 sec</b></div>
+          <div><span>Exit liquidity</span><b>$48.2k</b></div>
+          <div><span>Price impact</span><b>0.24%</b></div>
+        </div>
+        <div class="mandate-line"><span>Mandate</span><b>Max premium 0.80%</b><i>Active</i></div>
+        <div class="scanline"></div>
+      </aside>
+    </section>
+
+    <section class="judge shell" id="judgePanel" hidden>
+      <div class="section-title">
+        <div><span class="kicker">ONE-CLICK VERIFICATION</span><h2>Judge Run</h2></div>
+        <span class="run-state" id="runState">Waiting</span>
+      </div>
+      <div class="stage-list" id="stageList"></div>
+      <p class="run-note">This first build runs reproducible simulated and adversarial scenarios. LIVE RWA, Agentic Wallet and BSC MAINNET stages remain visibly blocked until credentials and funding are configured.</p>
+    </section>
+
+    <section class="protocol shell" id="protocol">
+      <div class="section-title">
+        <div><span class="kicker">THE MISSING CONTROL LAYER</span><h2>One mandate. Continuous protection.</h2></div>
+        <p>Most agents optimize a trade. AfterBell maintains the integrity of the exposure after the trade.</p>
+      </div>
+      <div class="protocol-grid">
+        <article><span>01</span><h3>Economic equivalence</h3><p>Normalize wrapper ratios, reference bases and rights before comparing token prices.</p></article>
+        <article><span>02</span><h3>Rights continuity</h3><p>Version backing, dividend, split and redemption terms into a verifiable fingerprint.</p></article>
+        <article><span>03</span><h3>Policy-bound rescue</h3><p>Prepare migration or safe exit only inside the wallet owner's mandate.</p></article>
+        <article><span>04</span><h3>Open verification</h3><p>Replay quote, simulation, calldata and receipt before releasing the execution bond.</p></article>
+      </div>
+    </section>
+
+    <section class="flow shell">
+      <span class="kicker">VERIFIABLE BY DESIGN</span>
+      <div class="flow-track">
+        <div><b>01</b><span>Observe</span></div><i></i>
+        <div><b>02</b><span>Normalize</span></div><i></i>
+        <div><b>03</b><span>Decide</span></div><i></i>
+        <div><b>04</b><span>Simulate</span></div><i></i>
+        <div><b>05</b><span>Execute</span></div><i></i>
+        <div><b>06</b><span>Verify</span></div>
+      </div>
+    </section>
+
+    <section class="developers shell" id="developers">
+      <div>
+        <span class="kicker">FOR WALLETS, AGENTS &amp; DEFI</span>
+        <h2>A credential other protocols can trust.</h2>
+        <p>Integrate continuity checks without importing the AfterBell user interface.</p>
+      </div>
+      <pre><code>const result = await afterbell.checkContinuity({
+  wallet,
+  asset,
+  mandate
+});
+
+if (result.decision === "RESCUE_REQUIRED") {
+  const plan = await afterbell.prepareRescue(result);
+}</code></pre>
+    </section>
+  </main>
+
+  <footer class="shell"><span>AfterBell Continuity</span><span>Built for BNB Chain Tokenized Stocks Hackathon · 2026</span></footer>
+  <script src="./app.js" type="module"></script>
+</body>
+</html>

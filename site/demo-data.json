@@ -1,0 +1,31 @@
+{
+  "runId": "static-judge-preview",
+  "status": "COMPLETE",
+  "modes": ["SIMULATED", "ADVERSARIAL_TEST"],
+  "stages": [
+    {
+      "id": "live-baseline",
+      "label": "Baseline continuity check",
+      "mode": "SIMULATED",
+      "result": "PROTECTED"
+    },
+    {
+      "id": "premium-rescue",
+      "label": "Premium and liquidity violation",
+      "mode": "ADVERSARIAL_TEST",
+      "result": "RESCUE_REQUIRED"
+    },
+    {
+      "id": "equivalence",
+      "label": "Economic equivalence",
+      "mode": "SIMULATED",
+      "result": "SAFE_EQUIVALENT"
+    },
+    {
+      "id": "tamper",
+      "label": "Tampered calldata",
+      "mode": "ADVERSARIAL_TEST",
+      "result": "CHALLENGE"
+    }
+  ]
+}
