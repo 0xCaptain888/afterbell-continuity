@@ -44,24 +44,33 @@ observe the position
 - Independent execution verifier
 - Continuity passport generation
 - Binance Web3 RWA API signed client
+- Live inventory parser and deterministic candidate ranking
+- Quote → swap-build → Transaction API simulation gate with RFQ handling
+- Hash-linked evidence artifacts and tamper verification
+- Publishable TypeScript SDK with structured errors and timeouts
+- Persistent Watchtower task journal and Agent service endpoint
 - Reproducible Judge Run
 - Responsive control-center demo
 - `ContinuityRegistry`, `GuardedStockVault`, and `ExecutionBondEscrow` contracts
 - Solidity compilation in CI
 - Initial threat model, DX log, API specification, and prior-work disclosure
+- A concise [`Judge guide`](./docs/JUDGE-GUIDE.md) with 90-second and four-minute paths
 
 ## Current status
 
 | Capability | Status | Evidence |
 |---|---|---|
-| Core continuity engine | `IMPLEMENTED` | TypeScript tests |
+| Core continuity engine | `IMPLEMENTED` | 19 TypeScript tests |
 | EIP-712 credential | `IMPLEMENTED` | Credential tests |
 | Independent verifier | `IMPLEMENTED` | PASS and CHALLENGE tests |
 | Contracts | `IMPLEMENTED / UNDEPLOYED` | Solidity compilation |
 | UI and Judge Run | `IMPLEMENTED` | Local/static demo |
-| Binance RWA inventory | `BLOCKED_BY_CREDENTIALS` | `npm run data:gate` |
-| Trading API quote | `NOT_STARTED` | — |
-| Transaction API simulation | `NOT_STARTED` | — |
+| TypeScript SDK | `IMPLEMENTED` | package dry build and SDK tests |
+| Persistent Watchtower tasks | `IMPLEMENTED` | JSONL journal and local API smoke test |
+| Agent Studio service package | `DESIGN / UNPUBLISHED` | `agent-studio/` and local endpoint |
+| Binance RWA inventory | `READY / BLOCKED_BY_CREDENTIALS` | `npm run data:gate` |
+| Trading API quote and swap build | `READY / BLOCKED_BY_CREDENTIALS` | `npm run trade:gate` |
+| Transaction API simulation | `READY / BLOCKED_BY_CREDENTIALS` | `npm run trade:gate` |
 | Agentic Wallet authorization | `NOT_STARTED` | — |
 | Agent Studio Watchtower | `NOT_STARTED` | — |
 | BSC mainnet contracts | `NOT_DEPLOYED` | — |
@@ -92,6 +101,50 @@ npm run data:gate
 ```
 
 Successful output is written to `evidence/live/rwa-inventory.json`. Secrets are never written to evidence or committed.
+
+Then rank technically suitable demo assets and run the non-broadcast quote/simulation gate:
+
+```bash
+npm run assets:rank
+npm run trade:gate
+```
+
+`trade:gate` never signs or broadcasts. It records either a simulated EVM transaction, an explicit RFQ-signature requirement, or a fail-closed blocker.
+
+For any hosted API, configure `AFTERBELL_API_TOKEN` and send it as a bearer token. The server refuses a non-loopback bind without this protection.
+
+## SDK
+
+The repository is structured as an installable TypeScript package, not only a UI:
+
+```ts
+import { AfterBellClient } from "afterbell-continuity";
+
+const afterbell = new AfterBellClient({ baseUrl: "https://example.com/api" });
+const result = await afterbell.checkContinuity({
+  snapshot,
+  rights,
+  mandate,
+  positionUsd
+});
+```
+
+Build and inspect the package without publishing it:
+
+```bash
+npm run build
+npm pack --dry-run --cache .runtime/npm-cache
+```
+
+## Safe BSC deployment
+
+Generate an auditable bytecode commitment without using a wallet:
+
+```bash
+npm run contracts:plan
+```
+
+The real deployment script is intentionally guarded. It refuses to run unless the RPC, deployer key, signer address, and exact `DEPLOY_CONFIRM=BSC_MAINNET` acknowledgement are all configured locally. A deployment receipt is still labelled unverified until BscScan verification succeeds.
 
 ## Safety invariants
 
@@ -143,7 +196,8 @@ Binance RWA / Market / Trading / Transaction APIs
 ```text
 contracts/   BSC contracts
 src/         core engine, API client, server, verifier
-scripts/     judge, data gate, contract compiler
+scripts/     judge, live gates, asset ranking, deployment safety
+agent-studio/ service packaging boundary and honest deployment status
 site/        judge-facing control center
 test/        deterministic and adversarial tests
 benchmark/   reproducible baseline-vs-AfterBell scenarios
@@ -162,6 +216,10 @@ POST /v1/credentials/issue
 POST /v1/credentials/verify
 GET  /v1/passports/{id}
 POST /v1/passports/verify
+GET  /v1/watch/tasks
+POST /v1/watch/tasks
+POST /v1/watch/tasks/{id}/inspect
+POST /v1/agent/watchtower
 ```
 
 ## Mainnet definition of done

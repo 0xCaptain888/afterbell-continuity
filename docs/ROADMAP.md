@@ -2,18 +2,21 @@
 
 ## Hackathon scope
 
-- Live Binance RWA inventory
-- One selected BSC tokenized stock
-- Economic and rights fingerprint
-- Continuity Mandate
-- Quote and Transaction API simulation
-- Agentic Wallet policy and real small trade
-- BSC contracts and source verification
-- Agent Studio Watchtower
-- Credential and Guarded Vault
-- Independent verifier and passport
-- SDK integration example
-- Benchmark, DX Report, public demo, and four-minute video
+- [x] Economic and rights fingerprint
+- [x] Continuity Mandate
+- [x] Quote and Transaction API integration gates
+- [x] BSC contract suite and guarded deployment script
+- [x] Local Watchtower service package
+- [x] Credential and Guarded Vault
+- [x] Independent verifier and passport
+- [x] SDK integration surface
+- [x] Benchmark, working DX log, and local/static demo
+- [ ] Live Binance RWA inventory receipt
+- [ ] One selected BSC tokenized stock
+- [ ] Agentic Wallet authorization and real small trade
+- [ ] BSC mainnet deployment and source verification
+- [ ] Agent Studio Watchtower deployment receipt
+- [ ] Public demo and four-minute video
 
 ## Post-hackathon only
 

@@ -10,6 +10,12 @@
       "result": "PROTECTED"
     },
     {
+      "id": "rights",
+      "label": "Rights fingerprint bound",
+      "mode": "SIMULATED",
+      "result": "VERIFIED"
+    },
+    {
       "id": "premium-rescue",
       "label": "Premium and liquidity violation",
       "mode": "ADVERSARIAL_TEST",
@@ -26,6 +32,12 @@
       "label": "Tampered calldata",
       "mode": "ADVERSARIAL_TEST",
       "result": "CHALLENGE"
+    },
+    {
+      "id": "credential",
+      "label": "EIP-712 continuity credential",
+      "mode": "SIMULATED",
+      "result": "VALID"
     }
   ]
 }

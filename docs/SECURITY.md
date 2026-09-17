@@ -40,3 +40,5 @@
 - Never expose API or wallet secrets in browser code.
 - Verify deployed bytecode and contract source.
 - Require explicit human approval for the first mainnet rescue.
+- Keep the API on loopback for local judging. A non-loopback bind is rejected unless `AFTERBELL_API_TOKEN` is configured.
+- Protect Watchtower mutation, Agent invocation, and credential-signing endpoints with the bearer token in hosted environments.

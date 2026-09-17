@@ -1,0 +1,19 @@
+{
+  "schema": "afterbell-agent-service/1",
+  "name": "AfterBell Watchtower",
+  "version": "0.1.0",
+  "description": "Continuously evaluates whether a tokenized-stock position preserves the owner's economic exposure and rights, then returns a policy-bound rescue signal.",
+  "status": "DESIGN",
+  "truthNotice": "This package is ready to wrap as a service but is not yet deployed or published in Binance Agent Studio.",
+  "http": {
+    "method": "POST",
+    "path": "/api/v1/agent/watchtower"
+  },
+  "input": "WatchedPosition",
+  "output": "WatchtowerEvent",
+  "billing": {
+    "model": "per-inspection",
+    "currency": "USDT",
+    "price": "TBD"
+  }
+}

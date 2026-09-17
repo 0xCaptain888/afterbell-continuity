@@ -1,0 +1,28 @@
+{
+  "schema": "afterbell-watchtower/1",
+  "truthNotice": "SIMULATED state transition; no live monitor or mainnet action is claimed.",
+  "events": [
+    {
+      "positionId": "judge-position-1",
+      "observedAt": "2026-09-17T12:00:00.000Z",
+      "state": "PROTECTED",
+      "reasons": [],
+      "decisionHash": "0x21bdd631c1dcebb673ee992317b1d29a874edbc9e145ccbda3608b49c6cfeaca",
+      "mode": "SIMULATED",
+      "eventId": "0x4e964827dc5f7dd7afd999296d3b46cab4f984842bc42ea7c39df669a7d1a5e5"
+    },
+    {
+      "positionId": "judge-position-1",
+      "observedAt": "2026-09-17T12:05:00.000Z",
+      "previousState": "PROTECTED",
+      "state": "RESCUE_REQUIRED",
+      "reasons": [
+        "premiumWithinLimit",
+        "exitLiquiditySufficient"
+      ],
+      "decisionHash": "0x0ca379027fedd7159516bd3de602f4d28f357633aa6335e4e1c0fc4391201602",
+      "mode": "SIMULATED",
+      "eventId": "0x32ac7c6857660e63e1b557b8332f8aad84acc9804b718b80178b3954a8405f35"
+    }
+  ]
+}

@@ -47,6 +47,8 @@ paths:
   /v1/credentials/issue:
     post:
       operationId: issueCredential
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Short-lived EIP-712 signed credential
@@ -75,3 +77,49 @@ paths:
       responses:
         "200":
           description: Independent replay result
+  /v1/watch/tasks:
+    get:
+      operationId: listWatchTasks
+      responses:
+        "200":
+          description: Persistent Watchtower tasks
+    post:
+      operationId: createWatchTask
+      security:
+        - bearerAuth: []
+      responses:
+        "201":
+          description: Watchtower task created
+        "422":
+          description: Invalid position or interval
+  /v1/watch/tasks/{id}/inspect:
+    post:
+      operationId: inspectWatchTask
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Persisted task and deterministic Watchtower event
+        "404":
+          description: Task not found
+  /v1/agent/watchtower:
+    post:
+      operationId: invokeWatchtowerAgent
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Local deterministic Agent service response
+        "422":
+          description: Invalid watched position
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Required for mutable or signing endpoints when AFTERBELL_API_TOKEN is configured.

@@ -4,18 +4,39 @@
   "private": false,
   "description": "Economic-equivalence, rights-continuity, and verifiable rescue infrastructure for tokenized stocks on BNB Chain.",
   "type": "module",
+  "main": "./package-dist/sdk.js",
+  "types": "./package-dist/sdk.d.ts",
+  "exports": {
+    ".": {
+      "types": "./package-dist/sdk.d.ts",
+      "import": "./package-dist/sdk.js"
+    }
+  },
+  "files": [
+    "package-dist/",
+    "contracts/",
+    "openapi.yaml",
+    "README.md",
+    "LICENSE"
+  ],
   "engines": {
     "node": ">=20.18.0"
   },
   "scripts": {
     "dev": "node --env-file-if-exists=.env --import tsx src/server.ts",
+    "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test test/*.test.ts",
     "judge": "node --import tsx scripts/judge-run.ts",
     "benchmark": "node --import tsx scripts/benchmark.ts",
+    "watchtower:demo": "node --import tsx scripts/watchtower-demo.ts",
     "data:gate": "node --env-file-if-exists=.env --import tsx scripts/data-gate.ts",
+    "assets:rank": "node --import tsx scripts/rank-assets.ts",
+    "trade:gate": "node --env-file-if-exists=.env --import tsx scripts/quote-simulate-gate.ts",
     "contracts:compile": "node --import tsx scripts/compile-contracts.ts",
-    "check": "npm run typecheck && npm test && npm run contracts:compile && npm run judge && npm run benchmark",
+    "contracts:plan": "npm run contracts:compile && node --import tsx scripts/deployment-plan.ts",
+    "contracts:deploy:bsc": "npm run contracts:compile && node --env-file-if-exists=.env --import tsx scripts/deploy-contracts.ts",
+    "check": "npm run typecheck && npm test && npm run contracts:compile && npm run judge && npm run benchmark && npm run watchtower:demo",
     "security:audit": "npm audit --omit=dev --audit-level=high"
   },
   "dependencies": {

@@ -7,6 +7,10 @@
   <title>AfterBell Continuity</title>
   <link rel="icon" href="./favicon.svg">
   <link rel="stylesheet" href="./styles.css">
+  <style>
+    .readiness{padding:0 0 72px}.readiness-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:32px}.readiness-grid article{display:flex;gap:14px;align-items:center;padding:18px;border:1px solid var(--line);border-radius:14px;background:#0a1512}.readiness-grid b,.readiness-grid small{display:block}.readiness-grid b{font-size:13px}.readiness-grid small{margin-top:3px;color:var(--muted);font-size:11px}.ready-dot{width:9px;height:9px;border-radius:50%;flex:none}.ready-dot.live{background:var(--green);box-shadow:0 0 16px rgba(143,255,193,.7)}.ready-dot.waiting{background:var(--gold);box-shadow:0 0 16px rgba(244,200,107,.45)}
+    @media(max-width:850px){.readiness-grid{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
   <header class="nav shell">
@@ -54,6 +58,19 @@
       </aside>
     </section>
 
+    <section class="readiness shell" aria-labelledby="readiness-title">
+      <div class="section-title">
+        <div><span class="kicker">EVIDENCE READINESS</span><h2 id="readiness-title">No hidden green checks.</h2></div>
+        <p>Every capability is labelled by what exists today—not what the roadmap promises.</p>
+      </div>
+      <div class="readiness-grid">
+        <article><span class="ready-dot live"></span><div><b>Continuity engine</b><small>IMPLEMENTED · 19 deterministic tests</small></div></article>
+        <article><span class="ready-dot live"></span><div><b>SDK + persistent Watchtower</b><small>IMPLEMENTED · local API verified</small></div></article>
+        <article><span class="ready-dot waiting"></span><div><b>Live RWA + quote simulation</b><small>READY · credentials required</small></div></article>
+        <article><span class="ready-dot waiting"></span><div><b>BSC mainnet execution</b><small>BLOCKED · funding and wallet approval</small></div></article>
+      </div>
+    </section>
+
     <section class="judge shell" id="judgePanel" hidden>
       <div class="section-title">
         <div><span class="kicker">ONE-CLICK VERIFICATION</span><h2>Judge Run</h2></div>
@@ -94,14 +111,15 @@
         <h2>A credential other protocols can trust.</h2>
         <p>Integrate continuity checks without importing the AfterBell user interface.</p>
       </div>
-      <pre><code>const result = await afterbell.checkContinuity({
-  wallet,
-  asset,
-  mandate
+      <pre><code>import { AfterBellClient } from "afterbell-continuity";
+
+const afterbell = new AfterBellClient({ baseUrl });
+const result = await afterbell.checkContinuity({
+  snapshot, rights, mandate, positionUsd
 });
 
-if (result.decision === "RESCUE_REQUIRED") {
-  const plan = await afterbell.prepareRescue(result);
+if (result.decision.state === "RESCUE_REQUIRED") {
+  const plan = await afterbell.planRescue(intent);
 }</code></pre>
     </section>
   </main>

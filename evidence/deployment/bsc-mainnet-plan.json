@@ -1,0 +1,44 @@
+{
+  "schema": "afterbell-deployment-plan/1",
+  "generatedAt": "2026-09-17T17:48:54.330Z",
+  "network": {
+    "name": "BNB Smart Chain",
+    "chainId": 56
+  },
+  "status": "DESIGN",
+  "truthNotice": "This file commits deployment bytecode hashes only. It is not evidence that any contract is deployed or verified.",
+  "order": [
+    {
+      "contract": "ContinuityRegistry",
+      "constructorArgs": [
+        "AFTERBELL_SIGNER_ADDRESS"
+      ]
+    },
+    {
+      "contract": "GuardedStockVault",
+      "constructorArgs": [
+        "ContinuityRegistry.address"
+      ]
+    },
+    {
+      "contract": "ExecutionBondEscrow",
+      "constructorArgs": [
+        "ContinuityRegistry.address"
+      ]
+    }
+  ],
+  "contracts": [
+    {
+      "contractName": "ContinuityRegistry",
+      "bytecodeHash": "0x2a318de553c49f05dae07dbfd1e4962f23de6dd4b969cb0acbf68cdc12b70849"
+    },
+    {
+      "contractName": "GuardedStockVault",
+      "bytecodeHash": "0x2c6cef4a1629e4991d76f6476133795d0ac9a63b5449e9c77b11f5e392b91779"
+    },
+    {
+      "contractName": "ExecutionBondEscrow",
+      "bytecodeHash": "0xf5fb41f73bc015c4468c835883c3db50f8e9b87e251b188940bcd57d55e1a418"
+    }
+  ]
+}
