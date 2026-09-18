@@ -31,6 +31,7 @@
 | Excessive allowance | Simulation policy rejects write |
 | Wrong browser wallet account | UI refuses approval unless the connected address matches the configured funded address |
 | Unlimited approval | UI uses audited calldata for exactly 10 USDT and exposes no arbitrary amount field |
+| Wallet mutates approval calldata | UI fetches the actual broadcast transaction, compares calldata byte-for-byte, re-reads allowance with `eth_call`, blocks on mismatch, and exposes `approve(spender, 0)` revoke |
 | RPC outage | No new transaction is generated |
 | LLM prompt injection | Structured policy validator rejects unsupported fields |
 

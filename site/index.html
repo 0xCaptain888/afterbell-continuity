@@ -68,6 +68,7 @@
         <div class="wallet-actions">
           <button class="primary" id="walletConnectButton">Connect OKX Wallet <span>→</span></button>
           <button class="approval-button" id="approveButton" disabled>Approve exactly 10 USDT</button>
+          <button class="revoke-button" id="revokeButton" hidden>Revoke unexpected allowance</button>
         </div>
         <p class="wallet-help" id="walletHelp">Use the OKX Wallet browser extension or open this page in the OKX Wallet DApp browser. You will confirm every wallet popup yourself.</p>
       </div>
@@ -76,7 +77,7 @@
         <div><span>Token</span><b>USDT</b><code id="approvalToken">Loading…</code></div>
         <div><span>Spending cap</span><b class="safe-cap">10 USDT</b></div>
         <div><span>Approved spender</span><b>LiquidMesh route</b><code id="approvalSpender">Loading…</code></div>
-        <div class="approval-boundary"><span>After approval</span><b>STOP · swap still requires a separate action</b></div>
+        <div class="approval-boundary"><span>After approval</span><b>Re-read chain state · STOP before swap</b></div>
       </aside>
     </section>
 

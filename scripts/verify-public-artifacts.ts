@@ -107,6 +107,9 @@ for (const asset of ["live-evidence.json", "demo-data.json", "wallet-authorizati
 }
 assert(app.includes("eth_requestAccounts"), "wallet_connect_not_implemented");
 assert(app.includes("eth_sendTransaction"), "bounded_approval_not_implemented");
+assert(app.includes("eth_getTransactionByHash"), "broadcast_calldata_not_verified");
+assert(app.includes("eth_call"), "onchain_allowance_not_verified");
+assert(html.includes("Revoke unexpected allowance"), "unsafe_allowance_revoke_missing");
 const walletAuthorization = await readJson("site/wallet-authorization.json");
 assert(walletAuthorization.amount === "10000000000000000000", "wallet_approval_not_bounded_to_10_usdt");
 assert(typeof walletAuthorization.calldata === "string" && /^0x095ea7b3[0-9a-f]{128}$/i.test(walletAuthorization.calldata), "invalid_wallet_approval_calldata");

@@ -5,12 +5,14 @@ const runState = document.querySelector("#runState");
 const connectButton = document.querySelector("#connectButton");
 const walletConnectButton = document.querySelector("#walletConnectButton");
 const approveButton = document.querySelector("#approveButton");
+const revokeButton = document.querySelector("#revokeButton");
 const walletState = document.querySelector("#walletState");
 const walletHelp = document.querySelector("#walletHelp");
 const approvalToken = document.querySelector("#approvalToken");
 const approvalSpender = document.querySelector("#approvalSpender");
 const liveDataStatus = document.querySelector("#liveDataStatus");
 const simulationStatus = document.querySelector("#simulationStatus");
+const simulationDot = document.querySelector("#simulationDot");
 const rightsDataStatus = document.querySelector("#rightsDataStatus");
 const liveProofGrid = document.querySelector("#liveProofGrid");
 const verifyEvidenceButton = document.querySelector("#verifyEvidenceButton");
@@ -22,6 +24,7 @@ const shortAddress = (value) => typeof value === "string" && value.length > 12 ?
 let walletProvider;
 let connectedWallet;
 let authorization;
+const EXACT_ALLOWANCE = 10_000_000_000_000_000_000n;
 
 function setWalletState(message, kind = "") {
   if (!walletState) return;
@@ -31,6 +34,56 @@ function setWalletState(message, kind = "") {
 
 function getWalletProvider() {
   return walletProvider ?? window.okxwallet?.ethereum ?? window.okxwallet ?? window.ethereum;
+}
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function encodeAddress(value) {
+  return String(value).slice(2).toLowerCase().padStart(64, "0");
+}
+
+function approvalCalldata(amount) {
+  return `0x095ea7b3${encodeAddress(authorization.spender)}${BigInt(amount).toString(16).padStart(64, "0")}`;
+}
+
+function allowanceCalldata(owner) {
+  return `0xdd62ed3e${encodeAddress(owner)}${encodeAddress(authorization.spender)}`;
+}
+
+async function readOnchainAllowance() {
+  const raw = await walletProvider.request({
+    method: "eth_call",
+    params: [{ to: authorization.token.address, data: allowanceCalldata(connectedWallet) }, "latest"]
+  });
+  return BigInt(raw);
+}
+
+function formatTokenAmount(value) {
+  const whole = value / 10n ** 18n;
+  const fraction = (value % 10n ** 18n).toString().padStart(18, "0").replace(/0+$/, "");
+  return fraction ? `${whole}.${fraction}` : String(whole);
+}
+
+async function verifyAllowanceOnchain() {
+  const allowance = await readOnchainAllowance();
+  revokeButton.hidden = allowance === 0n;
+  if (allowance === 0n) {
+    approveButton.disabled = false;
+    approveButton.textContent = "Approve exactly 10 USDT";
+    setWalletState(`VERIFIED · ${shortAddress(connectedWallet)} · allowance is 0`, "ok");
+    return allowance;
+  }
+  if (allowance === EXACT_ALLOWANCE) {
+    approveButton.disabled = true;
+    approveButton.textContent = "10 USDT allowance verified";
+    setWalletState(`VERIFIED ONCHAIN · exact 10 USDT allowance · ${shortAddress(connectedWallet)}`, "ok");
+    return allowance;
+  }
+  approveButton.disabled = true;
+  approveButton.textContent = "Unsafe allowance blocked";
+  revokeButton.hidden = false;
+  setWalletState(`BLOCKED · unexpected allowance ${formatTokenAmount(allowance)} USDT · revoke before continuing`, "bad");
+  return allowance;
 }
 
 async function loadAuthorization() {
@@ -93,9 +146,9 @@ async function connectWallet() {
     connectedWallet = account;
     connectButton.textContent = shortAddress(account);
     walletConnectButton.textContent = "Wallet verified";
-    approveButton.disabled = false;
-    setWalletState(`VERIFIED · ${shortAddress(account)} · BNB Chain`, "ok");
-    walletHelp.textContent = "The next button requests one bounded USDT approval. The wallet popup remains the final authority.";
+    setWalletState(`CONNECTED · ${shortAddress(account)} · checking onchain allowance…`);
+    await verifyAllowanceOnchain();
+    walletHelp.textContent = "After every approval, AfterBell reads the actual transaction and current allowance from chain. Wallet success text alone is never trusted.";
   } catch (error) {
     setWalletState(error?.message ?? String(error), "bad");
   } finally {
@@ -113,21 +166,76 @@ async function requestBoundedApproval() {
   setWalletState("Wallet confirmation required · verify 10 USDT and the spender");
   try {
     await ensureBnbChain(walletProvider);
+    const intendedCalldata = approvalCalldata(EXACT_ALLOWANCE);
+    if (intendedCalldata !== authorization.calldata.toLowerCase()) throw new Error("Approval calldata no longer matches the audited template");
     const transactionHash = await walletProvider.request({
       method: "eth_sendTransaction",
       params: [{
         from: connectedWallet,
         to: authorization.token.address,
         value: "0x0",
-        data: authorization.calldata
+        data: intendedCalldata
       }]
     });
-    setWalletState(`BROADCAST · ${shortAddress(transactionHash)} · approval only`, "ok");
-    walletHelp.innerHTML = `Approval broadcast. No swap was executed. <a href="https://bscscan.com/tx/${transactionHash}" target="_blank" rel="noreferrer">Open BscScan ↗</a>`;
-    approveButton.textContent = "Approval broadcast";
+    setWalletState(`BROADCAST · ${shortAddress(transactionHash)} · verifying actual calldata…`);
+    let transaction;
+    for (let attempt = 0; attempt < 10 && !transaction; attempt += 1) {
+      transaction = await walletProvider.request({ method: "eth_getTransactionByHash", params: [transactionHash] });
+      if (!transaction) await delay(1_000);
+    }
+    const actualInput = String(transaction?.input ?? transaction?.data ?? "").toLowerCase();
+    if (actualInput !== intendedCalldata) {
+      await verifyAllowanceOnchain();
+      throw new Error("Wallet broadcast calldata differs from the audited 10 USDT template. Revoke immediately.");
+    }
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+      if (await readOnchainAllowance() !== 0n) break;
+      await delay(1_000);
+    }
+    await verifyAllowanceOnchain();
+    walletHelp.innerHTML = `Approval broadcast and calldata matched. No swap was executed. <a href="https://bscscan.com/tx/${transactionHash}" target="_blank" rel="noreferrer">Open BscScan ↗</a>`;
   } catch (error) {
     setWalletState(error?.message ?? String(error), "bad");
-    approveButton.disabled = false;
+    try {
+      const allowance = await readOnchainAllowance();
+      revokeButton.hidden = allowance === 0n;
+      approveButton.disabled = allowance !== 0n;
+    } catch {
+      approveButton.disabled = true;
+    }
+  }
+}
+
+async function requestRevoke() {
+  if (!walletProvider || !connectedWallet || !authorization) {
+    setWalletState("Connect and verify the funded wallet first", "bad");
+    return;
+  }
+  revokeButton.disabled = true;
+  setWalletState("Wallet confirmation required · revoke allowance to zero");
+  try {
+    await ensureBnbChain(walletProvider);
+    const transactionHash = await walletProvider.request({
+      method: "eth_sendTransaction",
+      params: [{
+        from: connectedWallet,
+        to: authorization.token.address,
+        value: "0x0",
+        data: approvalCalldata(0n)
+      }]
+    });
+    setWalletState(`REVOKE BROADCAST · ${shortAddress(transactionHash)} · waiting for chain state`);
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+      await delay(1_000);
+      if (await readOnchainAllowance() === 0n) break;
+    }
+    const allowance = await verifyAllowanceOnchain();
+    if (allowance !== 0n) throw new Error(`Revoke not confirmed; allowance remains ${formatTokenAmount(allowance)} USDT`);
+    walletHelp.innerHTML = `Allowance is now zero. <a href="https://bscscan.com/tx/${transactionHash}" target="_blank" rel="noreferrer">Open revoke on BscScan ↗</a>`;
+  } catch (error) {
+    setWalletState(error?.message ?? String(error), "bad");
+  } finally {
+    revokeButton.disabled = false;
   }
 }
 
@@ -250,6 +358,10 @@ fetch("./live-evidence.json", { cache: "no-store" })
       simulationStatus.textContent = evidence.simulation?.status === "SIMULATION_BLOCKED"
         ? `LIVE BLOCKED · ${evidence.simulation.failReason ?? "policy or execution failure"}`
         : `${evidence.simulation?.status ?? "UNAVAILABLE"}`;
+      if (simulationDot && evidence.simulation?.status === "LIVE_QUOTE_AND_SIMULATION_PASSED") {
+        simulationDot.classList.remove("waiting");
+        simulationDot.classList.add("live");
+      }
     }
     renderLiveProof(evidence.featured);
   })
@@ -263,6 +375,7 @@ fetch("./live-evidence.json", { cache: "no-store" })
 connectButton?.addEventListener("click", () => document.querySelector("#wallet-auth")?.scrollIntoView({ behavior: "smooth", block: "center" }));
 walletConnectButton?.addEventListener("click", connectWallet);
 approveButton?.addEventListener("click", requestBoundedApproval);
+revokeButton?.addEventListener("click", requestRevoke);
 loadAuthorization().catch((error) => setWalletState(error?.message ?? String(error), "bad"));
 
 window.addEventListener("eip6963:announceProvider", (event) => {

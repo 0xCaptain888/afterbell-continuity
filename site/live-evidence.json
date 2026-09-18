@@ -1,7 +1,7 @@
 {
   "schema": "afterbell-public-live-evidence/2",
-  "generatedAt": "2026-09-18T04:16:04.329Z",
-  "truthNotice": "LIVE labels refer to authenticated read-only API evidence. No BSC transaction has been signed or broadcast. Incomplete rights evidence remains UNKNOWN and blocks automatic rescue.",
+  "generatedAt": "2026-09-18T04:49:04.911Z",
+  "truthNotice": "LIVE labels refer to authenticated API and on-chain evidence. A bounded USDT approval was signed and broadcast by the user; no stock-token swap has been signed or broadcast. Incomplete rights evidence remains UNKNOWN and blocks automatic rescue.",
   "inventory": {
     "status": "LIVE_DATA_GATE_PASSED",
     "observedAt": "2026-09-18T01:41:35.600Z",
@@ -124,13 +124,13 @@
     }
   ],
   "simulation": {
-    "status": "SIMULATION_BLOCKED",
-    "observedAt": "2026-09-18T04:13:54.701Z",
+    "status": "LIVE_QUOTE_AND_SIMULATION_PASSED",
+    "observedAt": "2026-09-18T04:47:39.502Z",
     "walletMode": "USER_PUBLIC_ADDRESS",
     "quoteVendor": "LiquidMesh",
-    "simulationSuccess": false,
-    "failReason": "execution reverted: BEP20: transfer amount exceeds allowance",
-    "evidenceRoot": "0x644ab8f7bf9ffc8ddd40a3e4f7e0b42740b69b32295601ad4d93d3120ea1c441",
+    "simulationSuccess": true,
+    "failReason": "",
+    "evidenceRoot": "0x2bc457ba5e353abce30c1ce93c66072b4e3b90076a16097cf78aec2dae0400a1",
     "truthNotice": "This gate uses a public wallet address to quote, build, and simulate only. It never signs or broadcasts a transaction."
   },
   "mainnetExecution": {

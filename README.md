@@ -57,7 +57,7 @@ observe the position
 - Quote → swap-build → Transaction API simulation gate with RFQ handling
 - Hash-linked evidence artifacts and tamper verification
 - Independent in-browser verifier for the published rights, quote, and equivalence roots
-- OKX Wallet EIP-1193 connection with funded-address enforcement and an exact 10 USDT approval boundary
+- OKX Wallet EIP-1193 connection with funded-address enforcement, exact 10 USDT approval, post-broadcast calldata verification, on-chain allowance re-read, and emergency revoke
 - Publishable TypeScript SDK with structured errors and timeouts
 - Persistent Watchtower task journal and Agent service endpoint
 - Reproducible Judge Run
@@ -86,8 +86,8 @@ observe the position
 | Executable price equivalence | `LIVE_PARTIAL` | NVDA buy/exit spread 0/1 bps; TSLA remains unproven while one wrapper has no executable quote |
 | Automatic cross-wrapper rescue | `BLOCKED` | price similarity cannot substitute for complete rights evidence |
 | Swap calldata build | `LIVE` | TSLAB route, LiquidMesh |
-| Transaction API simulation | `LIVE_BLOCKED` | Funded public OKX Wallet address lacks the bounded USDT allowance; no signature or broadcast |
-| Funded OKX Wallet connection | `IMPLEMENTED / USER_CONFIRMATION_REQUIRED` | exact-address gate, BNB Chain switch, bounded 10 USDT approval request |
+| Transaction API simulation | `LIVE_PASS` | exact 10 USDT allowance; simulation spends 10 USDT, receives TSLAB, and reduces allowance to zero |
+| Funded OKX Wallet authorization | `LIVE` | connected, first anomalous approval revoked, exact 10 USDT allowance independently re-read on-chain |
 | Agent Studio Watchtower | `NOT_STARTED` | — |
 | BSC mainnet contracts | `NOT_DEPLOYED` | — |
 | BSC mainnet stock trade | `NOT_EXECUTED` | — |
@@ -142,7 +142,7 @@ npm run trade:gate
 | TSLA | TSLAB / TSLAon | unavailable | unavailable | one wrapper lacked executable liquidity; equivalence unproven; auto-rescue blocked |
 | NVDA | NVDAB / NVDAon | 0 bps | 1 bps | price-equivalent; rights `UNKNOWN`; auto-rescue blocked |
 
-Three of four routes returned authenticated Trading API quotes for a 10 USDT probe and its immediate quoted exit. TSLAon returned an explicit insufficient-liquidity result, which remains visible instead of being replaced by fixture data. The funded public wallet then produced real TSLAB calldata, and Transaction API simulation failed closed because the required USDT allowance has not been granted. No transaction was signed or broadcast. Evidence roots are published in [`site/live-evidence.json`](./site/live-evidence.json).
+Three of four routes returned authenticated Trading API quotes for a 10 USDT probe and its immediate quoted exit. TSLAon returned an explicit insufficient-liquidity result, which remains visible instead of being replaced by fixture data. The funded public wallet produced real TSLAB calldata; after an anomalous oversized approval was detected and revoked, an exact 10 USDT allowance was independently confirmed on-chain. Transaction API simulation then passed with explicit balance and allowance deltas. No stock-token swap has been signed or broadcast. Evidence roots are published in [`site/live-evidence.json`](./site/live-evidence.json).
 
 For any hosted API, configure `AFTERBELL_API_TOKEN` and send it as a bearer token. The server refuses a non-loopback bind without this protection.
 

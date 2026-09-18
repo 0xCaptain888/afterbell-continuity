@@ -60,7 +60,7 @@ const featured = ["TSLA", "NVDA"].map((ticker) => {
 const summary = {
   schema: "afterbell-public-live-evidence/2",
   generatedAt: new Date().toISOString(),
-  truthNotice: "LIVE labels refer to authenticated read-only API evidence. No BSC transaction has been signed or broadcast. Incomplete rights evidence remains UNKNOWN and blocks automatic rescue.",
+  truthNotice: "LIVE labels refer to authenticated API and on-chain evidence. A bounded USDT approval was signed and broadcast by the user; no stock-token swap has been signed or broadcast. Incomplete rights evidence remains UNKNOWN and blocks automatic rescue.",
   inventory: inventory ? {
     status: inventory.status,
     observedAt: inventory.observedAt,
