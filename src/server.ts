@@ -17,6 +17,7 @@ import type { AssetSnapshot, ContinuityMandate, ExecutionEvidence, RightsFingerp
 
 const projectRoot = fileURLToPath(new URL("..", import.meta.url));
 const siteRoot = join(projectRoot, "site");
+const publicEvidenceRoot = join(projectRoot, "evidence", "live");
 const port = Number(process.env.PORT ?? 4173);
 const host = process.env.HOST ?? "127.0.0.1";
 const apiToken = process.env.AFTERBELL_API_TOKEN;
@@ -282,6 +283,19 @@ const server = createServer(async (request, response) => {
       return json(response, 200, buildPassport(execution));
     } catch (error) {
       return json(response, 422, { error: error instanceof Error ? error.message : String(error) });
+    }
+  }
+
+  if (request.method === "GET" && url.pathname.startsWith("/evidence/")) {
+    const evidenceName = normalize(url.pathname.slice("/evidence/".length)).replace(/^(\.\.(\/|\\|$))+/, "");
+    const evidencePath = join(publicEvidenceRoot, evidenceName);
+    if (!evidencePath.startsWith(publicEvidenceRoot) || !evidenceName.endsWith(".json")) return json(response, 403, { error: "forbidden" });
+    try {
+      const body = await readFile(evidencePath);
+      response.writeHead(200, { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" });
+      return response.end(body);
+    } catch {
+      return json(response, 404, { error: "evidence_not_found" });
     }
   }
 

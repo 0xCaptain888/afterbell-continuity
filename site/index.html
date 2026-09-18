@@ -83,6 +83,23 @@
         <article class="proof-card loading-card">Loading authenticated public evidence…</article>
       </div>
       <p class="proof-note">A green price comparison is not a legal-rights claim. This is the safety boundary most tokenized-stock agents omit.</p>
+      <div class="evidence-verifier">
+        <div>
+          <span class="kicker">INDEPENDENT BROWSER VERIFIER</span>
+          <h3>Don't trust the dashboard. Recompute it.</h3>
+          <p>Download the three source artifacts, rebuild their canonical SHA-256 evidence roots in this browser, and compare them with the published commitments.</p>
+        </div>
+        <div class="verifier-action">
+          <button class="primary" id="verifyEvidenceButton">Verify evidence roots <span>→</span></button>
+          <span class="verify-state" id="verifyEvidenceState">Ready · no wallet required</span>
+        </div>
+        <div class="verification-list" id="verificationList"></div>
+        <div class="raw-evidence-links">
+          <a href="./evidence/rights-discovery.json" target="_blank" rel="noreferrer">Rights artifact ↗</a>
+          <a href="./evidence/quote-discovery.json" target="_blank" rel="noreferrer">Round-trip quotes ↗</a>
+          <a href="./evidence/economic-equivalence.json" target="_blank" rel="noreferrer">Equivalence report ↗</a>
+        </div>
+      </div>
     </section>
 
     <section class="judge shell" id="judgePanel" hidden>

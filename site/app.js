@@ -7,6 +7,9 @@ const liveDataStatus = document.querySelector("#liveDataStatus");
 const simulationStatus = document.querySelector("#simulationStatus");
 const rightsDataStatus = document.querySelector("#rightsDataStatus");
 const liveProofGrid = document.querySelector("#liveProofGrid");
+const verifyEvidenceButton = document.querySelector("#verifyEvidenceButton");
+const verifyEvidenceState = document.querySelector("#verifyEvidenceState");
+const verificationList = document.querySelector("#verificationList");
 
 const number = (value, digits = 2) => Number.isFinite(Number(value)) ? Number(value).toFixed(digits) : "—";
 
@@ -39,6 +42,75 @@ function renderLiveProof(featured = []) {
     liveProofGrid.append(card);
   }
 }
+
+function stableJson(value) {
+  if (value === null || typeof value !== "object") return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
+  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(",")}}`;
+}
+
+async function sha256Hex(value) {
+  const bytes = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return `0x${[...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("")}`;
+}
+
+async function verifyPublishedArtifact(path, artifactType, label) {
+  const response = await fetch(path, { cache: "no-store" });
+  if (!response.ok) throw new Error(`${label}: HTTP ${response.status}`);
+  const artifact = await response.json();
+  const { evidenceRoot, parentHashes: storedParents, ...payload } = artifact;
+  const parentHashes = artifactType === "LIVE_ECONOMIC_EQUIVALENCE" && Array.isArray(storedParents) ? storedParents : [];
+  const payloadHash = await sha256Hex(stableJson(payload));
+  const header = {
+    schema: "afterbell-evidence/1",
+    artifactType,
+    mode: payload.mode,
+    observedAt: payload.observedAt,
+    source: payload.source,
+    parentHashes,
+    payloadHash
+  };
+  const computedRoot = await sha256Hex(stableJson(header));
+  return { label, verified: computedRoot === evidenceRoot, computedRoot, publishedRoot: evidenceRoot };
+}
+
+function renderVerificationResult(result) {
+  const row = document.createElement("article");
+  row.className = `verification-row ${result.verified ? "verified" : "failed"}`;
+  const title = document.createElement("div");
+  const name = document.createElement("b");
+  name.textContent = result.label;
+  const root = document.createElement("small");
+  root.textContent = result.publishedRoot;
+  title.append(name, root);
+  const status = document.createElement("span");
+  status.textContent = result.verified ? "VERIFIED" : "MISMATCH";
+  row.append(title, status);
+  verificationList.append(row);
+}
+
+verifyEvidenceButton?.addEventListener("click", async () => {
+  verifyEvidenceButton.disabled = true;
+  verifyEvidenceState.textContent = "Downloading and hashing…";
+  verificationList.innerHTML = "";
+  try {
+    const results = await Promise.all([
+      verifyPublishedArtifact("./evidence/rights-discovery.json", "RIGHTS_DISCOVERY", "Rights discovery"),
+      verifyPublishedArtifact("./evidence/quote-discovery.json", "ROUND_TRIP_QUOTE_DISCOVERY", "Round-trip quotes"),
+      verifyPublishedArtifact("./evidence/economic-equivalence.json", "LIVE_ECONOMIC_EQUIVALENCE", "Economic equivalence")
+    ]);
+    results.forEach(renderVerificationResult);
+    const verified = results.every((result) => result.verified);
+    verifyEvidenceState.textContent = verified ? "3/3 VERIFIED · canonical roots match" : "FAILED · published evidence mismatch";
+    verifyEvidenceState.className = `verify-state ${verified ? "ok" : "bad"}`;
+  } catch (error) {
+    verifyEvidenceState.textContent = `FAILED · ${error instanceof Error ? error.message : String(error)}`;
+    verifyEvidenceState.className = "verify-state bad";
+  } finally {
+    verifyEvidenceButton.disabled = false;
+  }
+});
 
 fetch("./live-evidence.json", { cache: "no-store" })
   .then((response) => {

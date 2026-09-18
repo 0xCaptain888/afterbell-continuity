@@ -38,6 +38,7 @@
     "equivalence:live": "node --import tsx scripts/build-live-equivalence.ts",
     "site:evidence": "node --import tsx scripts/publish-live-evidence.ts",
     "public:verify": "node --import tsx scripts/verify-public-artifacts.ts",
+    "site:prepare": "npm run public:verify && node --import tsx scripts/prepare-pages.ts",
     "trade:gate": "NODE_USE_ENV_PROXY=1 node --env-file-if-exists=.env --import tsx scripts/quote-simulate-gate.ts",
     "contracts:compile": "node --import tsx scripts/compile-contracts.ts",
     "contracts:plan": "npm run contracts:compile && node --import tsx scripts/deployment-plan.ts",

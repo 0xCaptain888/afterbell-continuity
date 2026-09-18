@@ -27,10 +27,10 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run public:verify
+      - run: npm run site:prepare
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: .runtime/pages
       - id: deployment
         uses: actions/deploy-pages@v4

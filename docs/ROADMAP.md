@@ -16,6 +16,7 @@
 - [x] Live underlying-profile and market-status evidence for four wrappers
 - [x] Conservative rights gate with machine-readable missing-field detection
 - [x] Bidirectional quote probes and executable per-share equivalence report
+- [x] Public raw evidence bundle and wallet-free browser root verifier
 - [x] Live swap build and fail-closed Transaction API simulation
 - [x] Selected live demo pairs: TSLAB/TSLAon and NVDAB/NVDAon
 - [ ] Agentic Wallet authorization and real small trade

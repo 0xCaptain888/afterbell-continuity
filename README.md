@@ -14,6 +14,7 @@ AfterBell Continuity is the economic-equivalence, rights-continuity, and verifia
 - One-click evidence run: `npm run judge`
 - Full verification: `npm run check`
 - Public demo: **https://0xcaptain888.github.io/afterbell-continuity/**
+- Browser verifier: open **Live proof → Verify evidence roots** to recompute three canonical SHA-256 commitments without a wallet
 - BSC mainnet evidence: **not created yet**
 
 The current `v0.1.0` baseline combines clearly labelled `SIMULATED` / `ADVERSARIAL_TEST` scenarios with authenticated `LIVE` read-only BNB Chain evidence. It does **not** claim a signed stock trade, Agentic Wallet authorization, Agent Studio deployment, or BSC mainnet settlement.
@@ -55,6 +56,7 @@ observe the position
 - Live economic-equivalence report that separates price equivalence from rights equivalence
 - Quote → swap-build → Transaction API simulation gate with RFQ handling
 - Hash-linked evidence artifacts and tamper verification
+- Independent in-browser verifier for the published rights, quote, and equivalence roots
 - Publishable TypeScript SDK with structured errors and timeouts
 - Persistent Watchtower task journal and Agent service endpoint
 - Reproducible Judge Run

@@ -6,9 +6,9 @@
 2. Observe a healthy stock exposure remain `PROTECTED`.
 3. Inspect TSLA/NVDA live bidirectional quote cards: executable price equivalence is visible in basis points.
 4. Observe the deliberate `RIGHTS UNKNOWN` result: authenticated disclosure links exist, but missing holder-right terms block automatic rescue.
-5. Run the deterministic demo and watch a premium/liquidity breach become `RESCUE_REQUIRED`.
-6. See tampered calldata become `CHALLENGE`.
-7. Verify the short-lived EIP-712 credential returns `VALID`.
+5. Click **Verify evidence roots** and confirm all three independently downloaded artifacts return `VERIFIED` in the browser.
+6. Run the deterministic demo and watch a premium/liquidity breach become `RESCUE_REQUIRED`.
+7. See tampered calldata become `CHALLENGE`, then verify the short-lived EIP-712 credential returns `VALID`.
 
 ## Four-minute technical path
 
