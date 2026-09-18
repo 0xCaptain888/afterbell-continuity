@@ -49,9 +49,10 @@ Then show:
 7. Inspect the three deployment receipts and independently generated [`bsc-mainnet.json`](../evidence/deployment/bsc-mainnet.json).
 8. Open the Registry, Vault, and Bond `#code` pages on BscScan and confirm matching bytecode, compiler `0.8.30`, optimizer runs `200`, MIT License, and exact constructor arguments.
 9. Inspect the current Registry-bound Credential and its deployment evidence parent; compare it with the preserved historical zero-address artifact under `evidence/history/`.
-10. Open the Agent service package and inspect the official BNB Agent Studio A2A/X402 workspace, fixed pricing, deterministic `PROTECTED / WATCH / RESCUE_REQUIRED / BLOCKED` decisions, and explicit `UNPUBLISHED` deployment label.
-11. Run `npm run bnb-agent:test` and `npm run bnb-agent:build`; confirm five Agent tests and the TypeScript build pass without an LLM in the pricing or delivery path.
-12. Run `npm run submission:audit` and confirm all twelve repository, mainnet, integration, official-agent, truth-label, and secret-scan checks pass.
+10. Open the [public Agent Card](https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json), then inspect `evidence/live/agent-studio-deployment.json` and `evidence/live/agent-studio-public-negotiate.json`.
+11. Confirm the managed trial reports `running (ready)`, ERC-8004 Agent ID `2447`, fixed `0.01 U` pricing, and a provider signature recovered to `0x83B2…d123`.
+12. Run `npm run bnb-agent:test` and `npm run bnb-agent:build`; confirm five Agent tests and the TypeScript build pass without an LLM in the pricing or delivery path.
+13. Run `npm run submission:audit` and confirm the repository, mainnet, integration, official-agent, truth-label, and secret-scan checks pass.
 
 ## Truth labels
 
@@ -60,6 +61,7 @@ Then show:
 - `SIMULATED`: deterministic fixture used to explain intended behavior.
 - `ADVERSARIAL_TEST`: a deliberately malformed or unsafe scenario.
 - `DESIGN`: implemented packaging or plan without an external deployment receipt.
+- `DEPLOYED_TESTNET_TRIAL`: verified temporary BNB Agent Studio runtime on BSC Testnet; not a mainnet or paid-settlement claim.
 - `UNAVAILABLE`: a required external credential, wallet, or service is absent.
 
 The demo must never relabel a simulated stage as live, or a deployment plan as a deployment.

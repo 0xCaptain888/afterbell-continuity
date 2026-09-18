@@ -1,6 +1,6 @@
 {
   "schema": "afterbell-agent-service/1",
-  "deploymentMode": "LOCAL_UNPUBLISHED",
+  "deploymentMode": "LOCAL_FIXTURE",
   "event": {
     "positionId": "agent-studio-nvda-1",
     "observedAt": "2026-09-18T09:15:00.000Z",
@@ -10,5 +10,5 @@
     "mode": "SIMULATED",
     "eventId": "0x5634523e2d5dd5ab4e65657955dd1ff3b1d409865a12eee725afe9cc23fe1c3a"
   },
-  "truthNotice": "Deterministic local service response. This is not yet an Agent Studio deployment receipt."
+  "truthNotice": "Deterministic local fixture. The separately published managed-trial evidence proves the deployed A2A runtime."
 }

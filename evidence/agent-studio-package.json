@@ -1,16 +1,18 @@
 {
   "schema": "afterbell-evidence/1",
   "artifactType": "AGENT_STUDIO_PACKAGE",
-  "mode": "DESIGN",
-  "observedAt": "2026-09-18T09:20:00.000Z",
-  "source": "AfterBell deterministic package audit",
+  "mode": "LIVE",
+  "observedAt": "2026-09-18T11:43:16.196Z",
+  "source": "AfterBell deterministic package audit plus BNB Agent Studio managed-trial deployment evidence",
   "parentHashes": [
-    "0xd366cbe4190dd0e3915da0535be9d44528cf6a8dc3150970ab1461ff22d7c0ae"
+    "0x58f595ffe4932463d41ca261d4ee7d66436a406c4d352216203dfc4a81ed1eb7",
+    "0xe2cacfe887355e5402e6cc64ab55acf4bcaffb1af3cbecc87013bcb3f481db9f",
+    "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed"
   ],
-  "payloadHash": "0x38ab549fe76164f9e207bdf0d752bbe598e842075cce5cda09422392e49c9797",
+  "payloadHash": "0xdc6774d7b8b1d9518eb6817860f418a431be9737c8052c65df80803385fc4894",
   "payload": {
-    "status": "READY_TO_DEPLOY",
-    "deploymentStatus": "UNPUBLISHED",
+    "status": "DEPLOYED_TESTNET_TRIAL",
+    "deploymentStatus": "RUNNING_READY",
     "manifest": {
       "name": "AfterBell Watchtower",
       "version": "0.1.0",
@@ -54,13 +56,19 @@
       "tests": "5/5 PASS",
       "build": "PASS",
       "zipBundleDryRun": "PASS",
-      "deploymentReadiness": "READY_TO_DEPLOY",
-      "operatorReadinessEvidence": "0xd366cbe4190dd0e3915da0535be9d44528cf6a8dc3150970ab1461ff22d7c0ae",
+      "deploymentReadiness": "DEPLOYED_TESTNET_TRIAL",
+      "operatorReadinessEvidence": "0x58f595ffe4932463d41ca261d4ee7d66436a406c4d352216203dfc4a81ed1eb7",
+      "deploymentEvidence": "0xe2cacfe887355e5402e6cc64ab55acf4bcaffb1af3cbecc87013bcb3f481db9f",
+      "publicNegotiationEvidence": "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed",
+      "agentId": "01M2T4KMDTJCBQ25HAMPZ9JZ9D",
+      "deploymentId": "01M2T4KMDT387DD25BNN602NE5",
+      "erc8004AgentId": "2447",
+      "runtimeState": "running (ready)",
+      "agentCard": "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json",
+      "trialExpiresAt": "2026-09-20T11:32:43.000Z",
       "externalBlockers": [
-        "Fund the throwaway BSC Testnet wallet for registration and seller delivery gas.",
-        "Fund a buyer wallet with testnet U for the paid ERC-8183 end-to-end smoke.",
-        "Apply for wallet-specific B402 merchant credentials if the paid X402 face is required.",
-        "Start the 48-hour trial only when the submission recording window is ready."
+        "Use an independent funded buyer wallet for the paid ERC-8183 end-to-end lifecycle.",
+        "Apply for wallet-specific B402 merchant credentials only if a paid X402 settlement is required."
       ]
     },
     "examples": {
@@ -73,15 +81,15 @@
         "RESCUE_REQUIRED"
       ]
     },
-    "publicationChecklist": [
-      "Fund the dedicated throwaway BSC Testnet wallet; never reuse a mainnet key.",
-      "Confirm the recorded platform session still reports trial available.",
-      "Run `bag deploy prepare --provider bnb --backend aws` without bypassing safety checks.",
-      "Deploy the official A2A/X402 seller runtime when the 48-hour recording window is ready.",
-      "Capture platform service ID, URL, ERC-8004 identity, Agent Card, timestamps, and paid invocation receipts.",
-      "Only then change deploymentStatus from UNPUBLISHED."
+    "verifiedDeployment": [
+      "Dedicated throwaway BSC Testnet wallet funded with 0.1 tBNB and 10 U.",
+      "Official deployment preflight and managed-trial deploy completed.",
+      "Runtime reports running (ready); official deploy verify passed.",
+      "ERC-8004 Agent ID 2447 registered.",
+      "OAuth-protected public A2A negotiate returned a signed 0.01 U quote.",
+      "Provider signature independently recovered to the deployed Agent wallet."
     ],
-    "truthNotice": "The official BNB Agent Studio A2A/X402 workspace, deterministic inspection, fixed pricing, tests, TypeScript build, ZIP bundle, dedicated testnet wallet, platform authentication, preflight, and local signed quote are verified. No managed-platform deployment, ERC-8004 identity, funded invocation, B402 settlement, or trial activation is claimed."
+    "truthNotice": "The official BNB Agent Studio runtime is live in the managed BSC Testnet trial, with an ERC-8004 identity and authenticated public signed quote. No funded ERC-8183 delivery, B402 settlement, or public-smoke financial transaction is claimed."
   },
-  "evidenceRoot": "0x20e4e955ddd40afb78623c449b05f54a6d032925e7bb5bc4b4bb4b397b5d5c4b"
+  "evidenceRoot": "0x3df8491474cc4dc2f54e2fe594423c26b6055e675610effb730cd3510e3e77f4"
 }

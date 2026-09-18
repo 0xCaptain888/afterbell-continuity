@@ -1,0 +1,59 @@
+{
+  "schema": "afterbell-evidence/1",
+  "artifactType": "BNB_AGENT_PUBLIC_NEGOTIATION",
+  "mode": "LIVE",
+  "observedAt": "2026-09-18T11:43:16.196Z",
+  "source": "BNB Agent Studio managed trial OAuth + public A2A message/send",
+  "parentHashes": [],
+  "payloadHash": "0xf380d05dc8173ac66a51089e9637eda21ae2eefedd6caecad167e6a7a3969028",
+  "payload": {
+    "status": "PUBLIC_NEGOTIATION_VERIFIED",
+    "deployment": {
+      "provider": "bnb",
+      "environment": "BSC Testnet managed 48-hour trial",
+      "agentId": "01M2T4KMDTJCBQ25HAMPZ9JZ9D",
+      "deploymentId": "01M2T4KMDT387DD25BNN602NE5",
+      "agentWallet": "0x83B2B8D09d822DAed95e94E10062b232A54fd123",
+      "erc8004AgentId": "2447",
+      "runtimeState": "running (ready)",
+      "agentCard": "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json",
+      "a2aInvoke": "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/a2a"
+    },
+    "oauth": {
+      "grant": "client_credentials",
+      "scope": "invoke:01M2T4KMDTJCBQ25HAMPZ9JZ9D",
+      "tokenIssued": true,
+      "credentialsPublished": false,
+      "accessTokenPublished": false
+    },
+    "negotiation": {
+      "request": {
+        "skill": "negotiate",
+        "task_description": "{\"schema\":\"afterbell-watched-position/1\",\"asset\":\"AAPLx\",\"venue\":\"BSC\",\"expectedSession\":\"US regular session\",\"action\":\"validate continuity protections before guarded execution\"}",
+        "terms": {
+          "deliverables": "afterbell-watchtower-result/1 JSON with state, reasons, and evidence references",
+          "quality_standards": "deterministic fail-closed policy; no autonomous financial transaction"
+        }
+      },
+      "accepted": true,
+      "priceRaw": "10000000000000000",
+      "priceDisplay": "0.01 U",
+      "currency": "0xc70B8741B8B07A6d61E54fd4B20f22Fa648E5565",
+      "chainId": 97,
+      "verifyingContract": "0xa206c0517b6371c6638cd9e4a42cc9f02a33b0de",
+      "negotiationHash": "0x372ed26efadc5085bbd006bbdf72110a3bed51bc756588d844631c040775766a",
+      "responseHash": "0x1c9dd348a0125fe4042a98a7d86ee56be01696c01e7586f175a9c0c306208e33",
+      "providerSignature": "0xf286c8a0ba988075a7512e3300180eb36280ce9d28841dcb500c0e3c124cbb3348669ccd43aee550f66bed299eb8404801d7e8134f123bec9a0f49662a5940871c",
+      "recoveredSigner": "0x83B2B8D09d822DAed95e94E10062b232A54fd123",
+      "signatureVerified": true,
+      "quoteExpiresAt": 1789732696
+    },
+    "boundaries": {
+      "financialTransactionCreated": false,
+      "fundedJobCreated": false,
+      "paidDeliveryCompleted": false,
+      "statement": "This proves authenticated public reachability and a wallet-signed deterministic quote. It does not claim an ERC-8183 funded job or settlement."
+    }
+  },
+  "evidenceRoot": "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed"
+}

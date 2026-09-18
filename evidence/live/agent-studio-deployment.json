@@ -1,0 +1,50 @@
+{
+  "schema": "afterbell-evidence/1",
+  "artifactType": "BNB_AGENT_STUDIO_DEPLOYMENT",
+  "mode": "LIVE",
+  "observedAt": "2026-09-18T11:43:16.196Z",
+  "source": "Official bag CLI deployment status, verify, ERC-8004 registration, and authenticated public A2A smoke",
+  "parentHashes": [
+    "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed"
+  ],
+  "payloadHash": "0x4e08e94502719d830aa367488f84ca74a9696226974b906a9fc6ec90057a595c",
+  "payload": {
+    "status": "DEPLOYED_TESTNET_TRIAL",
+    "provider": "bnb",
+    "slug": "afterbellwatchtower",
+    "agentId": "01M2T4KMDTJCBQ25HAMPZ9JZ9D",
+    "deploymentId": "01M2T4KMDT387DD25BNN602NE5",
+    "runtimeState": "running (ready)",
+    "trial": {
+      "status": "active",
+      "expiresAt": "2026-09-20T11:32:43.000Z",
+      "network": "bsc-testnet",
+      "chainId": 97
+    },
+    "endpoints": {
+      "agentCard": "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json",
+      "a2a": "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/a2a",
+      "x402": "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/x402"
+    },
+    "identity": {
+      "erc8004AgentId": "2447",
+      "wallet": "0x83B2B8D09d822DAed95e94E10062b232A54fd123",
+      "registrationVerified": true
+    },
+    "runtime": {
+      "officialDeployVerify": "PASS",
+      "publicOauthA2aNegotiate": "PASS",
+      "publicNegotiationEvidenceRoot": "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed",
+      "erc8183Price": "0.01 U",
+      "b402ConfiguredPrice": "0.01 USD",
+      "x402State": "DORMANT_PENDING_B402_MERCHANT_CREDENTIALS"
+    },
+    "boundaries": {
+      "fundedErc8183JobCompleted": false,
+      "b402SettlementCompleted": false,
+      "financialTransactionCreatedByPublicSmoke": false,
+      "statement": "The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. Paid delivery and settlement remain separate, unclaimed steps."
+    }
+  },
+  "evidenceRoot": "0xe2cacfe887355e5402e6cc64ab55acf4bcaffb1af3cbecc87013bcb3f481db9f"
+}

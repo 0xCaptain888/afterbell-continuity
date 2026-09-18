@@ -54,6 +54,8 @@ const officialStudioToml = await readFile("bnb-agent/app/agent/studio.toml", "ut
 const officialAgentSource = await readFile("bnb-agent/app/agent/src/afterbell.ts", "utf8");
 const officialAgentTests = await readFile("bnb-agent/app/agent/test/afterbell.test.ts", "utf8");
 const operatorReadiness = await readJson("evidence/bnb-agent-operator-readiness.json");
+const agentDeployment = await readJson("evidence/live/agent-studio-deployment.json");
+const agentNegotiation = await readJson("evidence/live/agent-studio-public-negotiate.json");
 
 const contracts = records(deployment.contracts);
 const sourceVerification = deployment.sourceVerification as Json;
@@ -107,16 +109,16 @@ assert(publicPassport.evidenceRoot === passport.evidenceRoot, "public_passport_r
 assert(publicConsumer.evidenceRoot === consumer.evidenceRoot, "public_consumer_root_stale");
 const rebuiltAgentPackage = createEvidenceArtifact({
   artifactType: String(agentPackage.artifactType),
-  mode: "DESIGN",
+  mode: "LIVE",
   observedAt: String(agentPackage.observedAt),
   source: String(agentPackage.source),
   payload: agentPackage.payload,
   parentHashes: Array.isArray(agentPackage.parentHashes) ? agentPackage.parentHashes as Hex[] : []
 });
 assert(rebuiltAgentPackage.payloadHash === agentPackage.payloadHash && rebuiltAgentPackage.evidenceRoot === agentPackage.evidenceRoot, "agent_package_evidence_root_mismatch");
-assert((agentPackage.payload as Json).status === "READY_TO_DEPLOY", "agent_package_not_ready");
-assert((agentPackage.payload as Json).deploymentStatus === "UNPUBLISHED", "agent_package_truth_label_invalid");
-assert(agentManifest.status === "DESIGN", "unpublished_agent_manifest_must_remain_design");
+assert((agentPackage.payload as Json).status === "DEPLOYED_TESTNET_TRIAL", "agent_package_not_deployed");
+assert((agentPackage.payload as Json).deploymentStatus === "RUNNING_READY", "agent_package_truth_label_invalid");
+assert(agentManifest.status === "DEPLOYED_TESTNET_TRIAL", "agent_manifest_status_stale");
 assert(officialAgentPackage.name === "AfterBellWatchtower-agent", "official_agent_package_missing");
 assert(officialStudioToml.includes('protocols = ["A2A","X402"]'), "official_agent_protocols_missing");
 assert(officialStudioToml.includes('default = "bsc-testnet"'), "official_agent_network_invalid");
@@ -128,11 +130,25 @@ const rebuiltOperatorReadiness = createEvidenceArtifact({
   mode: "LIVE",
   observedAt: String(operatorReadiness.observedAt),
   source: String(operatorReadiness.source),
-  payload: operatorReadiness.payload
+  payload: operatorReadiness.payload,
+  parentHashes: Array.isArray(operatorReadiness.parentHashes) ? operatorReadiness.parentHashes as Hex[] : []
 });
 assert(rebuiltOperatorReadiness.payloadHash === operatorReadiness.payloadHash && rebuiltOperatorReadiness.evidenceRoot === operatorReadiness.evidenceRoot, "operator_readiness_evidence_root_mismatch");
-assert((operatorReadiness.payload as Json).status === "READY_TO_DEPLOY", "operator_readiness_not_ready");
-assert(((operatorReadiness.payload as Json).platform as Json).trialClockStarted === false, "trial_truth_label_invalid");
+assert((operatorReadiness.payload as Json).status === "DEPLOYED_TESTNET_TRIAL", "operator_readiness_not_deployed");
+assert(((operatorReadiness.payload as Json).platform as Json).trialClockStarted === true, "trial_truth_label_invalid");
+for (const [file, type] of [[agentDeployment, "BNB_AGENT_STUDIO_DEPLOYMENT"], [agentNegotiation, "BNB_AGENT_PUBLIC_NEGOTIATION"]] as const) {
+  const rebuilt = createEvidenceArtifact({
+    artifactType: type,
+    mode: "LIVE",
+    observedAt: String(file.observedAt),
+    source: String(file.source),
+    payload: file.payload,
+    parentHashes: Array.isArray(file.parentHashes) ? file.parentHashes as Hex[] : []
+  });
+  assert(rebuilt.payloadHash === file.payloadHash && rebuilt.evidenceRoot === file.evidenceRoot, `${type}_evidence_root_mismatch`);
+}
+assert((agentDeployment.payload as Json).status === "DEPLOYED_TESTNET_TRIAL", "agent_deployment_missing");
+assert(((agentNegotiation.payload as Json).negotiation as Json).signatureVerified === true, "agent_public_signature_missing");
 await readJson("agent-studio/examples/protected-request.json");
 await readJson("agent-studio/examples/protected-response.json");
 await readJson("agent-studio/examples/rescue-request.json");
@@ -143,6 +159,7 @@ assert(readme.includes("eight canonical SHA-256 commitments"), "browser_verifier
 assert(!readme.includes("REGISTRY_REISSUE_PENDING"), "readme_registry_status_stale");
 assert(roadmap.includes("[x] Registry-bound Credential reissuance and public evidence refresh"), "roadmap_registry_status_stale");
 assert(roadmap.includes("[x] Public demo"), "roadmap_demo_status_stale");
+assert(roadmap.includes("[x] Agent Studio Watchtower deployment receipt"), "roadmap_agent_deployment_status_stale");
 assert(!judgeGuide.includes("Reissue the Credential with the deployed Registry"), "judge_guide_still_requests_completed_step");
 assert(typeof scripts.check === "string" && typeof scripts["submission:audit"] === "string", "verification_scripts_missing");
 assert(typeof packageExports["."] === "object", "sdk_export_missing");
@@ -166,7 +183,8 @@ const checks = [
   { id: "public-evidence-synchronized", result: "PASS", evidence: publicSummary.generatedAt, detail: "Public summary roots match deployment, Credential, Passport, and consumer artifacts." },
   { id: "browser-verifier", result: "PASS", evidence: "8 canonical public artifacts", detail: "The wallet-free browser verifier independently recomputes all published roots." },
   { id: "sdk-and-openapi", result: "PASS", evidence: "package export + openapi.yaml", detail: "Wallets, agents, and protocols can integrate without importing the UI." },
-  { id: "agent-service-package", result: "PASS", evidence: agentPackage.evidenceRoot, detail: "The official BNB Agent Studio A2A/X402 workspace, fixed 0.01 pricing, deterministic inspection, and truthful UNPUBLISHED label are ready for deployment." },
+  { id: "agent-service-package", result: "PASS", evidence: agentPackage.evidenceRoot, detail: "The official BNB Agent Studio A2A/X402 workspace is deployed in the managed BSC Testnet trial with fixed 0.01 U pricing." },
+  { id: "public-agent-negotiation", result: "PASS", evidence: agentNegotiation.evidenceRoot, detail: "OAuth-protected public A2A negotiation returned an accepted quote whose provider signature recovers to the deployed Agent wallet." },
   { id: "official-agent-safety", result: "PASS", evidence: "bnb-agent/app/agent", detail: "The seller runtime is BSC Testnet-bound, has no LLM pricing or delivery path, and tests PROTECTED, WATCH, RESCUE_REQUIRED, BLOCKED, no-signing, and no-transaction outcomes." },
   { id: "continuous-integration", result: "PASS", evidence: ".github/workflows/ci.yml", detail: "Tests, compilation, package build, security audit, and this readiness audit run in CI." },
   { id: "public-secret-scan", result: "PASS", evidence: `${secretMatches.length} matches`, detail: "No credential or private-key pattern is present in public artifacts." }
@@ -174,7 +192,7 @@ const checks = [
 
 const observedAt = String(publicSummary.generatedAt);
 assert(Number.isFinite(Date.parse(observedAt)), "public_summary_timestamp_invalid");
-const parentHashes = [deployment.evidenceRoot, swap.evidenceRoot, credential.evidenceRoot, passport.evidenceRoot, consumer.evidenceRoot] as Hex[];
+const parentHashes = [deployment.evidenceRoot, swap.evidenceRoot, credential.evidenceRoot, passport.evidenceRoot, consumer.evidenceRoot, agentDeployment.evidenceRoot, agentNegotiation.evidenceRoot] as Hex[];
 const artifact = createEvidenceArtifact({
   artifactType: "SUBMISSION_READINESS",
   mode: "LIVE",
@@ -185,10 +203,11 @@ const artifact = createEvidenceArtifact({
     status: "TECHNICALLY_READY",
     checks,
     remainingExternalItems: [
-      { id: "agent-studio-receipt", status: "UNPUBLISHED", blockingCoreVerification: false },
+      { id: "funded-erc8183-delivery", status: "NOT_EXECUTED", blockingCoreVerification: false },
+      { id: "b402-settlement", status: "DORMANT_PENDING_MERCHANT_CREDENTIALS", blockingCoreVerification: false },
       { id: "four-minute-demo-video", status: "NOT_RECORDED", blockingCoreVerification: false }
     ],
-    truthNotice: "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, and independent consumer. It does not claim an Agent Studio deployment receipt or a completed submission video."
+    truthNotice: "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, independent consumer, managed Agent Studio trial, and authenticated signed public quote. It does not claim a funded ERC-8183 delivery, B402 settlement, or completed submission video."
   }
 });
 

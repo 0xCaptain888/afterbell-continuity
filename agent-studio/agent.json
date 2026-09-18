@@ -3,8 +3,8 @@
   "name": "AfterBell Watchtower",
   "version": "0.1.0",
   "description": "Continuously evaluates whether a tokenized-stock position preserves the owner's economic exposure and rights, then returns a policy-bound rescue signal.",
-  "status": "DESIGN",
-  "truthNotice": "This package is ready to wrap as a service but is not yet deployed or published in Binance Agent Studio.",
+  "status": "DEPLOYED_TESTNET_TRIAL",
+  "truthNotice": "The official A2A/X402 seller runtime is deployed in the BNB Agent Studio managed BSC Testnet trial. The local HTTP manifest remains an integration reference; paid ERC-8183 delivery and B402 settlement are not claimed.",
   "http": {
     "method": "POST",
     "path": "/api/v1/agent/watchtower"

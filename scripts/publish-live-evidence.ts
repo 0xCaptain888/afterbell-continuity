@@ -18,6 +18,8 @@ const mainnetCredential = await readJson("evidence/live/mainnet-credential.json"
 const mainnetPassport = await readJson("evidence/live/mainnet-passport.json");
 const consumerAdmission = await readJson("evidence/live/guarded-consumer-admission.json");
 const deployment = await readJson("evidence/deployment/bsc-mainnet.json");
+const agentDeployment = await readJson("evidence/live/agent-studio-deployment.json");
+const agentNegotiation = await readJson("evidence/live/agent-studio-public-negotiate.json");
 
 const inventoryPairs = Array.isArray(inventory?.continuityPairs) ? inventory.continuityPairs as Array<Record<string, unknown>> : [];
 const quoteResults = Array.isArray(quotes?.results) ? quotes.results as Array<Record<string, unknown>> : [];
@@ -161,7 +163,16 @@ const summary = {
     evaluatedAt: ((consumerAdmission.payload as Record<string, unknown> | undefined)?.decision as Record<string, unknown> | undefined)?.evaluatedAt,
     evidenceRoot: consumerAdmission.evidenceRoot,
     truthNotice: (consumerAdmission.payload as Record<string, unknown> | undefined)?.truthNotice
-  } : { result: "UNAVAILABLE" }
+  } : { result: "UNAVAILABLE" },
+  agentStudio: agentDeployment && agentNegotiation ? {
+    status: (agentDeployment.payload as Record<string, unknown> | undefined)?.status,
+    observedAt: agentDeployment.observedAt,
+    deployment: (agentDeployment.payload as Record<string, unknown> | undefined),
+    negotiation: (agentNegotiation.payload as Record<string, unknown> | undefined)?.negotiation,
+    deploymentEvidenceRoot: agentDeployment.evidenceRoot,
+    negotiationEvidenceRoot: agentNegotiation.evidenceRoot,
+    truthNotice: ((agentDeployment.payload as Record<string, unknown> | undefined)?.boundaries as Record<string, unknown> | undefined)?.statement
+  } : { status: "UNAVAILABLE" }
 };
 
 await writeFile("site/live-evidence.json", JSON.stringify(summary, null, 2));

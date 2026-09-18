@@ -1,6 +1,6 @@
 {
   "schema": "afterbell-public-live-evidence/4",
-  "generatedAt": "2026-09-18T10:35:11.306Z",
+  "generatedAt": "2026-09-18T11:46:40.337Z",
   "truthNotice": "LIVE and MAINNET labels refer to authenticated API, on-chain receipts, independently matched bytecode, and BscScan-published sources. One bounded stock-token swap and three protocol deployments are verified; incomplete holder-rights evidence remains UNKNOWN and still blocks automatic rescue.",
   "inventory": {
     "status": "LIVE_DATA_GATE_PASSED",
@@ -285,8 +285,75 @@
       "allowGuardedDeposit": false,
       "allowReadOnlyMonitoring": true
     },
-    "evaluatedAt": "2026-09-18T10:35:11.000Z",
-    "evidenceRoot": "0x64c8341184b3fffc6145227092f37875b74b3f889f484693dc035a9d0f2fe810",
+    "evaluatedAt": "2026-09-18T11:46:40.000Z",
+    "evidenceRoot": "0xcbde08b6c256a16d3d066da7ed1a3bf8c219191959a02126d7d42b6dd5cf187a",
     "truthNotice": "The reference consumer allows read-only monitoring but blocks automated rescue and Guarded Vault deposits because the live credential is WATCH/HIGH and the Passport is CHALLENGED."
+  },
+  "agentStudio": {
+    "status": "DEPLOYED_TESTNET_TRIAL",
+    "observedAt": "2026-09-18T11:43:16.196Z",
+    "deployment": {
+      "status": "DEPLOYED_TESTNET_TRIAL",
+      "provider": "bnb",
+      "slug": "afterbellwatchtower",
+      "agentId": "01M2T4KMDTJCBQ25HAMPZ9JZ9D",
+      "deploymentId": "01M2T4KMDT387DD25BNN602NE5",
+      "runtimeState": "running (ready)",
+      "trial": {
+        "status": "active",
+        "expiresAt": "2026-09-20T11:32:43.000Z",
+        "network": "bsc-testnet",
+        "chainId": 97
+      },
+      "endpoints": {
+        "agentCard": "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json",
+        "a2a": "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/a2a",
+        "x402": "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/x402"
+      },
+      "identity": {
+        "erc8004AgentId": "2447",
+        "wallet": "0x83B2B8D09d822DAed95e94E10062b232A54fd123",
+        "registrationVerified": true
+      },
+      "runtime": {
+        "officialDeployVerify": "PASS",
+        "publicOauthA2aNegotiate": "PASS",
+        "publicNegotiationEvidenceRoot": "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed",
+        "erc8183Price": "0.01 U",
+        "b402ConfiguredPrice": "0.01 USD",
+        "x402State": "DORMANT_PENDING_B402_MERCHANT_CREDENTIALS"
+      },
+      "boundaries": {
+        "fundedErc8183JobCompleted": false,
+        "b402SettlementCompleted": false,
+        "financialTransactionCreatedByPublicSmoke": false,
+        "statement": "The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. Paid delivery and settlement remain separate, unclaimed steps."
+      }
+    },
+    "negotiation": {
+      "request": {
+        "skill": "negotiate",
+        "task_description": "{\"schema\":\"afterbell-watched-position/1\",\"asset\":\"AAPLx\",\"venue\":\"BSC\",\"expectedSession\":\"US regular session\",\"action\":\"validate continuity protections before guarded execution\"}",
+        "terms": {
+          "deliverables": "afterbell-watchtower-result/1 JSON with state, reasons, and evidence references",
+          "quality_standards": "deterministic fail-closed policy; no autonomous financial transaction"
+        }
+      },
+      "accepted": true,
+      "priceRaw": "10000000000000000",
+      "priceDisplay": "0.01 U",
+      "currency": "0xc70B8741B8B07A6d61E54fd4B20f22Fa648E5565",
+      "chainId": 97,
+      "verifyingContract": "0xa206c0517b6371c6638cd9e4a42cc9f02a33b0de",
+      "negotiationHash": "0x372ed26efadc5085bbd006bbdf72110a3bed51bc756588d844631c040775766a",
+      "responseHash": "0x1c9dd348a0125fe4042a98a7d86ee56be01696c01e7586f175a9c0c306208e33",
+      "providerSignature": "0xf286c8a0ba988075a7512e3300180eb36280ce9d28841dcb500c0e3c124cbb3348669ccd43aee550f66bed299eb8404801d7e8134f123bec9a0f49662a5940871c",
+      "recoveredSigner": "0x83B2B8D09d822DAed95e94E10062b232A54fd123",
+      "signatureVerified": true,
+      "quoteExpiresAt": 1789732696
+    },
+    "deploymentEvidenceRoot": "0xe2cacfe887355e5402e6cc64ab55acf4bcaffb1af3cbecc87013bcb3f481db9f",
+    "negotiationEvidenceRoot": "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed",
+    "truthNotice": "The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. Paid delivery and settlement remain separate, unclaimed steps."
   }
 }

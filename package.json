@@ -33,6 +33,7 @@
     "watchtower:demo": "node --import tsx scripts/watchtower-demo.ts",
     "agent-studio:package": "node --import tsx scripts/package-agent-studio.ts",
     "bnb-agent:readiness:record": "node --import tsx scripts/record-bnb-agent-operator-readiness.ts",
+    "bnb-agent:public:verify": "node --import tsx scripts/verify-bnb-agent-public.ts",
     "bnb-agent:test": "pnpm --config.manage-package-manager-versions=false --dir bnb-agent --filter AfterBellWatchtower-agent test",
     "bnb-agent:build": "pnpm --config.manage-package-manager-versions=false --dir bnb-agent --filter AfterBellWatchtower-agent build",
     "data:gate": "NODE_USE_ENV_PROXY=1 node --env-file-if-exists=.env --import tsx scripts/data-gate.ts",

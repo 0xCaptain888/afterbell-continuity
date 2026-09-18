@@ -11,6 +11,6 @@ This directory isolates the minimal service boundary intended for Binance Agent 
 - Portable endpoint-shaped fixtures: `examples/protected-request.json`, `examples/protected-response.json`, `examples/rescue-request.json`, and `examples/rescue-response.json`.
 - Package evidence: `evidence/agent-studio-package.json`.
 - Current package status: `READY_TO_PUBLISH`.
-- Current deployment status: `DESIGN / UNPUBLISHED` until a real Agent Studio URL and invocation receipt exist.
+- Current deployment status: `DEPLOYED_TESTNET_TRIAL / RUNNING_READY`. The public Agent Card, OAuth-protected A2A endpoint, ERC-8004 identity, and signed negotiation receipt are recorded under `evidence/live/`.
 
-Run `npm run agent-studio:package` before publishing. After publication, capture the service URL, exact pricing, request/response receipts, and platform deployment identifier in `evidence/live/`. Do not relabel the service as deployed before those records exist.
+Run `npm run bnb-agent:public:verify`, `npm run bnb-agent:readiness:record`, and `npm run agent-studio:package` to refresh the deployment evidence. The public smoke proves reachability and signing, not a funded ERC-8183 delivery or B402 settlement.

@@ -18,11 +18,13 @@ const officialEntrypoint = await readFile("bnb-agent/app/agent/src/unifiedMain.t
 const officialAgentTest = await readFile("bnb-agent/app/agent/test/afterbell.test.ts", "utf8");
 const officialAgentPackage = JSON.parse(await readFile("bnb-agent/app/agent/package.json", "utf8")) as Json;
 const operatorReadiness = JSON.parse(await readFile("evidence/bnb-agent-operator-readiness.json", "utf8")) as Json;
+const publicNegotiation = JSON.parse(await readFile("evidence/live/agent-studio-public-negotiate.json", "utf8")) as Json;
+const deployment = JSON.parse(await readFile("evidence/live/agent-studio-deployment.json", "utf8")) as Json;
 const http = manifest.http as Json;
 const billing = manifest.billing as Json;
 
 assert(manifest.schema === "afterbell-agent-service/1", "invalid_agent_schema");
-assert(manifest.status === "DESIGN", "unpublished_agent_must_remain_design");
+assert(manifest.status === "DEPLOYED_TESTNET_TRIAL", "agent_deployment_status_stale");
 assert(http.method === "POST" && http.path === "/api/v1/agent/watchtower", "agent_endpoint_mismatch");
 assert(billing.model === "per-inspection" && billing.currency === "USDT" && billing.price === "0.01", "agent_pricing_incomplete");
 assert(openapi.includes("/v1/agent/watchtower:"), "agent_openapi_path_missing");
@@ -45,11 +47,14 @@ const rebuiltOperatorReadiness = createEvidenceArtifact({
   mode: "LIVE",
   observedAt: String(operatorReadiness.observedAt),
   source: String(operatorReadiness.source),
-  payload: operatorReadiness.payload
+  payload: operatorReadiness.payload,
+  parentHashes: Array.isArray(operatorReadiness.parentHashes) ? operatorReadiness.parentHashes as `0x${string}`[] : []
 });
 assert(rebuiltOperatorReadiness.payloadHash === operatorReadiness.payloadHash && rebuiltOperatorReadiness.evidenceRoot === operatorReadiness.evidenceRoot, "operator_readiness_evidence_root_mismatch");
-assert((operatorReadiness.payload as Json).status === "READY_TO_DEPLOY", "operator_preflight_not_ready");
-assert(((operatorReadiness.payload as Json).platform as Json).trialClockStarted === false, "trial_must_remain_unstarted_before_deploy");
+assert((operatorReadiness.payload as Json).status === "DEPLOYED_TESTNET_TRIAL", "operator_deployment_status_stale");
+assert(((operatorReadiness.payload as Json).platform as Json).trialClockStarted === true, "trial_must_be_active_after_deploy");
+assert((deployment.payload as Json).status === "DEPLOYED_TESTNET_TRIAL", "managed_deployment_evidence_missing");
+assert(((publicNegotiation.payload as Json).negotiation as Json).signatureVerified === true, "public_quote_signature_not_verified");
 
 const basePosition: WatchedPosition = {
   positionId: "agent-studio-nvda-1",
@@ -77,15 +82,15 @@ assert(rescueEvent.state === "RESCUE_REQUIRED", "rescue_example_failed");
 
 const protectedResponse = {
   schema: "afterbell-agent-service/1",
-  deploymentMode: "LOCAL_UNPUBLISHED",
+  deploymentMode: "LOCAL_FIXTURE",
   event: protectedEvent,
-  truthNotice: "Deterministic local service response. This is not yet an Agent Studio deployment receipt."
+  truthNotice: "Deterministic local fixture. The separately published managed-trial evidence proves the deployed A2A runtime."
 };
 const rescueResponse = {
   schema: "afterbell-agent-service/1",
-  deploymentMode: "LOCAL_UNPUBLISHED",
+  deploymentMode: "LOCAL_FIXTURE",
   event: rescueEvent,
-  truthNotice: "Deterministic local service response. This is not yet an Agent Studio deployment receipt."
+  truthNotice: "Deterministic local fixture. The separately published managed-trial evidence proves the deployed A2A runtime."
 };
 
 await mkdir("agent-studio/examples", { recursive: true });
@@ -96,13 +101,17 @@ await writeFile("agent-studio/examples/rescue-response.json", `${JSON.stringify(
 
 const artifact = createEvidenceArtifact({
   artifactType: "AGENT_STUDIO_PACKAGE",
-  mode: "DESIGN",
-  observedAt: "2026-09-18T09:20:00.000Z",
-  source: "AfterBell deterministic package audit",
-  parentHashes: [String(operatorReadiness.evidenceRoot) as `0x${string}`],
+  mode: "LIVE",
+  observedAt: String(deployment.observedAt),
+  source: "AfterBell deterministic package audit plus BNB Agent Studio managed-trial deployment evidence",
+  parentHashes: [
+    String(operatorReadiness.evidenceRoot) as `0x${string}`,
+    String(deployment.evidenceRoot) as `0x${string}`,
+    String(publicNegotiation.evidenceRoot) as `0x${string}`
+  ],
   payload: {
-    status: "READY_TO_DEPLOY",
-    deploymentStatus: "UNPUBLISHED",
+    status: "DEPLOYED_TESTNET_TRIAL",
+    deploymentStatus: "RUNNING_READY",
     manifest: {
       name: manifest.name,
       version: manifest.version,
@@ -131,13 +140,19 @@ const artifact = createEvidenceArtifact({
       tests: "5/5 PASS",
       build: "PASS",
       zipBundleDryRun: "PASS",
-      deploymentReadiness: "READY_TO_DEPLOY",
+      deploymentReadiness: "DEPLOYED_TESTNET_TRIAL",
       operatorReadinessEvidence: operatorReadiness.evidenceRoot,
+      deploymentEvidence: deployment.evidenceRoot,
+      publicNegotiationEvidence: publicNegotiation.evidenceRoot,
+      agentId: "01M2T4KMDTJCBQ25HAMPZ9JZ9D",
+      deploymentId: "01M2T4KMDT387DD25BNN602NE5",
+      erc8004AgentId: "2447",
+      runtimeState: "running (ready)",
+      agentCard: "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json",
+      trialExpiresAt: "2026-09-20T11:32:43.000Z",
       externalBlockers: [
-        "Fund the throwaway BSC Testnet wallet for registration and seller delivery gas.",
-        "Fund a buyer wallet with testnet U for the paid ERC-8183 end-to-end smoke.",
-        "Apply for wallet-specific B402 merchant credentials if the paid X402 face is required.",
-        "Start the 48-hour trial only when the submission recording window is ready."
+        "Use an independent funded buyer wallet for the paid ERC-8183 end-to-end lifecycle.",
+        "Apply for wallet-specific B402 merchant credentials only if a paid X402 settlement is required."
       ]
     },
     examples: {
@@ -147,23 +162,23 @@ const artifact = createEvidenceArtifact({
       rescueResponse: "agent-studio/examples/rescue-response.json",
       expectedTransitions: ["PROTECTED", "RESCUE_REQUIRED"]
     },
-    publicationChecklist: [
-      "Fund the dedicated throwaway BSC Testnet wallet; never reuse a mainnet key.",
-      "Confirm the recorded platform session still reports trial available.",
-      "Run `bag deploy prepare --provider bnb --backend aws` without bypassing safety checks.",
-      "Deploy the official A2A/X402 seller runtime when the 48-hour recording window is ready.",
-      "Capture platform service ID, URL, ERC-8004 identity, Agent Card, timestamps, and paid invocation receipts.",
-      "Only then change deploymentStatus from UNPUBLISHED."
+    verifiedDeployment: [
+      "Dedicated throwaway BSC Testnet wallet funded with 0.1 tBNB and 10 U.",
+      "Official deployment preflight and managed-trial deploy completed.",
+      "Runtime reports running (ready); official deploy verify passed.",
+      "ERC-8004 Agent ID 2447 registered.",
+      "OAuth-protected public A2A negotiate returned a signed 0.01 U quote.",
+      "Provider signature independently recovered to the deployed Agent wallet."
     ],
-    truthNotice: "The official BNB Agent Studio A2A/X402 workspace, deterministic inspection, fixed pricing, tests, TypeScript build, ZIP bundle, dedicated testnet wallet, platform authentication, preflight, and local signed quote are verified. No managed-platform deployment, ERC-8004 identity, funded invocation, B402 settlement, or trial activation is claimed."
+    truthNotice: "The official BNB Agent Studio runtime is live in the managed BSC Testnet trial, with an ERC-8004 identity and authenticated public signed quote. No funded ERC-8183 delivery, B402 settlement, or public-smoke financial transaction is claimed."
   }
 });
 
 await writeFile("evidence/agent-studio-package.json", `${JSON.stringify(artifact, null, 2)}\n`);
 
 console.log(JSON.stringify({
-  status: "AGENT_STUDIO_READY_TO_DEPLOY",
-  deploymentStatus: "UNPUBLISHED",
+  status: "AGENT_STUDIO_DEPLOYED_TESTNET_TRIAL",
+  deploymentStatus: "RUNNING_READY",
   price: "0.01 U via ERC-8183; 0.01 USD via B402",
   transitions: ["PROTECTED", "WATCH", "RESCUE_REQUIRED", "BLOCKED"],
   evidenceRoot: artifact.evidenceRoot,

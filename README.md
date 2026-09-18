@@ -21,10 +21,12 @@ AfterBell Continuity is the economic-equivalence, rights-continuity, and verifia
 - Deployment evidence: [`MAINNET_DEPLOYED_VERIFIED`](./evidence/deployment/bsc-mainnet.json)
 - Public continuity artifacts: [`LIVE` EIP-712 Credential](./evidence/live/mainnet-credential.json) and [`CHALLENGED` Passport](./evidence/live/mainnet-passport.json)
 - Machine-readable readiness: [`TECHNICALLY_READY`](./evidence/submission-readiness.json)
-- Official BNB Agent Studio package: [`READY_TO_DEPLOY / UNPUBLISHED`](./evidence/agent-studio-package.json)
-- BNB operator readiness: [`READY_TO_DEPLOY / TRIAL AVAILABLE`](./evidence/bnb-agent-operator-readiness.json) — dedicated testnet wallet, platform login, preflight, and local signed A2A quote complete
+- Official BNB Agent Studio package: [`DEPLOYED_TESTNET_TRIAL / RUNNING_READY`](./evidence/agent-studio-package.json)
+- Public Agent Card: [AfterBell Watchtower on BNB Agent Studio](https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json)
+- Managed deployment evidence: [`DEPLOYED_TESTNET_TRIAL`](./evidence/live/agent-studio-deployment.json) — Agent `01M2…Z9D`, Deployment `01M2…NE5`, ERC-8004 ID `2447`
+- Authenticated public quote: [`PUBLIC_NEGOTIATION_VERIFIED`](./evidence/live/agent-studio-public-negotiate.json) — OAuth A2A call, `0.01 U`, signature recovered to the deployed testnet wallet
 
-The current `v0.1.0` baseline combines clearly labelled `SIMULATED` / `ADVERSARIAL_TEST` scenarios, authenticated `LIVE` BNB Chain evidence, one user-confirmed BSC mainnet stock-token swap, three source-verified mainnet contracts, and a Registry-bound Credential. It does **not** claim Agentic Wallet custody, Agent Studio deployment, or automated rescue settlement. The historical zero-address Credential remains preserved beside its active Registry-bound successor.
+The current `v0.1.0` baseline combines clearly labelled `SIMULATED` / `ADVERSARIAL_TEST` scenarios, authenticated `LIVE` BNB Chain evidence, one user-confirmed BSC mainnet stock-token swap, three source-verified mainnet contracts, a Registry-bound Credential, and a live BSC Testnet BNB Agent Studio trial. It does **not** claim Agentic Wallet custody, a funded ERC-8183 delivery, B402 settlement, or automated rescue settlement. The historical zero-address Credential remains preserved beside its active Registry-bound successor.
 
 ## Why this exists
 
@@ -71,6 +73,7 @@ observe the position
 - Publishable TypeScript SDK with structured errors and timeouts
 - Persistent Watchtower task journal and Agent service endpoint
 - Official BNB Agent Studio seller workspace with A2A + X402 faces, ERC-8183 + B402 rails, fixed pricing, and deterministic non-LLM delivery
+- Managed BNB Agent Studio trial runtime with ERC-8004 identity, OAuth-protected public A2A access, and independently verified provider signature
 - Reproducible Judge Run
 - Responsive control-center demo
 - `ContinuityRegistry`, `GuardedStockVault`, and `ExecutionBondEscrow` contracts
@@ -78,7 +81,7 @@ observe the position
 - Solidity compilation in CI
 - Initial threat model, DX log, API specification, and prior-work disclosure
 - A concise [`Judge guide`](./docs/JUDGE-GUIDE.md) with 90-second and four-minute paths
-- A machine-verifiable [`Submission readiness`](./evidence/submission-readiness.json) artifact with twelve fail-closed checks
+- A machine-verifiable [`Submission readiness`](./evidence/submission-readiness.json) artifact with thirteen fail-closed checks
 - A timestamped [`four-minute demo script`](./docs/VIDEO-SCRIPT.md) aligned to the public proof path
 
 ## Current status
@@ -92,7 +95,7 @@ observe the position
 | UI and Judge Run | `IMPLEMENTED` | Local/static demo |
 | TypeScript SDK | `IMPLEMENTED` | package dry build and SDK tests |
 | Persistent Watchtower tasks | `IMPLEMENTED` | JSONL journal and local API smoke test |
-| BNB Agent Studio service package | `READY_TO_DEPLOY / UNPUBLISHED` | official `bag` scaffold, A2A/X402, ERC-8183/B402, fixed 0.01 pricing, 5/5 deterministic tests, ZIP dry-run |
+| BNB Agent Studio service package | `DEPLOYED_TESTNET_TRIAL / RUNNING_READY` | official `bag` scaffold, A2A/X402, ERC-8183/B402, fixed 0.01 pricing, 5/5 deterministic tests, public OAuth quote |
 | Binance RWA inventory | `LIVE` | 488 parsed assets, 40 cross-wrapper pairs |
 | Underlying + market profiles | `LIVE` | 4/4 TSLA/NVDA wrapper profiles |
 | Rights-continuity evidence | `LIVE_PARTIAL / FAIL_CLOSED` | disclosures found; material holder rights remain `UNKNOWN` |
@@ -102,13 +105,13 @@ observe the position
 | Swap calldata build | `LIVE` | TSLAB route, LiquidMesh |
 | Transaction API simulation | `LIVE_PASS` | exact 10 USDT allowance; simulation spends 10 USDT, receives TSLAB, and reduces allowance to zero |
 | Funded OKX Wallet authorization | `LIVE` | connected, first anomalous approval revoked, exact 10 USDT allowance independently re-read on-chain |
-| BNB Agent Studio Watchtower | `READY_TO_DEPLOY / UNPUBLISHED` | throwaway wallet `0x83B2…d123`, platform authenticated, official preflight passed, local signed `0.01 U` quote passed; funding and deployment receipt remain |
+| BNB Agent Studio Watchtower | `DEPLOYED_TESTNET_TRIAL` | runtime `running (ready)`, wallet `0x83B2…d123`, ERC-8004 ID `2447`, public OAuth A2A signed `0.01 U` quote; funded job and B402 settlement remain unclaimed |
 | BSC mainnet contracts | `MAINNET_DEPLOYED_VERIFIED` | Registry `0xCb1587…C823A`, Vault `0x8f996A…CE1bD`, Bond `0x52B6FF…12029` |
 | BSC mainnet stock trade | `LIVE_SUCCESS` | 10 USDT → 0.027163579421480873 TSLAB; calldata, receipt, slippage, Gas, and zero post-swap allowance independently verified |
 | Live continuity credential | `LIVE / WATCH / REGISTRY_BOUND` | Issuer-signed Credential binds the deployed Registry and deployment evidence root; historical zero-address artifact preserved |
 | Live continuity passport | `CHALLENGED` | 5/6 deterministic checks pass; quote submission time was not independently timestamped, so freshness is not inferred from block confirmation |
 | Independent Guarded Consumer | `LIVE / REQUIRE_MANUAL_REVIEW` | Explicit issuer trust list; automated rescue and deposits blocked; read-only monitoring allowed |
-| Submission readiness | `TECHNICALLY_READY` | 12/12 repository, mainnet, integration, official-agent, truth-label, and public-secret checks pass |
+| Submission readiness | `TECHNICALLY_READY` | 13/13 repository, mainnet, integration, public-agent, truth-label, and public-secret checks pass |
 
 ## Quick start
 

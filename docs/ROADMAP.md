@@ -25,10 +25,13 @@
 - [x] Browser-wallet authorization and real small trade
 - [x] BSC mainnet deployment and source verification
 - [x] Registry-bound Credential reissuance and public evidence refresh
-- [ ] Agent Studio Watchtower deployment receipt
+- [x] Agent Studio Watchtower deployment receipt and authenticated public A2A quote
 - [x] Official BNB Agent Studio A2A/X402 workspace, deterministic delivery, fixed pricing, tests, build, and ZIP bundle dry-run
 - [x] Dedicated throwaway BSC Testnet wallet, platform login, official preflight, and local signed A2A quote
-- [ ] Fund the throwaway wallet and execute the 48-hour managed-trial deployment
+- [x] Fund the throwaway wallet and execute the 48-hour managed-trial deployment
+- [x] Register ERC-8004 Agent ID `2447` and independently recover the public quote signer
+- [ ] Complete a funded ERC-8183 delivery from an independent buyer wallet
+- [ ] Activate paid x402 only after official B402 merchant credentials are available
 - [x] Public demo
 - [ ] Four-minute demo video
 - [x] Machine-verifiable submission-readiness report

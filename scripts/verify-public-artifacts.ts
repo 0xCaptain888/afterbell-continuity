@@ -105,6 +105,8 @@ const mainnetCredential = await readJson("evidence/live/mainnet-credential.json"
 const mainnetPassport = await readJson("evidence/live/mainnet-passport.json");
 const consumerAdmission = await readJson("evidence/live/guarded-consumer-admission.json");
 const deployment = await readJson("evidence/deployment/bsc-mainnet.json");
+const agentDeployment = await readJson("evidence/live/agent-studio-deployment.json");
+const agentNegotiation = await readJson("evidence/live/agent-studio-public-negotiate.json");
 const trustedIssuers = await readJson("site/trusted-issuers.json");
 const publicSummary = await readJson("site/live-evidence.json");
 
@@ -120,6 +122,16 @@ verifyRoot({ file: deployment, artifactType: "BSC_MAINNET_DEPLOYMENT" });
 verifyWrappedRoot(mainnetCredential, "LIVE_CONTINUITY_CREDENTIAL");
 verifyWrappedRoot(mainnetPassport, "LIVE_CONTINUITY_PASSPORT");
 verifyWrappedRoot(consumerAdmission, "LIVE_GUARDED_CONSUMER_ADMISSION");
+verifyWrappedRoot(agentNegotiation, "BNB_AGENT_PUBLIC_NEGOTIATION");
+verifyWrappedRoot(agentDeployment, "BNB_AGENT_STUDIO_DEPLOYMENT");
+assert(Array.isArray(agentDeployment.parentHashes) && agentDeployment.parentHashes.includes(agentNegotiation.evidenceRoot), "agent_deployment_negotiation_parent_missing");
+const agentDeploymentPayload = agentDeployment.payload as Json;
+const agentNegotiationPayload = agentNegotiation.payload as Json;
+const publicAgentNegotiation = agentNegotiationPayload.negotiation as Json;
+assert(agentDeploymentPayload.status === "DEPLOYED_TESTNET_TRIAL", "agent_studio_not_deployed");
+assert(publicAgentNegotiation.signatureVerified === true, "agent_public_signature_not_verified");
+assert(publicAgentNegotiation.priceRaw === "10000000000000000", "agent_public_price_mismatch");
+assert(publicAgentNegotiation.chainId === 97, "agent_public_chain_mismatch");
 
 const credentialPayload = mainnetCredential.payload as Json;
 const signedCredentialJson = credentialPayload.signedCredential as Json;
@@ -211,6 +223,7 @@ const publicCredential = publicSummary.continuityCredential as Json | undefined;
 const publicPassport = publicSummary.continuityPassport as Json | undefined;
 const publicConsumer = publicSummary.guardedConsumer as Json | undefined;
 const publicDeployment = publicSummary.deployment as Json | undefined;
+const publicAgentStudio = publicSummary.agentStudio as Json | undefined;
 assert(publicSummary.schema === "afterbell-public-live-evidence/4", "unexpected_public_summary_schema");
 assert(publicRights?.evidenceRoot === rights.evidenceRoot, "public_rights_root_mismatch");
 assert(publicQuotes?.evidenceRoot === quotes.evidenceRoot, "public_quotes_root_mismatch");
@@ -230,6 +243,9 @@ assert(publicPassport?.evidenceRoot === mainnetPassport.evidenceRoot, "public_pa
 assert(publicPassport?.passportId === passport.passportId, "public_passport_id_mismatch");
 assert(publicConsumer?.evidenceRoot === consumerAdmission.evidenceRoot, "public_consumer_root_mismatch");
 assert(publicConsumer?.result === publishedConsumerDecision.result, "public_consumer_result_mismatch");
+assert(publicAgentStudio?.status === "DEPLOYED_TESTNET_TRIAL", "public_agent_studio_status_mismatch");
+assert(publicAgentStudio?.deploymentEvidenceRoot === agentDeployment.evidenceRoot, "public_agent_deployment_root_mismatch");
+assert(publicAgentStudio?.negotiationEvidenceRoot === agentNegotiation.evidenceRoot, "public_agent_negotiation_root_mismatch");
 assert(records(publicSummary.featured).length === 2, "public_featured_assets_missing");
 
 const html = await readFile("site/index.html", "utf8");
@@ -248,6 +264,8 @@ await readFile("site/trusted-issuers.json", "utf8");
 assert(html.includes("submission-readiness.json"), "submission_readiness_not_linked");
 await readFile("evidence/submission-readiness.json", "utf8");
 assert(html.includes("agent-studio-package.json"), "agent_studio_package_not_linked");
+assert(html.includes("agent-studio-deployment.json"), "agent_studio_deployment_not_linked");
+assert(html.includes("agent-studio-public-negotiate.json"), "agent_studio_negotiation_not_linked");
 await readFile("evidence/agent-studio-package.json", "utf8");
 assert(app.includes("eth_requestAccounts"), "wallet_connect_not_implemented");
 assert(app.includes("eth_sendTransaction"), "bounded_approval_not_implemented");
@@ -262,7 +280,7 @@ assert(leakedFiles.length === 0, `public_secret_pattern_detected:${leakedFiles.j
 
 console.log(JSON.stringify({
   status: "PUBLIC_ARTIFACTS_VERIFIED",
-  evidence: { rights: rights.evidenceRoot, quotes: quotes.evidenceRoot, equivalence: equivalence.evidenceRoot, mainnetSwap: mainnetSwap.evidenceRoot, deployment: deployment.evidenceRoot, credential: mainnetCredential.evidenceRoot, passport: mainnetPassport.evidenceRoot, consumer: consumerAdmission.evidenceRoot },
+  evidence: { rights: rights.evidenceRoot, quotes: quotes.evidenceRoot, equivalence: equivalence.evidenceRoot, mainnetSwap: mainnetSwap.evidenceRoot, deployment: deployment.evidenceRoot, credential: mainnetCredential.evidenceRoot, passport: mainnetPassport.evidenceRoot, consumer: consumerAdmission.evidenceRoot, agentDeployment: agentDeployment.evidenceRoot, agentNegotiation: agentNegotiation.evidenceRoot },
   rightsProfiles: rightResults.length,
   roundTripRoutes,
   featuredAssets: equivalenceResults.length,

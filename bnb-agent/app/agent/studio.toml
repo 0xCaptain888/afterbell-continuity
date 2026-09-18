@@ -28,6 +28,7 @@ destination = "platform"
 # Artifact channel: 'zip' (evm-local default — managed runtime, no Docker)
 # or 'container' (local Docker build → brokered ECR; forced for twak).
 platform_artifact = "zip"
+packaging = "zip"
 
 [wallet]
 # Local keystore signer. The Agent is the SOLE key-holder/signer.
@@ -38,6 +39,7 @@ signer = "local"
 keystore_dir = "../../.studio/wallets"
 # address = "0x..."   # filled by `bag wallet new`
 address = "0x83B2B8D09d822DAed95e94E10062b232A54fd123"
+platform_exposed_addresses = ["0x83B2B8D09d822DAed95e94E10062b232A54fd123"]
 
 [payments.erc8183]
 # Read by the Agent: it quotes the FIXED `price`, CLAMPS it to [min,max],
@@ -74,3 +76,17 @@ work_timeout_seconds = 60
 # Optional Bazaar metadata can be added later as scalar JSON fields under
 # [payments.b402_seller.bazaar]: info_json, schema_json, description,
 # and route_template.
+
+[deploy.platform]
+terms_accepted_at = "2026-09-18T11:31:54Z"
+slug = "afterbellwatchtower"
+deployment_id = "01M2T4KMDT387DD25BNN602NE5"
+backend = "aws"
+agent_id = "01M2T4KMDTJCBQ25HAMPZ9JZ9D"
+invoke_url = "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json"
+last_deploy_at = "2026-09-18T11:32:46Z"
+
+[identity]
+endpoint = "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json"
+registered_at = "2026-09-18T11:33:26.087Z"
+agent_id = 2447

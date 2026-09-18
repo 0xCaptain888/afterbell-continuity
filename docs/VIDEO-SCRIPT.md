@@ -79,5 +79,5 @@ Target length: **3:45–3:55**. Record at 1440p or 1080p, browser zoom 100%, not
 - Do not show `.env`, terminal history, wallet balances, email, API credentials, or private browser tabs.
 - Keep the wallet disconnected unless demonstrating the read-only allowance check.
 - Never describe the challenged Passport as failed; say that it honestly exposes an unprovable timing property.
-- Never claim Agent Studio deployment until a real platform service ID and invocation receipt exist.
+- Claim only the verified BSC Testnet managed-trial deployment: show the Agent/Deployment IDs, ERC-8004 ID, public Agent Card, and signed quote receipt. Do not claim a funded ERC-8183 delivery or B402 settlement.
 - End on the public Demo URL and GitHub repository for at least three seconds.
