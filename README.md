@@ -13,14 +13,16 @@ AfterBell Continuity is the economic-equivalence, rights-continuity, and verifia
 - Local control center: `npm run dev` → `http://127.0.0.1:4173`
 - One-click evidence run: `npm run judge`
 - Full verification: `npm run check`
+- Submission readiness: `npm run submission:audit`
 - Public demo: **https://0xcaptain888.github.io/afterbell-continuity/**
-- Browser verifier: open **Live proof → Verify evidence roots** to recompute seven canonical SHA-256 commitments without a wallet
+- Browser verifier: open **Live proof → Verify evidence roots** to recompute eight canonical SHA-256 commitments without a wallet
 - BSC mainnet evidence: [verified 10 USDT → TSLAB transaction](https://bscscan.com/tx/0xb4f2bd0cd1383ec16ca72d61fe353ed81eb8f2843f038f5e11bf7ecd22ef431c)
 - Source-verified contracts: [Registry](https://bscscan.com/address/0xCb158746e0855ECeC2703CE20EC3aA780c0C823A#code) · [Guarded Vault](https://bscscan.com/address/0x8f996AFcb61eaa3FCc6BCe21B691240e6eACE1bD#code) · [Bond Escrow](https://bscscan.com/address/0x52B6FF2243c3366E14aC13C6490A48580dE12029#code)
 - Deployment evidence: [`MAINNET_DEPLOYED_VERIFIED`](./evidence/deployment/bsc-mainnet.json)
 - Public continuity artifacts: [`LIVE` EIP-712 Credential](./evidence/live/mainnet-credential.json) and [`CHALLENGED` Passport](./evidence/live/mainnet-passport.json)
+- Machine-readable readiness: [`TECHNICALLY_READY`](./evidence/submission-readiness.json)
 
-The current `v0.1.0` baseline combines clearly labelled `SIMULATED` / `ADVERSARIAL_TEST` scenarios, authenticated `LIVE` BNB Chain evidence, one user-confirmed BSC mainnet stock-token swap, and three source-verified mainnet contracts. It does **not** claim Agentic Wallet custody, Agent Studio deployment, or automated rescue settlement. The historical zero-address Credential remains preserved while its Registry-bound successor is reissued.
+The current `v0.1.0` baseline combines clearly labelled `SIMULATED` / `ADVERSARIAL_TEST` scenarios, authenticated `LIVE` BNB Chain evidence, one user-confirmed BSC mainnet stock-token swap, three source-verified mainnet contracts, and a Registry-bound Credential. It does **not** claim Agentic Wallet custody, Agent Studio deployment, or automated rescue settlement. The historical zero-address Credential remains preserved beside its active Registry-bound successor.
 
 ## Why this exists
 
@@ -73,6 +75,7 @@ observe the position
 - Solidity compilation in CI
 - Initial threat model, DX log, API specification, and prior-work disclosure
 - A concise [`Judge guide`](./docs/JUDGE-GUIDE.md) with 90-second and four-minute paths
+- A machine-verifiable [`Submission readiness`](./evidence/submission-readiness.json) artifact with ten fail-closed checks
 
 ## Current status
 
@@ -98,9 +101,10 @@ observe the position
 | Agent Studio Watchtower | `NOT_STARTED` | — |
 | BSC mainnet contracts | `MAINNET_DEPLOYED_VERIFIED` | Registry `0xCb1587…C823A`, Vault `0x8f996A…CE1bD`, Bond `0x52B6FF…12029` |
 | BSC mainnet stock trade | `LIVE_SUCCESS` | 10 USDT → 0.027163579421480873 TSLAB; calldata, receipt, slippage, Gas, and zero post-swap allowance independently verified |
-| Live continuity credential | `LIVE / WATCH / REGISTRY_REISSUE_PENDING` | Historical zero-address artifact preserved; source-verified Registry binding is enforced by the updated publisher |
+| Live continuity credential | `LIVE / WATCH / REGISTRY_BOUND` | Issuer-signed Credential binds the deployed Registry and deployment evidence root; historical zero-address artifact preserved |
 | Live continuity passport | `CHALLENGED` | 5/6 deterministic checks pass; quote submission time was not independently timestamped, so freshness is not inferred from block confirmation |
 | Independent Guarded Consumer | `LIVE / REQUIRE_MANUAL_REVIEW` | Explicit issuer trust list; automated rescue and deposits blocked; read-only monitoring allowed |
+| Submission readiness | `TECHNICALLY_READY` | 10/10 repository, mainnet, integration, truth-label, and public-secret checks pass |
 
 ## Quick start
 
@@ -158,7 +162,7 @@ npm run consumer:verify
 
 Three of four routes returned authenticated Trading API quotes for a 10 USDT probe and its immediate quoted exit. TSLAon returned an explicit insufficient-liquidity result, which remains visible instead of being replaced by fixture data. The funded public wallet produced real TSLAB calldata; after an anomalous oversized approval was detected and revoked, an exact 10 USDT allowance was independently confirmed on-chain. Transaction API simulation passed, then the user confirmed one bounded BSC mainnet swap. The verified receipt spent exactly 10 USDT, received 0.027163579421480873 TSLAB, stayed inside the 0.5% slippage boundary, consumed the allowance to zero, and paid 0.000030178641994006 BNB in Gas. See the [BscScan transaction](https://bscscan.com/tx/0xb4f2bd0cd1383ec16ca72d61fe353ed81eb8f2843f038f5e11bf7ecd22ef431c) and [`evidence/live/mainnet-stock-swap.json`](./evidence/live/mainnet-stock-swap.json).
 
-The same evidence chain feeds a public EIP-712 Credential and Continuity Passport. The Credential is signed by a dedicated AfterBell off-chain issuer—not the user's wallet—and its `WATCH / HIGH` semantics reflect incomplete machine-readable shareholder rights. The originally published zero-address Credential remains available as historical evidence; the current publisher now refuses to issue its successor unless it can verify the deployed Registry evidence root, trusted issuer, real Registry address, and all three source-verification records. The Passport passes simulation, simulation binding, calldata binding, slippage, and transaction-presence checks. It remains `CHALLENGED` only because the public record has a quote creation time and block confirmation time, but no independently timestamped broadcast event. The wallet UI enforced quote expiry, yet AfterBell refuses to convert that client-side fact into cryptographic timing proof.
+The same evidence chain feeds a public EIP-712 Credential and Continuity Passport. The Credential is signed by a dedicated AfterBell off-chain issuer—not the user's wallet—and its `WATCH / HIGH` semantics reflect incomplete machine-readable shareholder rights. The originally published zero-address Credential remains available as historical evidence; its active successor is bound to the deployed Registry and the publisher refuses future issuance unless it can verify the deployment evidence root, trusted issuer, real Registry address, and all three source-verification records. The Passport passes simulation, simulation binding, calldata binding, slippage, and transaction-presence checks. It remains `CHALLENGED` only because the public record has a quote creation time and block confirmation time, but no independently timestamped broadcast event. The wallet UI enforced quote expiry, yet AfterBell refuses to convert that client-side fact into cryptographic timing proof.
 
 The standalone Guarded Consumer consumes those public artifacts without trusting the AfterBell dashboard. It starts from its own [`trusted-issuers.json`](./site/trusted-issuers.json), recovers the signer, checks Credential validity and risk tier, recomputes the Passport, and verifies the Credential digest is bound to the execution. For the current live bundle it returns `REQUIRE_MANUAL_REVIEW`: read-only monitoring is allowed, while automated rescue and Guarded Vault deposits remain blocked. See [`guarded-consumer-admission.json`](./evidence/live/guarded-consumer-admission.json).
 
@@ -289,7 +293,7 @@ docs/        architecture, security, DX, development plan
 
 ## Public API surface
 
-Planned stable endpoints are documented in [`openapi.yaml`](./openapi.yaml):
+The implemented integration endpoints are documented in [`openapi.yaml`](./openapi.yaml):
 
 ```text
 POST /v1/continuity/check
@@ -311,8 +315,8 @@ POST /v1/agent/watchtower
 - [x] Record live RWA, underlying, market-status, and disclosure evidence; unresolved rights remain explicit
 - [x] Obtain real bidirectional quote and exit-liquidity measurements
 - [x] Simulate with Transaction API
-- [ ] Enforce Agentic Wallet limits
-- [ ] Deploy and verify contracts on BscScan
+- [x] Enforce exact browser-wallet spending limits and zero post-swap allowance (no Agentic Wallet custody claim)
+- [x] Deploy and verify contracts on BscScan
 - [x] Execute one small BSC mainnet stock transaction
 - [x] Re-verify calldata, output, slippage, and receipt independently
 - [x] Publish transaction link and evidence root

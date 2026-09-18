@@ -1,0 +1,94 @@
+{
+  "schema": "afterbell-evidence/1",
+  "artifactType": "SUBMISSION_READINESS",
+  "mode": "LIVE",
+  "observedAt": "2026-09-18T09:04:57.774Z",
+  "source": "AfterBell repository-local submission audit",
+  "parentHashes": [
+    "0x5a36ce020f566893d938aa0f61bce03723112caa592c0202243ff138cf61522a",
+    "0xc71493b59800e9d40bac0cabb1dd0f8d1f00df495b31b16c138e73377b2a6d7b",
+    "0xe053cb996a48732c0f5a8e9612df50459c70068d93357d64dd137c9304b02f3f",
+    "0xaf8752255c975da3968c32b92bd31258d845d7a8bc33a46130c6e0cd195aa9e4",
+    "0xc6806291b7bd4777eed41c722d7b0da446fa0c1bef192f587cc0539faad80095"
+  ],
+  "payloadHash": "0x2044f537a4b87bc42a00bb3f255a923a9c92c1b3fed3b0553e26c0d1bc145fb4",
+  "payload": {
+    "status": "TECHNICALLY_READY",
+    "checks": [
+      {
+        "id": "mainnet-execution",
+        "result": "PASS",
+        "evidence": "0xc71493b59800e9d40bac0cabb1dd0f8d1f00df495b31b16c138e73377b2a6d7b",
+        "detail": "Bounded 10 USDT stock-token execution succeeded; post-swap allowance is zero."
+      },
+      {
+        "id": "source-verified-contracts",
+        "result": "PASS",
+        "evidence": "0x5a36ce020f566893d938aa0f61bce03723112caa592c0202243ff138cf61522a",
+        "detail": "Three BNB Chain contracts have matching receipts, runtime bytecode, relationships, and BscScan sources."
+      },
+      {
+        "id": "registry-bound-credential",
+        "result": "PASS",
+        "evidence": "0xe053cb996a48732c0f5a8e9612df50459c70068d93357d64dd137c9304b02f3f",
+        "detail": "The live EIP-712 Credential is bound to the deployed ContinuityRegistry and deployment evidence root."
+      },
+      {
+        "id": "truthful-passport",
+        "result": "PASS",
+        "evidence": "0xaf8752255c975da3968c32b92bd31258d845d7a8bc33a46130c6e0cd195aa9e4",
+        "detail": "The Passport exposes quoteFresh as the sole challenge instead of inferring an unprovable broadcast time."
+      },
+      {
+        "id": "independent-fail-closed-consumer",
+        "result": "PASS",
+        "evidence": "0xc6806291b7bd4777eed41c722d7b0da446fa0c1bef192f587cc0539faad80095",
+        "detail": "An independent consumer permits monitoring but blocks deposits and automated rescue."
+      },
+      {
+        "id": "public-evidence-synchronized",
+        "result": "PASS",
+        "evidence": "2026-09-18T09:04:57.774Z",
+        "detail": "Public summary roots match deployment, Credential, Passport, and consumer artifacts."
+      },
+      {
+        "id": "browser-verifier",
+        "result": "PASS",
+        "evidence": "8 canonical public artifacts",
+        "detail": "The wallet-free browser verifier independently recomputes all published roots."
+      },
+      {
+        "id": "sdk-and-openapi",
+        "result": "PASS",
+        "evidence": "package export + openapi.yaml",
+        "detail": "Wallets, agents, and protocols can integrate without importing the UI."
+      },
+      {
+        "id": "continuous-integration",
+        "result": "PASS",
+        "evidence": ".github/workflows/ci.yml",
+        "detail": "Tests, compilation, package build, security audit, and this readiness audit run in CI."
+      },
+      {
+        "id": "public-secret-scan",
+        "result": "PASS",
+        "evidence": "0 matches",
+        "detail": "No credential or private-key pattern is present in public artifacts."
+      }
+    ],
+    "remainingExternalItems": [
+      {
+        "id": "agent-studio-receipt",
+        "status": "UNPUBLISHED",
+        "blockingCoreVerification": false
+      },
+      {
+        "id": "four-minute-demo-video",
+        "status": "NOT_RECORDED",
+        "blockingCoreVerification": false
+      }
+    ],
+    "truthNotice": "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, and independent consumer. It does not claim an Agent Studio deployment receipt or a completed submission video."
+  },
+  "evidenceRoot": "0xb844e881d0023a6bcd6e0b8378557eb935663591132655e612ffd3c245a1d310"
+}

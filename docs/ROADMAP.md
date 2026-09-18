@@ -24,9 +24,11 @@
 - [x] Selected live demo pairs: TSLAB/TSLAon and NVDAB/NVDAon
 - [x] Browser-wallet authorization and real small trade
 - [x] BSC mainnet deployment and source verification
-- [ ] Registry-bound Credential reissuance and public evidence refresh
+- [x] Registry-bound Credential reissuance and public evidence refresh
 - [ ] Agent Studio Watchtower deployment receipt
-- [ ] Public demo and four-minute video
+- [x] Public demo
+- [ ] Four-minute demo video
+- [x] Machine-verifiable submission-readiness report
 
 ## Post-hackathon only
 

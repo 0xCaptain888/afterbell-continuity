@@ -1,5 +1,6 @@
 :root{color-scheme:dark;--bg:#07100e;--panel:#0c1714;--panel2:#101e1a;--line:#22332d;--text:#f1f5f0;--muted:#8fa39b;--green:#8fffc1;--green2:#39d98a;--gold:#f4c86b;--red:#ff806e;--blue:#8dc7ff;--shadow:0 24px 90px rgba(0,0,0,.38)}
 .live-label{color:var(--green);background:rgba(57,217,138,.1);border:1px solid rgba(143,255,193,.24)}
+.readiness-grid small a{color:var(--green);text-decoration:none}.readiness-grid small a:hover{text-decoration:underline}
 .review{background:rgba(244,200,107,.1);color:var(--gold);border:1px solid rgba(244,200,107,.24)}
 .mandate-line i.caution{color:var(--gold)}
 .live-proof{padding:38px 0 100px}

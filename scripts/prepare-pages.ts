@@ -10,7 +10,8 @@ const evidenceFiles = [
   { source: "evidence/deployment/bsc-mainnet.json", name: "bsc-mainnet.json" },
   { source: "evidence/live/mainnet-credential.json", name: "mainnet-credential.json" },
   { source: "evidence/live/mainnet-passport.json", name: "mainnet-passport.json" },
-  { source: "evidence/live/guarded-consumer-admission.json", name: "guarded-consumer-admission.json" }
+  { source: "evidence/live/guarded-consumer-admission.json", name: "guarded-consumer-admission.json" },
+  { source: "evidence/submission-readiness.json", name: "submission-readiness.json" }
 ];
 
 await rm(output, { recursive: true, force: true });

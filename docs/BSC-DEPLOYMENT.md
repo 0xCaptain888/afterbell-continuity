@@ -2,7 +2,7 @@
 
 This runbook deploys the three AfterBell contracts through OKX Wallet without placing a private key in the repository, terminal history, or browser page. It is intentionally split into preparation, wallet confirmations, independent RPC verification, source verification, and Credential reissuance.
 
-Current mainnet result: all three contracts were deployed on September 18, 2026, independently verified through BNB Chain RPC, and source-verified through BscScan Standard JSON Input. The remaining issuance step creates a fresh Registry-bound Credential while preserving the original zero-address artifacts under `evidence/history/`.
+Current mainnet result: all three contracts were deployed on September 18, 2026, independently verified through BNB Chain RPC, and source-verified through BscScan Standard JSON Input. A fresh Credential is now bound to the deployed Registry and deployment evidence root; the original zero-address artifacts remain preserved under `evidence/history/`.
 
 ## Truth boundary
 
@@ -101,20 +101,17 @@ Recorded source pages:
 - `GuardedStockVault`: https://bscscan.com/address/0x8f996AFcb61eaa3FCc6BCe21B691240e6eACE1bD#code
 - `ExecutionBondEscrow`: https://bscscan.com/address/0x52B6FF2243c3366E14aC13C6490A48580dE12029#code
 
-## 6. Reissue the Credential
+## 6. Registry-bound Credential publication — completed
 
-The currently published Credential deliberately uses the zero verifying-contract address because no Registry deployment had been proven when it was issued. After the Registry is deployed and source-verified:
+The first published Credential used the zero verifying-contract address because no Registry deployment had been proven at that time. It remains unchanged under `evidence/history/`. The active Credential now:
 
-1. set the actual Registry address in the Credential publishing flow;
-2. issue a fresh short-lived EIP-712 Credential;
-3. regenerate the Passport and Guarded Consumer admission;
-4. republish public evidence;
-5. rerun `npm run check`;
-6. commit the deployment evidence and updated status.
+1. names the deployed `ContinuityRegistry` as its EIP-712 verifying contract;
+2. includes the source-verified deployment evidence root as a parent;
+3. is signed by the issuer trusted by that Registry;
+4. feeds a regenerated Passport and Guarded Consumer admission;
+5. is reflected in the public evidence bundle and browser verifier.
 
-Never rewrite the old evidence to pretend it was Registry-bound before deployment.
-
-With the source-verified deployment evidence present, run the single local finalization command:
+Never rewrite the historical evidence to pretend it was Registry-bound before deployment. For any future short-lived Credential renewal, run the same explicit finalization command:
 
 ```bash
 npm run mainnet:finalize
