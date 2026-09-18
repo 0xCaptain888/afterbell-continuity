@@ -14,6 +14,8 @@ const rights = await readJson("evidence/live/rights-discovery.json");
 const equivalence = await readJson("evidence/live/economic-equivalence.json");
 const simulation = await readJson("evidence/live/quote-simulation-gate.json");
 const mainnetSwap = await readJson("evidence/live/mainnet-stock-swap.json");
+const mainnetCredential = await readJson("evidence/live/mainnet-credential.json");
+const mainnetPassport = await readJson("evidence/live/mainnet-passport.json");
 
 const inventoryPairs = Array.isArray(inventory?.continuityPairs) ? inventory.continuityPairs as Array<Record<string, unknown>> : [];
 const quoteResults = Array.isArray(quotes?.results) ? quotes.results as Array<Record<string, unknown>> : [];
@@ -59,7 +61,7 @@ const featured = ["TSLA", "NVDA"].map((ticker) => {
 });
 
 const summary = {
-  schema: "afterbell-public-live-evidence/2",
+  schema: "afterbell-public-live-evidence/3",
   generatedAt: new Date().toISOString(),
   truthNotice: mainnetSwap?.status === "SUCCESS"
     ? "LIVE labels refer to authenticated API and on-chain evidence. One bounded, user-confirmed BNB Chain stock-token swap is independently verified; incomplete rights evidence remains UNKNOWN and still blocks automatic rescue."
@@ -116,7 +118,28 @@ const summary = {
     verification: mainnetSwap.verification,
     evidenceRoot: mainnetSwap.evidenceRoot,
     truthNotice: mainnetSwap.truthNotice
-  } : { status: "NOT_EXECUTED", transactionHash: null }
+  } : { status: "NOT_EXECUTED", transactionHash: null },
+  continuityCredential: mainnetCredential ? {
+    status: (mainnetCredential.payload as Record<string, unknown> | undefined)?.semantics
+      ? ((mainnetCredential.payload as Record<string, unknown>).semantics as Record<string, unknown>).status
+      : "UNAVAILABLE",
+    signer: ((mainnetCredential.payload as Record<string, unknown> | undefined)?.signedCredential as Record<string, unknown> | undefined)?.signer,
+    digest: (mainnetCredential.payload as Record<string, unknown> | undefined)?.digest,
+    validFrom: (mainnetCredential.payload as Record<string, unknown> | undefined)?.validFrom,
+    validUntil: (mainnetCredential.payload as Record<string, unknown> | undefined)?.validUntil,
+    registryStatus: (mainnetCredential.payload as Record<string, unknown> | undefined)?.registryStatus,
+    evidenceRoot: mainnetCredential.evidenceRoot,
+    truthNotice: (mainnetCredential.payload as Record<string, unknown> | undefined)?.truthNotice
+  } : { status: "UNAVAILABLE" },
+  continuityPassport: mainnetPassport ? {
+    state: (((mainnetPassport.payload as Record<string, unknown> | undefined)?.passport as Record<string, unknown> | undefined)?.state),
+    result: ((((mainnetPassport.payload as Record<string, unknown> | undefined)?.passport as Record<string, unknown> | undefined)?.verification as Record<string, unknown> | undefined)?.result),
+    passportId: ((mainnetPassport.payload as Record<string, unknown> | undefined)?.passport as Record<string, unknown> | undefined)?.passportId,
+    resultSummary: (mainnetPassport.payload as Record<string, unknown> | undefined)?.resultSummary,
+    timingDisclosure: (mainnetPassport.payload as Record<string, unknown> | undefined)?.timingDisclosure,
+    evidenceRoot: mainnetPassport.evidenceRoot,
+    truthNotice: (mainnetPassport.payload as Record<string, unknown> | undefined)?.truthNotice
+  } : { state: "UNAVAILABLE" }
 };
 
 await writeFile("site/live-evidence.json", JSON.stringify(summary, null, 2));

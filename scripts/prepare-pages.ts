@@ -5,7 +5,10 @@ const evidenceFiles = [
   "rights-discovery.json",
   "quote-discovery.json",
   "economic-equivalence.json",
-  "quote-simulation-gate.json"
+  "quote-simulation-gate.json",
+  "mainnet-stock-swap.json",
+  "mainnet-credential.json",
+  "mainnet-passport.json"
 ];
 
 await rm(output, { recursive: true, force: true });

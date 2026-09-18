@@ -39,7 +39,7 @@
         </div>
         <div class="truth-row">
           <span class="truth live-label">LIVE READ-ONLY EVIDENCE</span>
-          <span>Authenticated BNB Chain data and quotes. No transaction claim.</span>
+          <span>Authenticated BNB Chain data, quotes, and one bounded mainnet execution.</span>
         </div>
       </div>
       <aside class="position-card" id="control">
@@ -61,23 +61,23 @@
 
     <section class="wallet-auth shell" id="wallet-auth" aria-labelledby="wallet-auth-title">
       <div class="wallet-auth-copy">
-        <span class="kicker">BOUNDED WALLET AUTHORIZATION</span>
-        <h2 id="wallet-auth-title">One explicit permission. No hidden execution.</h2>
-        <p>Connect the funded OKX Wallet, verify the BNB Chain account, then approve exactly 10 USDT for the live LiquidMesh route. This step cannot buy a stock token and never requests unlimited allowance.</p>
+        <span class="kicker">POST-EXECUTION WALLET CONTROL</span>
+        <h2 id="wallet-auth-title">Verify zero allowance. Trust chain state.</h2>
+        <p>The bounded 10 USDT execution is complete. Connect the funded OKX Wallet to independently re-read the BNB Chain allowance; AfterBell expects zero and exposes an emergency revoke if chain state says otherwise.</p>
         <div class="wallet-state" id="walletState">Not connected · no transaction requested</div>
         <div class="wallet-actions">
           <button class="primary" id="walletConnectButton">Connect OKX Wallet <span>→</span></button>
-          <button class="approval-button" id="approveButton" disabled>Approve exactly 10 USDT</button>
+          <button class="approval-button" id="approveButton" disabled>Live execution complete · allowance 0</button>
           <button class="revoke-button" id="revokeButton" hidden>Revoke unexpected allowance</button>
         </div>
-        <p class="wallet-help" id="walletHelp">Use the OKX Wallet browser extension or open this page in the OKX Wallet DApp browser. You will confirm every wallet popup yourself.</p>
+        <p class="wallet-help" id="walletHelp">Connection is read-only unless an unexpected non-zero allowance requires you to explicitly confirm a revoke transaction.</p>
       </div>
       <aside class="approval-card">
         <div><span>Network</span><b>BNB Smart Chain</b></div>
         <div><span>Token</span><b>USDT</b><code id="approvalToken">Loading…</code></div>
         <div><span>Spending cap</span><b class="safe-cap">10 USDT</b></div>
         <div><span>Approved spender</span><b>LiquidMesh route</b><code id="approvalSpender">Loading…</code></div>
-        <div class="approval-boundary"><span>After approval</span><b>Re-read chain state · STOP before swap</b></div>
+        <div class="approval-boundary"><span>Current safety boundary</span><b>Published allowance: 0 · independently re-checkable</b></div>
       </aside>
     </section>
 
@@ -93,6 +93,7 @@
         <article><span class="ready-dot waiting" id="rightsDataDot"></span><div><b>Rights-continuity gate</b><small id="rightsDataStatus">Loading public evidence…</small></div></article>
         <article><span class="ready-dot waiting" id="simulationDot"></span><div><b>Swap build + Transaction API simulation</b><small id="simulationStatus">Loading public evidence…</small></div></article>
         <article><span class="ready-dot waiting" id="executionDot"></span><div><b>BSC mainnet execution</b><small id="executionStatus">Loading public evidence…</small></div></article>
+        <article><span class="ready-dot waiting" id="passportDot"></span><div><b>Passport + EIP-712 credential</b><small id="passportStatus">Loading public evidence…</small></div></article>
       </div>
     </section>
 
@@ -105,11 +106,33 @@
         <article class="proof-card loading-card">Loading authenticated public evidence…</article>
       </div>
       <p class="proof-note">A green price comparison is not a legal-rights claim. This is the safety boundary most tokenized-stock agents omit.</p>
+      <div class="continuity-artifacts">
+        <article class="artifact-card">
+          <div class="artifact-heading"><span class="kicker">CONTINUITY PASSPORT</span><span class="status review" id="passportBadge">LOADING</span></div>
+          <h3>Execution passed. Timing remains challenged.</h3>
+          <p id="passportSummary">Loading the public Passport…</p>
+          <div class="artifact-facts">
+            <div><span>Passport ID</span><code id="passportId">—</code></div>
+            <div><span>Deterministic checks</span><b id="passportChecks">—</b></div>
+          </div>
+          <a href="./evidence/mainnet-passport.json" target="_blank" rel="noreferrer">Open Passport artifact ↗</a>
+        </article>
+        <article class="artifact-card">
+          <div class="artifact-heading"><span class="kicker">EIP-712 CREDENTIAL</span><span class="status review" id="credentialBadge">LOADING</span></div>
+          <h3>Short-lived, issuer-signed, rights-aware.</h3>
+          <p id="credentialSummary">Loading the signed credential…</p>
+          <div class="artifact-facts">
+            <div><span>Issuer</span><code id="credentialSigner">—</code></div>
+            <div><span>Valid until</span><b id="credentialExpiry">—</b></div>
+          </div>
+          <a href="./evidence/mainnet-credential.json" target="_blank" rel="noreferrer">Open signed Credential ↗</a>
+        </article>
+      </div>
       <div class="evidence-verifier">
         <div>
           <span class="kicker">INDEPENDENT BROWSER VERIFIER</span>
           <h3>Don't trust the dashboard. Recompute it.</h3>
-          <p>Download the three source artifacts, rebuild their canonical SHA-256 evidence roots in this browser, and compare them with the published commitments.</p>
+          <p>Download six public artifacts, rebuild their canonical SHA-256 evidence roots in this browser, and compare them with the published commitments. CI additionally recovers the EIP-712 signer.</p>
         </div>
         <div class="verifier-action">
           <button class="primary" id="verifyEvidenceButton">Verify evidence roots <span>→</span></button>
@@ -120,6 +143,9 @@
           <a href="./evidence/rights-discovery.json" target="_blank" rel="noreferrer">Rights artifact ↗</a>
           <a href="./evidence/quote-discovery.json" target="_blank" rel="noreferrer">Round-trip quotes ↗</a>
           <a href="./evidence/economic-equivalence.json" target="_blank" rel="noreferrer">Equivalence report ↗</a>
+          <a href="./evidence/mainnet-stock-swap.json" target="_blank" rel="noreferrer">Mainnet receipt ↗</a>
+          <a href="./evidence/mainnet-credential.json" target="_blank" rel="noreferrer">Credential ↗</a>
+          <a href="./evidence/mainnet-passport.json" target="_blank" rel="noreferrer">Passport ↗</a>
         </div>
       </div>
     </section>
@@ -130,7 +156,7 @@
         <span class="run-state" id="runState">Waiting</span>
       </div>
       <div class="stage-list" id="stageList"></div>
-      <p class="run-note">The Judge Run is reproducible and simulated. Separate LIVE evidence proves authenticated inventory, TSLA/NVDA bidirectional quotes, conservative rights discovery, calldata construction, and fail-closed Transaction API simulation. No mainnet execution is claimed.</p>
+      <p class="run-note">The Judge Run itself is reproducible and simulated. Separate LIVE artifacts prove authenticated inventory, TSLA/NVDA quotes, conservative rights discovery, one bounded BSC execution, an issuer-signed credential, and a deliberately CHALLENGED Passport where broadcast freshness cannot be independently timestamped.</p>
     </section>
 
     <section class="protocol shell" id="protocol">

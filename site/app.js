@@ -15,6 +15,16 @@ const simulationStatus = document.querySelector("#simulationStatus");
 const simulationDot = document.querySelector("#simulationDot");
 const executionStatus = document.querySelector("#executionStatus");
 const executionDot = document.querySelector("#executionDot");
+const passportStatus = document.querySelector("#passportStatus");
+const passportDot = document.querySelector("#passportDot");
+const passportBadge = document.querySelector("#passportBadge");
+const passportSummary = document.querySelector("#passportSummary");
+const passportId = document.querySelector("#passportId");
+const passportChecks = document.querySelector("#passportChecks");
+const credentialBadge = document.querySelector("#credentialBadge");
+const credentialSummary = document.querySelector("#credentialSummary");
+const credentialSigner = document.querySelector("#credentialSigner");
+const credentialExpiry = document.querySelector("#credentialExpiry");
 const rightsDataStatus = document.querySelector("#rightsDataStatus");
 const liveProofGrid = document.querySelector("#liveProofGrid");
 const verifyEvidenceButton = document.querySelector("#verifyEvidenceButton");
@@ -26,6 +36,7 @@ const shortAddress = (value) => typeof value === "string" && value.length > 12 ?
 let walletProvider;
 let connectedWallet;
 let authorization;
+let executionComplete = false;
 const EXACT_ALLOWANCE = 10_000_000_000_000_000_000n;
 
 function setWalletState(message, kind = "") {
@@ -70,8 +81,8 @@ async function verifyAllowanceOnchain() {
   const allowance = await readOnchainAllowance();
   revokeButton.hidden = allowance === 0n;
   if (allowance === 0n) {
-    approveButton.disabled = false;
-    approveButton.textContent = "Approve exactly 10 USDT";
+    approveButton.disabled = executionComplete;
+    approveButton.textContent = executionComplete ? "Live execution complete · allowance 0" : "Approve exactly 10 USDT";
     setWalletState(`VERIFIED · ${shortAddress(connectedWallet)} · allowance is 0`, "ok");
     return allowance;
   }
@@ -160,6 +171,10 @@ async function connectWallet() {
 }
 
 async function requestBoundedApproval() {
+  if (executionComplete) {
+    setWalletState("No new approval requested · the published live execution is complete and its allowance is zero", "ok");
+    return;
+  }
   if (!walletProvider || !connectedWallet || !authorization) {
     setWalletState("Connect and verify the funded wallet first", "bad");
     return;
@@ -283,24 +298,39 @@ async function sha256Hex(value) {
   return `0x${[...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("")}`;
 }
 
-async function verifyPublishedArtifact(path, artifactType, label) {
+async function verifyPublishedArtifact(path, artifactType, label, format = "flat") {
   const response = await fetch(path, { cache: "no-store" });
   if (!response.ok) throw new Error(`${label}: HTTP ${response.status}`);
   const artifact = await response.json();
-  const { evidenceRoot, parentHashes: storedParents, ...payload } = artifact;
-  const parentHashes = artifactType === "LIVE_ECONOMIC_EQUIVALENCE" && Array.isArray(storedParents) ? storedParents : [];
-  const payloadHash = await sha256Hex(stableJson(payload));
-  const header = {
-    schema: "afterbell-evidence/1",
-    artifactType,
-    mode: payload.mode,
-    observedAt: payload.observedAt,
-    source: payload.source,
-    parentHashes,
-    payloadHash
-  };
+  let header;
+  if (format === "wrapped") {
+    const parentHashes = Array.isArray(artifact.parentHashes) ? artifact.parentHashes : [];
+    const payloadHash = await sha256Hex(stableJson(artifact.payload));
+    header = {
+      schema: "afterbell-evidence/1",
+      artifactType,
+      mode: artifact.mode,
+      observedAt: artifact.observedAt,
+      source: artifact.source,
+      parentHashes,
+      payloadHash
+    };
+  } else {
+    const { evidenceRoot: _root, parentHashes: storedParents, ...payload } = artifact;
+    const parentHashes = artifactType === "LIVE_ECONOMIC_EQUIVALENCE" && Array.isArray(storedParents) ? storedParents : [];
+    const payloadHash = await sha256Hex(stableJson(payload));
+    header = {
+      schema: "afterbell-evidence/1",
+      artifactType,
+      mode: payload.mode,
+      observedAt: payload.observedAt,
+      source: payload.source,
+      parentHashes,
+      payloadHash
+    };
+  }
   const computedRoot = await sha256Hex(stableJson(header));
-  return { label, verified: computedRoot === evidenceRoot, computedRoot, publishedRoot: evidenceRoot };
+  return { label, verified: computedRoot === artifact.evidenceRoot, computedRoot, publishedRoot: artifact.evidenceRoot };
 }
 
 function renderVerificationResult(result) {
@@ -326,11 +356,14 @@ verifyEvidenceButton?.addEventListener("click", async () => {
     const results = await Promise.all([
       verifyPublishedArtifact("./evidence/rights-discovery.json", "RIGHTS_DISCOVERY", "Rights discovery"),
       verifyPublishedArtifact("./evidence/quote-discovery.json", "ROUND_TRIP_QUOTE_DISCOVERY", "Round-trip quotes"),
-      verifyPublishedArtifact("./evidence/economic-equivalence.json", "LIVE_ECONOMIC_EQUIVALENCE", "Economic equivalence")
+      verifyPublishedArtifact("./evidence/economic-equivalence.json", "LIVE_ECONOMIC_EQUIVALENCE", "Economic equivalence"),
+      verifyPublishedArtifact("./evidence/mainnet-stock-swap.json", "MAINNET_STOCK_SWAP", "Mainnet execution"),
+      verifyPublishedArtifact("./evidence/mainnet-credential.json", "LIVE_CONTINUITY_CREDENTIAL", "EIP-712 credential", "wrapped"),
+      verifyPublishedArtifact("./evidence/mainnet-passport.json", "LIVE_CONTINUITY_PASSPORT", "Continuity Passport", "wrapped")
     ]);
     results.forEach(renderVerificationResult);
     const verified = results.every((result) => result.verified);
-    verifyEvidenceState.textContent = verified ? "3/3 VERIFIED · canonical roots match" : "FAILED · published evidence mismatch";
+    verifyEvidenceState.textContent = verified ? "6/6 VERIFIED · canonical roots match" : "FAILED · published evidence mismatch";
     verifyEvidenceState.className = `verify-state ${verified ? "ok" : "bad"}`;
   } catch (error) {
     verifyEvidenceState.textContent = `FAILED · ${error instanceof Error ? error.message : String(error)}`;
@@ -373,6 +406,9 @@ fetch("./live-evidence.json", { cache: "no-store" })
         && /^0x[0-9a-f]{64}$/i.test(transactionHash)
         && /^https:\/\/bscscan\.com\/tx\/0x[0-9a-f]{64}$/i.test(explorerUrl);
       if (verified) {
+        executionComplete = true;
+        approveButton.disabled = true;
+        approveButton.textContent = "Live execution complete · allowance 0";
         const spent = execution.input?.amountUsdt ?? "?";
         const received = execution.output?.amountTslab ?? "?";
         executionStatus.innerHTML = `LIVE SUCCESS · ${spent} USDT → ${received} TSLAB · <a href="${explorerUrl}" target="_blank" rel="noreferrer">BscScan ↗</a>`;
@@ -382,6 +418,29 @@ fetch("./live-evidence.json", { cache: "no-store" })
         executionStatus.textContent = "NOT EXECUTED · no verified mainnet receipt";
       }
     }
+    const passport = evidence.continuityPassport;
+    const credential = evidence.continuityCredential;
+    const passedChecks = Array.isArray(passport?.resultSummary?.passedChecks) ? passport.resultSummary.passedChecks : [];
+    const challengedChecks = Array.isArray(passport?.resultSummary?.challengedChecks) ? passport.resultSummary.challengedChecks : [];
+    if (passport?.passportId && credential?.digest) {
+      passportStatus.textContent = `${passport.result} · ${passedChecks.length}/${passedChecks.length + challengedChecks.length} deterministic checks passed · auto-rescue blocked`;
+      passportDot?.classList.remove("waiting");
+      passportDot?.classList.add("live");
+      passportBadge.textContent = passport.result;
+      passportSummary.textContent = passport.timingDisclosure?.limitation ?? "Public Passport loaded.";
+      passportId.textContent = shortAddress(passport.passportId);
+      passportId.title = passport.passportId;
+      passportChecks.textContent = `${passedChecks.length} PASS · ${challengedChecks.length} CHALLENGE`;
+      const expiresAt = Date.parse(credential.validUntil);
+      const credentialCurrent = Number.isFinite(expiresAt) && expiresAt > Date.now();
+      credentialBadge.textContent = credentialCurrent ? "VALID · WATCH" : "EXPIRED · HISTORICAL";
+      credentialSummary.textContent = "Issuer signature is valid at issuance; status is WATCH because machine-readable shareholder rights remain incomplete. No deployed registry is claimed.";
+      credentialSigner.textContent = shortAddress(credential.signer);
+      credentialSigner.title = credential.signer;
+      credentialExpiry.textContent = Number.isFinite(expiresAt) ? new Date(expiresAt).toLocaleString() : "—";
+    } else if (passportStatus) {
+      passportStatus.textContent = "UNAVAILABLE · public Passport or Credential missing";
+    }
     renderLiveProof(evidence.featured);
   })
   .catch(() => {
@@ -389,6 +448,7 @@ fetch("./live-evidence.json", { cache: "no-store" })
     if (simulationStatus) simulationStatus.textContent = "UNAVAILABLE · simulation evidence missing";
     if (rightsDataStatus) rightsDataStatus.textContent = "UNAVAILABLE · rights evidence missing";
     if (executionStatus) executionStatus.textContent = "UNAVAILABLE · execution evidence missing";
+    if (passportStatus) passportStatus.textContent = "UNAVAILABLE · Passport evidence missing";
     if (liveProofGrid) liveProofGrid.textContent = "Public evidence summary unavailable.";
   });
 

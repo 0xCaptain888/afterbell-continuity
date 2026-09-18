@@ -1,6 +1,6 @@
 {
-  "schema": "afterbell-public-live-evidence/2",
-  "generatedAt": "2026-09-18T05:24:45.229Z",
+  "schema": "afterbell-public-live-evidence/3",
+  "generatedAt": "2026-09-18T05:37:36.674Z",
   "truthNotice": "LIVE labels refer to authenticated API and on-chain evidence. One bounded, user-confirmed BNB Chain stock-token swap is independently verified; incomplete rights evidence remains UNKNOWN and still blocks automatic rescue.",
   "inventory": {
     "status": "LIVE_DATA_GATE_PASSED",
@@ -173,5 +173,42 @@
     },
     "evidenceRoot": "0xc71493b59800e9d40bac0cabb1dd0f8d1f00df495b31b16c138e73377b2a6d7b",
     "truthNotice": "This artifact records one user-confirmed BNB Chain mainnet stock-token swap and independently verifies its calldata, receipt, token transfers, slippage bound, gas, and post-swap allowance."
+  },
+  "continuityCredential": {
+    "status": "WATCH",
+    "signer": "0x1EEB975651AD5FCDC7C5F45FD9a72387B8440c80",
+    "digest": "0xb6c7209f886c2e324778825c682f54ad15fcf631fad4bfca2972f05133be95f3",
+    "validFrom": "2026-09-18T05:32:32.000Z",
+    "validUntil": "2026-09-25T05:32:32.000Z",
+    "registryStatus": "NOT_DEPLOYED",
+    "evidenceRoot": "0xd95a960b1f26a1c0c149c04a6655b2e90f0878728ff7f05d415d29b7beaf726a",
+    "truthNotice": "The signature proves an AfterBell issuer attested to this bounded evidence set. It is not a wallet-owner signature, ownership claim, deployed-registry claim, or guarantee of shareholder rights."
+  },
+  "continuityPassport": {
+    "state": "CHALLENGED",
+    "result": "CHALLENGE",
+    "passportId": "0xf36778b0aa6163709631d8882feda8e37920f769120e182f0c7650411d8427c5",
+    "resultSummary": {
+      "passedChecks": [
+        "simulationPassed",
+        "simulationBound",
+        "calldataBound",
+        "slippageWithinMandate",
+        "transactionPresent"
+      ],
+      "challengedChecks": [
+        "quoteFresh"
+      ],
+      "continuityState": "WATCH",
+      "automaticRescueAllowed": false
+    },
+    "timingDisclosure": {
+      "quoteObservedAt": "2026-09-18T05:14:42.343Z",
+      "quoteExpiredAt": "2026-09-18T05:15:12.343Z",
+      "chainConfirmedAt": "2026-09-18T05:15:21.000Z",
+      "limitation": "The wallet UI rejected stale quotes, but no independently timestamped broadcast event was retained. The passport therefore challenges quote freshness instead of inferring it from a successful receipt."
+    },
+    "evidenceRoot": "0x6177c400ee6d7f31634dd5b1cfee55f3f2860ae85cccfc7abcf8399442ccac66",
+    "truthNotice": "This passport binds the prepared calldata, successful BNB Chain receipt, exact input, output bound, simulation and zero remaining allowance. It remains CHALLENGED because chain confirmation does not prove the quote was submitted within 30 seconds."
   }
 }
