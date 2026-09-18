@@ -163,10 +163,17 @@ const paidDeliveryPayload = agentPaidDelivery.payload as Json;
 const paidDeliveryJob = paidDeliveryPayload.job as Json;
 const paidDeliveryParticipants = paidDeliveryPayload.participants as Json;
 const paidDeliveryResult = paidDeliveryPayload.deliverable as Json;
-assert(paidDeliveryPayload.status === "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT", "paid_delivery_status_invalid");
-assert(paidDeliveryJob.id === 1254 && paidDeliveryJob.status === "SUBMITTED" && paidDeliveryJob.budgetRaw === "10000000000000000", "paid_delivery_job_invalid");
+const paidDeliverySettlement = paidDeliveryPayload.settlement as Json;
+const paidDeliverySettled = paidDeliveryPayload.status === "PAID_DELIVERY_SETTLED";
+assert(["PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT", "PAID_DELIVERY_SETTLED"].includes(String(paidDeliveryPayload.status)), "paid_delivery_status_invalid");
+assert(paidDeliveryJob.id === 1254 && paidDeliveryJob.status === (paidDeliverySettled ? "COMPLETED" : "SUBMITTED") && paidDeliveryJob.budgetRaw === "10000000000000000", "paid_delivery_job_invalid");
 assert(paidDeliveryParticipants.separatedWallets === true, "paid_delivery_not_independent");
 assert(paidDeliveryResult.state === "PROTECTED" && paidDeliveryResult.financialTransactionCreated === false && paidDeliveryResult.signingRequested === false, "paid_delivery_boundary_invalid");
+if (paidDeliverySettled) {
+  assert(paidDeliverySettlement.completed === true && paidDeliverySettlement.action === "approve", "paid_delivery_settlement_invalid");
+  assert(/^0x[0-9a-f]{64}$/i.test(String(paidDeliverySettlement.transactionHash)), "paid_delivery_settlement_hash_missing");
+  assert(paidDeliverySettlement.disputeWindowRespected === true, "paid_delivery_dispute_window_not_respected");
+}
 assert((agentDeployment.payload as Json).status === "DEPLOYED_TESTNET_TRIAL", "agent_deployment_missing");
 assert(((agentNegotiation.payload as Json).negotiation as Json).signatureVerified === true, "agent_public_signature_missing");
 await readJson("agent-studio/examples/protected-request.json");
@@ -205,7 +212,7 @@ const checks = [
   { id: "sdk-and-openapi", result: "PASS", evidence: "package export + openapi.yaml", detail: "Wallets, agents, and protocols can integrate without importing the UI." },
   { id: "agent-service-package", result: "PASS", evidence: agentPackage.evidenceRoot, detail: "The official BNB Agent Studio A2A/X402 workspace is deployed in the managed BSC Testnet trial with fixed 0.01 U pricing." },
   { id: "public-agent-negotiation", result: "PASS", evidence: agentNegotiation.evidenceRoot, detail: "OAuth-protected public A2A negotiation returned an accepted quote whose provider signature recovers to the deployed Agent wallet." },
-  { id: "paid-agent-delivery", result: "PASS", evidence: agentPaidDelivery.evidenceRoot, detail: "An independent buyer funded Job 1254 with 0.01 U and the public Agent submitted a content-addressed PROTECTED decision on-chain." },
+  { id: "paid-agent-delivery", result: "PASS", evidence: agentPaidDelivery.evidenceRoot, detail: paidDeliverySettled ? "An independent buyer funded Job 1254 with 0.01 U, the public Agent submitted a content-addressed PROTECTED decision, and buyer approval completed after the dispute window." : "An independent buyer funded Job 1254 with 0.01 U and the public Agent submitted a content-addressed PROTECTED decision on-chain." },
   { id: "official-agent-safety", result: "PASS", evidence: "bnb-agent/app/agent", detail: "The seller runtime is BSC Testnet-bound, has no LLM pricing or delivery path, and tests PROTECTED, WATCH, RESCUE_REQUIRED, BLOCKED, no-signing, and no-transaction outcomes." },
   { id: "continuous-integration", result: "PASS", evidence: ".github/workflows/ci.yml", detail: "Tests, compilation, package build, security audit, and this readiness audit run in CI." },
   { id: "public-secret-scan", result: "PASS", evidence: `${secretMatches.length} matches`, detail: "No credential or private-key pattern is present in public artifacts." }
@@ -224,11 +231,13 @@ const artifact = createEvidenceArtifact({
     status: "TECHNICALLY_READY",
     checks,
     remainingExternalItems: [
-      { id: "erc8183-buyer-settlement", status: "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT", settlementEligibleAt: "2026-09-19T12:07:31.000Z", blockingCoreVerification: false },
+      ...(paidDeliverySettled ? [] : [{ id: "erc8183-buyer-settlement", status: "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT", settlementEligibleAt: "2026-09-19T12:07:31.000Z", blockingCoreVerification: false }]),
       { id: "b402-settlement", status: "DORMANT_PENDING_MERCHANT_CREDENTIALS", blockingCoreVerification: false },
       { id: "four-minute-demo-video", status: "NOT_RECORDED", blockingCoreVerification: false }
     ],
-    truthNotice: "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, independent consumer, managed Agent Studio trial, authenticated signed public quote, and a real independent-buyer ERC-8183 delivery submitted on-chain. It does not claim final buyer settlement, B402 settlement, or a completed submission video."
+    truthNotice: paidDeliverySettled
+      ? "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, independent consumer, managed Agent Studio trial, authenticated signed public quote, and a completed independent-buyer ERC-8183 delivery. It does not claim B402 settlement or a completed submission video."
+      : "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, independent consumer, managed Agent Studio trial, authenticated signed public quote, and a real independent-buyer ERC-8183 delivery submitted on-chain. It does not claim final buyer settlement, B402 settlement, or a completed submission video."
   }
 });
 

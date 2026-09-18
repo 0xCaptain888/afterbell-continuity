@@ -96,7 +96,7 @@
         <article><span class="ready-dot waiting" id="executionDot"></span><div><b>BSC mainnet execution</b><small id="executionStatus">Loading public evidence…</small></div></article>
         <article><span class="ready-dot waiting" id="deploymentDot"></span><div><b>Source-verified BSC contracts</b><small id="deploymentStatus">Loading public evidence…</small></div></article>
         <article><span class="ready-dot waiting" id="passportDot"></span><div><b>Passport + EIP-712 credential</b><small id="passportStatus">Loading public evidence…</small></div></article>
-        <article><span class="ready-dot live"></span><div><b>BNB Agent Studio Watchtower</b><small><a href="./evidence/agent-studio-paid-delivery.json" target="_blank" rel="noreferrer">PAID JOB 1254 · SUBMITTED · awaiting settlement ↗</a></small></div></article>
+        <article><span class="ready-dot live"></span><div><b>BNB Agent Studio Watchtower</b><small><a id="agentReadinessStatus" href="./evidence/agent-studio-paid-delivery.json" target="_blank" rel="noreferrer">PAID JOB 1254 · loading chain state ↗</a></small></div></article>
         <article><span class="ready-dot live"></span><div><b>Submission readiness</b><small><a href="./evidence/submission-readiness.json" target="_blank" rel="noreferrer">TECHNICALLY READY · 14/14 checks ↗</a></small></div></article>
       </div>
     </section>
@@ -127,10 +127,11 @@
           <div class="complete"><i>2</i><span>0.01 U funded</span></div><b></b>
           <div class="complete"><i>3</i><span>Agent verified</span></div><b></b>
           <div class="complete"><i>4</i><span>Result submitted</span></div><b></b>
-          <div class="pending"><i>5</i><span>Buyer approves</span></div>
+          <div class="pending" id="agentApprovalStep"><i>5</i><span>Buyer approves</span></div>
         </div>
         <div class="commerce-actions">
           <a id="agentSubmitTxLink" href="#" target="_blank" rel="noreferrer">Open submit transaction ↗</a>
+          <a id="agentSettlementTxLink" href="#" target="_blank" rel="noreferrer" hidden>Open buyer approval transaction ↗</a>
           <a id="agentDeliverableLink" href="#" target="_blank" rel="noreferrer">Open content-addressed result ↗</a>
           <a href="./evidence/agent-studio-paid-delivery.json" target="_blank" rel="noreferrer">Open full evidence artifact ↗</a>
         </div>

@@ -47,7 +47,10 @@ const agentDecision = document.querySelector("#agentDecision");
 const agentChecks = document.querySelector("#agentChecks");
 const agentSettlement = document.querySelector("#agentSettlement");
 const agentSettlementCountdown = document.querySelector("#agentSettlementCountdown");
+const agentReadinessStatus = document.querySelector("#agentReadinessStatus");
+const agentApprovalStep = document.querySelector("#agentApprovalStep");
 const agentSubmitTxLink = document.querySelector("#agentSubmitTxLink");
+const agentSettlementTxLink = document.querySelector("#agentSettlementTxLink");
 const agentDeliverableLink = document.querySelector("#agentDeliverableLink");
 
 const number = (value, digits = 2) => Number.isFinite(Number(value)) ? Number(value).toFixed(digits) : "—";
@@ -340,6 +343,15 @@ function renderAgentPaidDelivery(paidDelivery) {
 
   const settlementComplete = settlement?.completed === true || job.status === "COMPLETED";
   if (agentSettlement) agentSettlement.textContent = settlementComplete ? "COMPLETED" : "TIME-LOCKED";
+  if (agentReadinessStatus) agentReadinessStatus.textContent = settlementComplete
+    ? `PAID JOB ${job.id} · COMPLETED · settlement verified ↗`
+    : `PAID JOB ${job.id} · SUBMITTED · awaiting settlement ↗`;
+  if (agentApprovalStep && settlementComplete) {
+    agentApprovalStep.classList.remove("pending");
+    agentApprovalStep.classList.add("complete");
+    const label = agentApprovalStep.querySelector("span");
+    if (label) label.textContent = "Buyer approved";
+  }
   const eligibleAt = Date.parse(String(job.settlementEligibleAt ?? settlement?.earliestBuyerApproval ?? ""));
   const updateCountdown = () => {
     if (!agentSettlementCountdown) return;
@@ -367,6 +379,11 @@ function renderAgentPaidDelivery(paidDelivery) {
   const submitHash = String(transactions?.submit?.hash ?? "");
   if (agentSubmitTxLink && /^0x[0-9a-f]{64}$/i.test(submitHash)) {
     agentSubmitTxLink.href = `https://testnet.bscscan.com/tx/${submitHash}`;
+  }
+  const settlementHash = String(settlement?.transactionHash ?? transactions?.buyerApproval?.hash ?? "");
+  if (agentSettlementTxLink && /^0x[0-9a-f]{64}$/i.test(settlementHash)) {
+    agentSettlementTxLink.href = `https://testnet.bscscan.com/tx/${settlementHash}`;
+    agentSettlementTxLink.hidden = false;
   }
   const deliverableUrl = String(job.deliverableUrl ?? "");
   if (agentDeliverableLink && /^https:\/\/bnbagent-api\.bnbchain\.world\//i.test(deliverableUrl)) {

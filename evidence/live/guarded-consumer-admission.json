@@ -2,13 +2,13 @@
   "schema": "afterbell-evidence/1",
   "artifactType": "LIVE_GUARDED_CONSUMER_ADMISSION",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T12:34:36.000Z",
+  "observedAt": "2026-09-18T12:52:24.000Z",
   "source": "Standalone AfterBell Guarded Consumer",
   "parentHashes": [
     "0xe053cb996a48732c0f5a8e9612df50459c70068d93357d64dd137c9304b02f3f",
     "0xaf8752255c975da3968c32b92bd31258d845d7a8bc33a46130c6e0cd195aa9e4"
   ],
-  "payloadHash": "0xe9a8ff9d799487341c1d91912038ce57c439a6a3d876d731a1dc332bd1cc5b00",
+  "payloadHash": "0xd770a65b136d788777d2f40de0cc5f53bc51655ffd9c084e43c17c112f185a17",
   "payload": {
     "decision": {
       "schema": "afterbell-consumer-admission/1",
@@ -29,7 +29,7 @@
       ],
       "credentialDigest": "0x979c002c6c876d53302be2043e05aaf5b6bddc530a3858b8950fc727c6aae7b5",
       "passportId": "0x4cf42a0c4f7f0593c9b15fbfc8907a50096bde612ac9db7e07b7a53cfa9f0a23",
-      "evaluatedAt": "2026-09-18T12:34:36.000Z",
+      "evaluatedAt": "2026-09-18T12:52:24.000Z",
       "permissions": {
         "allowAutomatedRescue": false,
         "allowGuardedDeposit": false,
@@ -45,5 +45,5 @@
     "consumerBoundary": "This decision is computed without the AfterBell UI and does not possess a wallet key or transaction-signing capability.",
     "truthNotice": "The reference consumer allows read-only monitoring but blocks automated rescue and Guarded Vault deposits because the live credential is WATCH/HIGH and the Passport is CHALLENGED."
   },
-  "evidenceRoot": "0x5d728623b2c057de335bd11428a7c65c5cd0cd3451ff8e60f25b6c030180ea16"
+  "evidenceRoot": "0x41decebab22b65378e3290a65a3f625b619b4caf8c3f9f3a89a524719f047071"
 }

@@ -1,6 +1,6 @@
 {
   "schema": "afterbell-public-live-evidence/4",
-  "generatedAt": "2026-09-18T12:34:36.621Z",
+  "generatedAt": "2026-09-18T12:52:25.227Z",
   "truthNotice": "LIVE and MAINNET labels refer to authenticated API, on-chain receipts, independently matched bytecode, and BscScan-published sources. One bounded stock-token swap and three protocol deployments are verified; incomplete holder-rights evidence remains UNKNOWN and still blocks automatic rescue.",
   "inventory": {
     "status": "LIVE_DATA_GATE_PASSED",
@@ -285,8 +285,8 @@
       "allowGuardedDeposit": false,
       "allowReadOnlyMonitoring": true
     },
-    "evaluatedAt": "2026-09-18T12:34:36.000Z",
-    "evidenceRoot": "0x5d728623b2c057de335bd11428a7c65c5cd0cd3451ff8e60f25b6c030180ea16",
+    "evaluatedAt": "2026-09-18T12:52:24.000Z",
+    "evidenceRoot": "0x41decebab22b65378e3290a65a3f625b619b4caf8c3f9f3a89a524719f047071",
     "truthNotice": "The reference consumer allows read-only monitoring but blocks automated rescue and Guarded Vault deposits because the live credential is WATCH/HIGH and the Passport is CHALLENGED."
   },
   "agentStudio": {

@@ -138,11 +138,18 @@ const paidDeliveryPayload = agentPaidDelivery.payload as Json;
 const paidDeliveryJob = paidDeliveryPayload.job as Json;
 const paidDeliveryParticipants = paidDeliveryPayload.participants as Json;
 const paidDeliveryResult = paidDeliveryPayload.deliverable as Json;
-assert(paidDeliveryPayload.status === "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT", "paid_delivery_status_mismatch");
-assert(paidDeliveryJob.id === 1254 && paidDeliveryJob.status === "SUBMITTED", "paid_delivery_job_not_submitted");
+const paidDeliverySettlement = paidDeliveryPayload.settlement as Json;
+const paidDeliverySettled = paidDeliveryPayload.status === "PAID_DELIVERY_SETTLED";
+assert(["PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT", "PAID_DELIVERY_SETTLED"].includes(String(paidDeliveryPayload.status)), "paid_delivery_status_mismatch");
+assert(paidDeliveryJob.id === 1254 && paidDeliveryJob.status === (paidDeliverySettled ? "COMPLETED" : "SUBMITTED"), "paid_delivery_job_status_mismatch");
 assert(paidDeliveryJob.budgetRaw === "10000000000000000", "paid_delivery_budget_mismatch");
 assert(paidDeliveryParticipants.separatedWallets === true, "paid_delivery_wallet_separation_missing");
 assert(paidDeliveryResult.state === "PROTECTED" && paidDeliveryResult.financialTransactionCreated === false && paidDeliveryResult.signingRequested === false, "paid_delivery_safety_boundary_mismatch");
+if (paidDeliverySettled) {
+  assert(paidDeliverySettlement.completed === true && paidDeliverySettlement.action === "approve", "paid_delivery_settlement_invalid");
+  assert(/^0x[0-9a-f]{64}$/i.test(String(paidDeliverySettlement.transactionHash)), "paid_delivery_settlement_hash_missing");
+  assert(paidDeliverySettlement.disputeWindowRespected === true, "paid_delivery_dispute_window_not_respected");
+}
 
 const credentialPayload = mainnetCredential.payload as Json;
 const signedCredentialJson = credentialPayload.signedCredential as Json;
@@ -258,7 +265,7 @@ assert(publicConsumer?.result === publishedConsumerDecision.result, "public_cons
 assert(publicAgentStudio?.status === "DEPLOYED_TESTNET_TRIAL", "public_agent_studio_status_mismatch");
 assert(publicAgentStudio?.deploymentEvidenceRoot === agentDeployment.evidenceRoot, "public_agent_deployment_root_mismatch");
 assert(publicAgentStudio?.negotiationEvidenceRoot === agentNegotiation.evidenceRoot, "public_agent_negotiation_root_mismatch");
-assert(publicPaidDelivery?.status === "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT", "public_paid_delivery_status_mismatch");
+assert(publicPaidDelivery?.status === paidDeliveryPayload.status, "public_paid_delivery_status_mismatch");
 assert(publicPaidDelivery?.evidenceRoot === agentPaidDelivery.evidenceRoot, "public_paid_delivery_root_mismatch");
 assert(records(publicSummary.featured).length === 2, "public_featured_assets_missing");
 

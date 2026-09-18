@@ -2,6 +2,8 @@ import { access, mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { constants } from "node:fs";
 import { resolve } from "node:path";
 import { spawnSync } from "node:child_process";
+import { createPublicClient, http } from "viem";
+import { bscTestnet } from "viem/chains";
 
 type Json = Record<string, unknown>;
 
@@ -19,6 +21,7 @@ const evidence = JSON.parse(await readFile(resolve(root, "evidence/live/agent-st
 const payload = evidence.payload as Json;
 const job = payload.job as Json;
 const settlement = payload.settlement as Json;
+const privateReceiptPath = resolve(buyerWorkspace, "evidence/job-1254-settlement.json");
 
 assert(job.id === jobId, "unexpected_paid_job_id");
 assert(job.status === "SUBMITTED" || job.status === "COMPLETED", "paid_job_not_settleable");
@@ -31,6 +34,22 @@ if (job.status === "COMPLETED" || settlement.completed === true) {
   process.exit(0);
 }
 
+try {
+  const captured = JSON.parse(await readFile(privateReceiptPath, "utf8")) as Json;
+  if (captured.status === "COMPLETED" && /^0x[0-9a-f]{64}$/i.test(String(captured.transactionHash))) {
+    console.log(JSON.stringify({
+      status: "SETTLEMENT_RECEIPT_ALREADY_CAPTURED",
+      jobId,
+      transactionHash: captured.transactionHash,
+      financialTransactionCreated: false,
+      next: "npm run bnb-agent:paid:publish"
+    }, null, 2));
+    process.exit(0);
+  }
+} catch {
+  // No recoverable private receipt exists yet.
+}
+
 const now = Date.now();
 if (now < eligibleAt) {
   console.log(JSON.stringify({
@@ -41,7 +60,7 @@ if (now < eligibleAt) {
     remainingSeconds: Math.ceil((eligibleAt - now) / 1_000),
     financialTransactionCreated: false
   }, null, 2));
-  process.exit(0);
+  process.exit(execute ? 2 : 0);
 }
 
 if (!execute) {
@@ -77,6 +96,17 @@ const settlementOutput = `${settlementRun.stdout}\n${settlementRun.stderr}`;
 const transactionHash = settlementOutput.match(/0x[0-9a-f]{64}/i)?.[0];
 assert(transactionHash, "settlement_transaction_hash_missing");
 
+const publicClient = createPublicClient({
+  chain: bscTestnet,
+  transport: http(environment.STUDIO_BSC_TESTNET_RPC, { timeout: 30_000, retryCount: 2 })
+});
+const transactionReceipt = await publicClient.waitForTransactionReceipt({
+  hash: transactionHash as `0x${string}`,
+  confirmations: 1,
+  timeout: 60_000
+});
+assert(transactionReceipt.status === "success", "settlement_transaction_failed");
+
 const statusRun = spawnSync(bag, ["erc8183", "status", String(jobId)], {
   cwd: buyerWorkspace,
   env: environment,
@@ -92,16 +122,20 @@ const receipt = {
   jobId,
   action: "approve",
   transactionHash,
+  blockNumber: transactionReceipt.blockNumber.toString(),
+  gasUsed: transactionReceipt.gasUsed.toString(),
   status: "COMPLETED",
   financialTransactionCreated: true,
   truthNotice: "The independent buyer approved the submitted deliverable after the canonical dispute window elapsed."
 };
 await mkdir(resolve(buyerWorkspace, "evidence"), { recursive: true });
-await writeFile(resolve(buyerWorkspace, "evidence/job-1254-settlement.json"), `${JSON.stringify(receipt, null, 2)}\n`, { mode: 0o600 });
+await writeFile(privateReceiptPath, `${JSON.stringify(receipt, null, 2)}\n`, { mode: 0o600 });
+
 console.log(JSON.stringify({
   status: "PAID_DELIVERY_SETTLED",
   jobId,
   transactionHash,
+  blockNumber: transactionReceipt.blockNumber.toString(),
   privateReceipt: ".runtime/AfterBellBuyer/evidence/job-1254-settlement.json",
-  next: "Record and publish the settlement receipt before claiming completion."
+  next: "Run npm run bnb-agent:paid:publish to refresh docs, Demo artifacts, and audits."
 }, null, 2));

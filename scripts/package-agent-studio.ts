@@ -56,7 +56,9 @@ assert((operatorReadiness.payload as Json).status === "DEPLOYED_TESTNET_TRIAL", 
 assert(((operatorReadiness.payload as Json).platform as Json).trialClockStarted === true, "trial_must_be_active_after_deploy");
 assert((deployment.payload as Json).status === "DEPLOYED_TESTNET_TRIAL", "managed_deployment_evidence_missing");
 assert(((publicNegotiation.payload as Json).negotiation as Json).signatureVerified === true, "public_quote_signature_not_verified");
-assert((paidDelivery.payload as Json).status === "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT", "paid_delivery_evidence_missing");
+const paidDeliveryPayload = paidDelivery.payload as Json;
+const paidDeliverySettled = paidDeliveryPayload.status === "PAID_DELIVERY_SETTLED";
+assert(["PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT", "PAID_DELIVERY_SETTLED"].includes(String(paidDeliveryPayload.status)), "paid_delivery_evidence_missing");
 
 const basePosition: WatchedPosition = {
   positionId: "agent-studio-nvda-1",
@@ -154,7 +156,7 @@ const artifact = createEvidenceArtifact({
       agentCard: "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json",
       trialExpiresAt: "2026-09-20T11:32:43.000Z",
       externalBlockers: [
-        "Approve independent-buyer Job 1254 after its canonical 24-hour dispute window closes.",
+        ...(paidDeliverySettled ? [] : ["Approve independent-buyer Job 1254 after its canonical 24-hour dispute window closes."]),
         "Apply for wallet-specific B402 merchant credentials only if a paid X402 settlement is required."
       ]
     },
@@ -173,10 +175,13 @@ const artifact = createEvidenceArtifact({
       "OAuth-protected public A2A negotiate returned a signed 0.01 U quote.",
       "Provider signature independently recovered to the deployed Agent wallet.",
       "Independent buyer funded Job 1254 with 0.01 U; the Agent submitted a content-addressed PROTECTED result on-chain.",
+      ...(paidDeliverySettled ? ["Independent buyer approval completed after the canonical dispute window; Job 1254 is COMPLETED on BSC Testnet."] : []),
       "Fail-closed regression jobs 1252 and 1253 exposed malformed-payload and SDK tuple-array compatibility issues before the successful paid run."
     ],
     paidDeliveryEvidence: paidDelivery.evidenceRoot,
-    truthNotice: "The official BNB Agent Studio runtime is live in the managed BSC Testnet trial, with an ERC-8004 identity, authenticated public signed quote, and a real independent-buyer ERC-8183 delivery submitted on-chain. Buyer approval remains time-gated; no completed settlement or B402 payment is claimed."
+    truthNotice: paidDeliverySettled
+      ? "The official BNB Agent Studio runtime is live in the managed BSC Testnet trial, with an ERC-8004 identity, authenticated public signed quote, and a completed independent-buyer ERC-8183 delivery. No B402 payment is claimed."
+      : "The official BNB Agent Studio runtime is live in the managed BSC Testnet trial, with an ERC-8004 identity, authenticated public signed quote, and a real independent-buyer ERC-8183 delivery submitted on-chain. Buyer approval remains time-gated; no completed settlement or B402 payment is claimed."
   }
 });
 
