@@ -1,17 +1,18 @@
 {
   "schema": "afterbell-deployment-plan/1",
-  "generatedAt": "2026-09-17T17:48:54.330Z",
+  "generatedAt": "2026-09-18T06:06:58.809Z",
   "network": {
     "name": "BNB Smart Chain",
     "chainId": 56
   },
   "status": "DESIGN",
-  "truthNotice": "This file commits deployment bytecode hashes only. It is not evidence that any contract is deployed or verified.",
+  "credentialIssuer": "0x1EEB975651AD5FCDC7C5F45FD9a72387B8440c80",
+  "truthNotice": "This file commits deployment bytecode hashes and the exact public Credential issuer constructor argument. It is not evidence that any contract is deployed or verified.",
   "order": [
     {
       "contract": "ContinuityRegistry",
       "constructorArgs": [
-        "AFTERBELL_SIGNER_ADDRESS"
+        "0x1EEB975651AD5FCDC7C5F45FD9a72387B8440c80"
       ]
     },
     {

@@ -203,7 +203,7 @@ Generate an auditable bytecode commitment without using a wallet:
 npm run contracts:plan
 ```
 
-The real deployment script is intentionally guarded. It refuses to run unless the RPC, deployer key, signer address, and exact `DEPLOY_CONFIRM=BSC_MAINNET` acknowledgement are all configured locally. A deployment receipt is still labelled unverified until BscScan verification succeeds.
+The generated plan reads the public live Credential and commits its exact issuer address as the `ContinuityRegistry` constructor argument. The real deployment script is intentionally guarded: it refuses to run unless the RPC, deployer key, signer address, and exact `DEPLOY_CONFIRM=BSC_MAINNET` acknowledgement are all configured locally. A deployment receipt is still labelled unverified until BscScan verification succeeds.
 
 ## Safety invariants
 
