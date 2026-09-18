@@ -1,65 +1,133 @@
 {
-  "schema": "afterbell-public-live-evidence/1",
-  "generatedAt": "2026-09-18T01:47:08.415Z",
-  "truthNotice": "LIVE labels refer to authenticated API evidence. No BSC transaction has been signed or broadcast.",
+  "schema": "afterbell-public-live-evidence/2",
+  "generatedAt": "2026-09-18T01:59:53.022Z",
+  "truthNotice": "LIVE labels refer to authenticated read-only API evidence. No BSC transaction has been signed or broadcast. Incomplete rights evidence remains UNKNOWN and blocks automatic rescue.",
   "inventory": {
     "status": "LIVE_DATA_GATE_PASSED",
     "observedAt": "2026-09-18T01:41:35.600Z",
     "parsedAssetCount": 488,
     "continuityPairCount": 40,
-    "evidenceRoot": "0xb68d0970e78845dd82315beffdf75a55dc882441653b36a2d678e08df288991b",
-    "featuredPairs": [
-      {
-        "underlyingTicker": "TSLA",
-        "normalizedSpreadBps": 4,
-        "ratioDeltaBps": 0,
-        "bstock": "TSLAB",
-        "ondo": "TSLAon",
-        "pairEvidenceHash": "0x422399b8569be91056dddd9d2c2ae95f526f27b9ecacbd45a9d908cbded8e51b"
-      },
-      {
-        "underlyingTicker": "NVDA",
-        "normalizedSpreadBps": 9,
-        "ratioDeltaBps": 9,
-        "bstock": "NVDAB",
-        "ondo": "NVDAon",
-        "pairEvidenceHash": "0xe31f5e3ac6148deccea5e7246afb2ab0e3b805ac77ebbe18ebc4287519a974c1"
-      }
-    ]
+    "evidenceRoot": "0xb68d0970e78845dd82315beffdf75a55dc882441653b36a2d678e08df288991b"
+  },
+  "rights": {
+    "status": "LIVE_PARTIAL_RIGHTS_EVIDENCE",
+    "observedAt": "2026-09-18T01:57:30.253Z",
+    "availableAssets": 4,
+    "requestedAssets": 4,
+    "evidenceRoot": "0xf023ad05623e2f9043b2f0850b771a043a5352491bc0f0021bc84643c7008989",
+    "truthNotice": "Authenticated disclosure coverage is LIVE. Backing model, token-holder dividend treatment, split handling, voting rights, and redemption remain UNKNOWN unless explicitly machine-readable."
   },
   "quotes": {
-    "status": "LIVE_QUOTES_FOUND",
-    "observedAt": "2026-09-18T01:41:59.064Z",
-    "requestedRoutes": 4,
-    "quotedRoutes": 4,
-    "routes": [
-      {
-        "underlyingTicker": "TSLA",
-        "tokenSymbol": "TSLAB",
-        "status": "QUOTED",
-        "latencyMs": 379
-      },
-      {
-        "underlyingTicker": "TSLA",
-        "tokenSymbol": "TSLAon",
-        "status": "QUOTED",
-        "latencyMs": 413
-      },
-      {
-        "underlyingTicker": "NVDA",
-        "tokenSymbol": "NVDAB",
-        "status": "QUOTED",
-        "latencyMs": 135
-      },
-      {
-        "underlyingTicker": "NVDA",
-        "tokenSymbol": "NVDAon",
-        "status": "QUOTED",
-        "latencyMs": 343
-      }
-    ],
-    "evidenceRoot": "0x56bdc474f74f63539a0e6e49578ff00c35587f66f694552b8525570bce35d50c"
+    "status": "LIVE_ROUND_TRIP_QUOTES_FOUND",
+    "observedAt": "2026-09-18T01:57:38.852Z",
+    "requestedWrappers": 4,
+    "roundTripRoutes": 4,
+    "evidenceRoot": "0x83e5e0c1ac126f35826a4fc8740284931801f2405101af6f456ffbeab8727d0b"
   },
+  "equivalence": {
+    "status": "LIVE_PRICE_EVIDENCE_RIGHTS_FAIL_CLOSED",
+    "observedAt": "2026-09-18T01:59:52.714Z",
+    "evidenceRoot": "0xd03f28a779e979826b881b46a434be75fa290947b08543315138e7b511634233",
+    "decisionRule": "Automatic wrapper rescue requires both executable economic equivalence and complete compatible rights evidence. Price-only equivalence is insufficient."
+  },
+  "featured": [
+    {
+      "underlyingTicker": "TSLA",
+      "inventoryNormalizedSpreadBps": 4,
+      "ratioDeltaBps": 0,
+      "executableBuySpreadBps": 6,
+      "executableSellSpreadBps": 13,
+      "economicPriceResult": "EXECUTABLE_PRICE_EQUIVALENT",
+      "classification": "UNKNOWN",
+      "automaticRescueAllowed": false,
+      "decision": "WATCH_ONLY_MANUAL_REVIEW",
+      "missingRightsFields": [
+        "backingModel",
+        "dividendTreatment",
+        "redemption",
+        "splitTreatment",
+        "votingRights"
+      ],
+      "routes": [
+        {
+          "platformId": "bstock",
+          "tokenSymbol": "TSLAB",
+          "status": "ROUND_TRIP_QUOTED",
+          "buyPricePerShareUsd": 365.9034684677487,
+          "sellPricePerShareUsd": 365.83055804318434,
+          "roundTripCostBps": 2,
+          "disclosureKinds": [
+            "collateralReport"
+          ],
+          "linkedDisclosureKinds": []
+        },
+        {
+          "platformId": "ondo",
+          "tokenSymbol": "TSLAon",
+          "status": "ROUND_TRIP_QUOTED",
+          "buyPricePerShareUsd": 366.11423619957793,
+          "sellPricePerShareUsd": 365.3699653882069,
+          "roundTripCostBps": 20,
+          "disclosureKinds": [
+            "dailyAttestationReport",
+            "monthlyAttestationReport"
+          ],
+          "linkedDisclosureKinds": [
+            "dailyAttestationReport",
+            "monthlyAttestationReport"
+          ]
+        }
+      ]
+    },
+    {
+      "underlyingTicker": "NVDA",
+      "inventoryNormalizedSpreadBps": 9,
+      "ratioDeltaBps": 9,
+      "executableBuySpreadBps": 41,
+      "executableSellSpreadBps": 5,
+      "economicPriceResult": "EXECUTABLE_PRICE_EQUIVALENT",
+      "classification": "UNKNOWN",
+      "automaticRescueAllowed": false,
+      "decision": "WATCH_ONLY_MANUAL_REVIEW",
+      "missingRightsFields": [
+        "backingModel",
+        "dividendTreatment",
+        "redemption",
+        "splitTreatment",
+        "votingRights"
+      ],
+      "routes": [
+        {
+          "platformId": "bstock",
+          "tokenSymbol": "NVDAB",
+          "status": "ROUND_TRIP_QUOTED",
+          "buyPricePerShareUsd": 219.37415728079537,
+          "sellPricePerShareUsd": 219.23214425600054,
+          "roundTripCostBps": 6,
+          "disclosureKinds": [
+            "collateralReport"
+          ],
+          "linkedDisclosureKinds": []
+        },
+        {
+          "platformId": "ondo",
+          "tokenSymbol": "NVDAon",
+          "status": "ROUND_TRIP_QUOTED",
+          "buyPricePerShareUsd": 220.26624499420288,
+          "sellPricePerShareUsd": 219.12380356147938,
+          "roundTripCostBps": 52,
+          "disclosureKinds": [
+            "dailyAttestationReport",
+            "monthlyAttestationReport"
+          ],
+          "linkedDisclosureKinds": [
+            "dailyAttestationReport",
+            "monthlyAttestationReport"
+          ]
+        }
+      ]
+    }
+  ],
   "simulation": {
     "status": "SIMULATION_BLOCKED",
     "observedAt": "2026-09-18T01:44:27.546Z",

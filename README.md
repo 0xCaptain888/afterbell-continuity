@@ -12,7 +12,7 @@ AfterBell Continuity is the economic-equivalence, rights-continuity, and verifia
 - Public demo: **not deployed yet**
 - BSC mainnet evidence: **not created yet**
 
-The current `v0.1.0` baseline uses clearly labelled `SIMULATED` and `ADVERSARIAL_TEST` evidence. It does **not** claim a live stock trade, Agentic Wallet authorization, Agent Studio deployment, or BSC mainnet settlement.
+The current `v0.1.0` baseline combines clearly labelled `SIMULATED` / `ADVERSARIAL_TEST` scenarios with authenticated `LIVE` read-only BNB Chain evidence. It does **not** claim a signed stock trade, Agentic Wallet authorization, Agent Studio deployment, or BSC mainnet settlement.
 
 ## Why this exists
 
@@ -45,6 +45,10 @@ observe the position
 - Continuity passport generation
 - Binance Web3 RWA API signed client
 - Live inventory parser and deterministic candidate ranking
+- Live underlying-profile, market-status, and disclosure discovery
+- Conservative rights assessment that refuses to infer backing, dividends, splits, voting, or redemption
+- Bidirectional USDT → stock → USDT quote discovery and per-share executable-price normalization
+- Live economic-equivalence report that separates price equivalence from rights equivalence
 - Quote → swap-build → Transaction API simulation gate with RFQ handling
 - Hash-linked evidence artifacts and tamper verification
 - Publishable TypeScript SDK with structured errors and timeouts
@@ -60,7 +64,7 @@ observe the position
 
 | Capability | Status | Evidence |
 |---|---|---|
-| Core continuity engine | `IMPLEMENTED` | 21 TypeScript tests |
+| Core continuity engine | `IMPLEMENTED` | 24 TypeScript tests |
 | EIP-712 credential | `IMPLEMENTED` | Credential tests |
 | Independent verifier | `IMPLEMENTED` | PASS and CHALLENGE tests |
 | Contracts | `IMPLEMENTED / UNDEPLOYED` | Solidity compilation |
@@ -69,7 +73,11 @@ observe the position
 | Persistent Watchtower tasks | `IMPLEMENTED` | JSONL journal and local API smoke test |
 | Agent Studio service package | `DESIGN / UNPUBLISHED` | `agent-studio/` and local endpoint |
 | Binance RWA inventory | `LIVE` | 488 parsed assets, 40 cross-wrapper pairs |
-| Trading API quotes | `LIVE` | TSLA and NVDA on bStock + Ondo |
+| Underlying + market profiles | `LIVE` | 4/4 TSLA/NVDA wrapper profiles |
+| Rights-continuity evidence | `LIVE_PARTIAL / FAIL_CLOSED` | disclosures found; material holder rights remain `UNKNOWN` |
+| Trading API round trips | `LIVE` | 4/4 USDT → stock → USDT routes on bStock + Ondo |
+| Executable price equivalence | `LIVE` | TSLA buy/exit spread 6/13 bps; NVDA 41/5 bps |
+| Automatic cross-wrapper rescue | `BLOCKED` | price similarity cannot substitute for complete rights evidence |
 | Swap calldata build | `LIVE` | TSLAB route, LiquidMesh |
 | Transaction API simulation | `LIVE_BLOCKED` | Placeholder address lacks USDT allowance |
 | Agentic Wallet authorization | `NOT_STARTED` | — |
@@ -111,11 +119,23 @@ Then rank technically suitable demo assets and run the non-broadcast quote/simul
 
 ```bash
 npm run assets:rank
+npm run rights:discover
 npm run quote:discover
+npm run equivalence:live
+npm run site:evidence
 npm run trade:gate
 ```
 
-`quote:discover` probes both supported wrappers for recognizable cross-platform stock pairs without building or signing a transaction. `trade:gate` never signs or broadcasts; it records either a simulated EVM transaction, an explicit RFQ-signature requirement, or a fail-closed blocker.
+`rights:discover` records authenticated profile, market-status, and disclosure coverage while keeping unreturned holder rights `UNKNOWN`. `quote:discover` probes both buy and exit routes for each wrapper without building or signing a transaction. `equivalence:live` combines inventory ratios, executable per-share prices, exit quotes, and rights evidence; it blocks automatic rescue when rights are incomplete. `trade:gate` never signs or broadcasts; it records either a simulated EVM transaction, an explicit RFQ-signature requirement, or a fail-closed blocker.
+
+## Latest authenticated evidence — September 18, 2026
+
+| Underlying | Wrappers | Executable buy spread | Executable exit spread | Decision |
+|---|---|---:|---:|---|
+| TSLA | TSLAB / TSLAon | 6 bps | 13 bps | price-equivalent; rights `UNKNOWN`; auto-rescue blocked |
+| NVDA | NVDAB / NVDAon | 41 bps | 5 bps | price-equivalent; rights `UNKNOWN`; auto-rescue blocked |
+
+The four routes are authenticated Trading API quotes for a 10 USDT probe and its immediate quoted exit. They prove current quote availability, not depth at larger size or completed settlement. Evidence roots are published in [`site/live-evidence.json`](./site/live-evidence.json).
 
 For any hosted API, configure `AFTERBELL_API_TOKEN` and send it as a bearer token. The server refuses a non-loopback bind without this protection.
 
@@ -230,9 +250,9 @@ POST /v1/agent/watchtower
 
 ## Mainnet definition of done
 
-- [ ] Select a genuinely tradable BSC stock token
-- [ ] Record live RWA and issuer evidence
-- [ ] Obtain a real quote and exit-liquidity measurement
+- [x] Select genuinely quoted BSC stock-token pairs (TSLA and NVDA across bStock/Ondo)
+- [x] Record live RWA, underlying, market-status, and disclosure evidence; unresolved rights remain explicit
+- [x] Obtain real bidirectional quote and exit-liquidity measurements
 - [ ] Simulate with Transaction API
 - [ ] Enforce Agentic Wallet limits
 - [ ] Deploy and verify contracts on BscScan

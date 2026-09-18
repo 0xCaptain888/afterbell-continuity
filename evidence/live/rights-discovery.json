@@ -1,0 +1,325 @@
+{
+  "schema": "afterbell-rights-discovery/1",
+  "status": "LIVE_PARTIAL_RIGHTS_EVIDENCE",
+  "mode": "LIVE",
+  "observedAt": "2026-09-18T01:57:30.253Z",
+  "source": "Binance Web3 RWA underlying-profile + underlying-market APIs",
+  "truthNotice": "Authenticated disclosure coverage is LIVE. Backing model, token-holder dividend treatment, split handling, voting rights, and redemption remain UNKNOWN unless explicitly machine-readable.",
+  "results": [
+    {
+      "underlyingTicker": "TSLA",
+      "tokenSymbol": "TSLAB",
+      "tokenContractAddress": "0x5b1910eaad6450e50f816082aa078c41f10c292f",
+      "status": "PARTIAL_RIGHTS_EVIDENCE",
+      "latencyMs": 1789,
+      "attempts": 2,
+      "profile": {
+        "chainId": 56,
+        "tokenAddress": "0x5b1910eaad6450e50f816082aa078c41f10c292f",
+        "platform": "bstock",
+        "underlying": "TSLA",
+        "underlyingName": "Tesla (bStocks)",
+        "assetType": 1,
+        "tokenToShareRatio": 1,
+        "protections": [
+          {
+            "kind": "collateralReport",
+            "supported": true
+          }
+        ],
+        "payloadHash": "0x0e9812e92483bbe28212a8507d4896ddef84fb43a86be5b231a4d639943f38c0"
+      },
+      "market": {
+        "tokenAddress": "0x5b1910eaad6450e50f816082aa078c41f10c292f",
+        "platform": "bstock",
+        "marketStatus": "UNKNOWN",
+        "payloadHash": "0x03ff30b3acb8b0773b22051e1709c7e6ece76ff55e6800933c3474c325f5131b",
+        "openState": true,
+        "reasonCode": "TRADING",
+        "underlyingDividendYield": 0,
+        "underlyingLatestDividend": 0
+      },
+      "assessment": {
+        "rights": {
+          "underlying": "TSLA",
+          "platform": "bstock",
+          "backingModel": "UNKNOWN",
+          "dividendTreatment": "UNKNOWN",
+          "splitTreatment": "UNKNOWN",
+          "votingRights": "UNKNOWN",
+          "redemption": "UNKNOWN",
+          "sourceStatus": "PARTIAL",
+          "sourceVersion": "binance-web3:2026-09-18T01:57:30.253Z",
+          "sourceHashes": [
+            "0x0e9812e92483bbe28212a8507d4896ddef84fb43a86be5b231a4d639943f38c0",
+            "0x03ff30b3acb8b0773b22051e1709c7e6ece76ff55e6800933c3474c325f5131b"
+          ],
+          "fingerprintHash": "0x545316ad701be07974686e98cff4313db77592d9be34e429d0ddce2783ccc984"
+        },
+        "claims": {
+          "backingModel": "UNKNOWN",
+          "dividendTreatment": "UNKNOWN",
+          "splitTreatment": "UNKNOWN",
+          "votingRights": "UNKNOWN",
+          "redemption": "UNKNOWN"
+        },
+        "disclosureCoverage": {
+          "authenticatedProfile": true,
+          "authenticatedMarketStatus": true,
+          "supportedProtectionKinds": [
+            "collateralReport"
+          ],
+          "linkedProtectionKinds": []
+        },
+        "caveats": [
+          "A supported collateral or attestation report is evidence availability, not proof of a specific backing model.",
+          "Underlying dividend market data does not establish token-holder dividend treatment.",
+          "No machine-readable split, voting, redemption, or jurisdiction terms were returned; those rights remain UNKNOWN."
+        ]
+      }
+    },
+    {
+      "underlyingTicker": "TSLA",
+      "tokenSymbol": "TSLAon",
+      "tokenContractAddress": "0x2494b603319d4d9f9715c9f4496d9e0364b59d93",
+      "status": "PARTIAL_RIGHTS_EVIDENCE",
+      "latencyMs": 962,
+      "attempts": 2,
+      "profile": {
+        "chainId": 56,
+        "tokenAddress": "0x2494b603319d4d9f9715c9f4496d9e0364b59d93",
+        "platform": "ondo",
+        "underlying": "TSLA",
+        "underlyingName": "Tesla (Ondo)",
+        "assetType": 1,
+        "tokenToShareRatio": 1,
+        "protections": [
+          {
+            "kind": "dailyAttestationReport",
+            "supported": true,
+            "url": "https://onchainos.bnbstatic.com/images/web3-data/public/token/ondo/pdf/daily-2026-09-15.pdf"
+          },
+          {
+            "kind": "monthlyAttestationReport",
+            "supported": true,
+            "url": "https://onchainos.bnbstatic.com/images/web3-data/public/token/ondo/pdf/monthly-2026-07.pdf"
+          }
+        ],
+        "payloadHash": "0x2e8ea192b72a6d89ee6ef54ca2c8192026dc5a778e87f426dd91ab652b25bea5"
+      },
+      "market": {
+        "tokenAddress": "0x2494b603319d4d9f9715c9f4496d9e0364b59d93",
+        "platform": "ondo",
+        "marketStatus": "OVERNIGHT",
+        "payloadHash": "0x0dab39c84a248ef8aafc59389d3b05191ae42100ba4990815cfae2643389bfe1",
+        "openState": true,
+        "reasonCode": "TRADING",
+        "nextOpenTime": "2026-09-18T08:01:00.000Z",
+        "nextCloseTime": "2026-09-18T07:55:00.000Z",
+        "referencePriceUsd": 365.528398,
+        "underlyingDividendYield": 0,
+        "underlyingLatestDividend": 0
+      },
+      "assessment": {
+        "rights": {
+          "underlying": "TSLA",
+          "platform": "ondo",
+          "backingModel": "UNKNOWN",
+          "dividendTreatment": "UNKNOWN",
+          "splitTreatment": "UNKNOWN",
+          "votingRights": "UNKNOWN",
+          "redemption": "UNKNOWN",
+          "sourceStatus": "PARTIAL",
+          "sourceVersion": "binance-web3:2026-09-18T01:57:30.253Z",
+          "sourceHashes": [
+            "0x2e8ea192b72a6d89ee6ef54ca2c8192026dc5a778e87f426dd91ab652b25bea5",
+            "0x0dab39c84a248ef8aafc59389d3b05191ae42100ba4990815cfae2643389bfe1"
+          ],
+          "fingerprintHash": "0xfe0be54deeb344de245be66af39730348d70739dc20ceab6150df694db96b3fb"
+        },
+        "claims": {
+          "backingModel": "UNKNOWN",
+          "dividendTreatment": "UNKNOWN",
+          "splitTreatment": "UNKNOWN",
+          "votingRights": "UNKNOWN",
+          "redemption": "UNKNOWN"
+        },
+        "disclosureCoverage": {
+          "authenticatedProfile": true,
+          "authenticatedMarketStatus": true,
+          "supportedProtectionKinds": [
+            "dailyAttestationReport",
+            "monthlyAttestationReport"
+          ],
+          "linkedProtectionKinds": [
+            "dailyAttestationReport",
+            "monthlyAttestationReport"
+          ]
+        },
+        "caveats": [
+          "A supported collateral or attestation report is evidence availability, not proof of a specific backing model.",
+          "Underlying dividend market data does not establish token-holder dividend treatment.",
+          "No machine-readable split, voting, redemption, or jurisdiction terms were returned; those rights remain UNKNOWN."
+        ]
+      }
+    },
+    {
+      "underlyingTicker": "NVDA",
+      "tokenSymbol": "NVDAB",
+      "tokenContractAddress": "0x02fca66c1d1afb4e2a7884261eb00f63598a7436",
+      "status": "PARTIAL_RIGHTS_EVIDENCE",
+      "latencyMs": 1015,
+      "attempts": 2,
+      "profile": {
+        "chainId": 56,
+        "tokenAddress": "0x02fca66c1d1afb4e2a7884261eb00f63598a7436",
+        "platform": "bstock",
+        "underlying": "NVDA",
+        "underlyingName": "NVIDIA (bStocks)",
+        "assetType": 1,
+        "tokenToShareRatio": 1.0007782237528078,
+        "protections": [
+          {
+            "kind": "collateralReport",
+            "supported": true
+          }
+        ],
+        "payloadHash": "0xc3516a4891a188fb1c00ac8cc0855ee86d18e5374c16f975600bdc6a5309cbfb"
+      },
+      "market": {
+        "tokenAddress": "0x02fca66c1d1afb4e2a7884261eb00f63598a7436",
+        "platform": "bstock",
+        "marketStatus": "UNKNOWN",
+        "payloadHash": "0xdf7abf0915ed7fb953ab1ef10a96c456088cc33fe7ebfbfbc9e7261ed6f1bcf0",
+        "openState": true,
+        "reasonCode": "TRADING",
+        "underlyingDividendYield": 0.0013,
+        "underlyingLatestDividend": 0.25
+      },
+      "assessment": {
+        "rights": {
+          "underlying": "NVDA",
+          "platform": "bstock",
+          "backingModel": "UNKNOWN",
+          "dividendTreatment": "UNKNOWN",
+          "splitTreatment": "UNKNOWN",
+          "votingRights": "UNKNOWN",
+          "redemption": "UNKNOWN",
+          "sourceStatus": "PARTIAL",
+          "sourceVersion": "binance-web3:2026-09-18T01:57:30.253Z",
+          "sourceHashes": [
+            "0xc3516a4891a188fb1c00ac8cc0855ee86d18e5374c16f975600bdc6a5309cbfb",
+            "0xdf7abf0915ed7fb953ab1ef10a96c456088cc33fe7ebfbfbc9e7261ed6f1bcf0"
+          ],
+          "fingerprintHash": "0x31351c92c9f942068c02b31d5371ee0d113fac3863455883df8b115cc494ca04"
+        },
+        "claims": {
+          "backingModel": "UNKNOWN",
+          "dividendTreatment": "UNKNOWN",
+          "splitTreatment": "UNKNOWN",
+          "votingRights": "UNKNOWN",
+          "redemption": "UNKNOWN"
+        },
+        "disclosureCoverage": {
+          "authenticatedProfile": true,
+          "authenticatedMarketStatus": true,
+          "supportedProtectionKinds": [
+            "collateralReport"
+          ],
+          "linkedProtectionKinds": []
+        },
+        "caveats": [
+          "A supported collateral or attestation report is evidence availability, not proof of a specific backing model.",
+          "Underlying dividend market data does not establish token-holder dividend treatment.",
+          "No machine-readable split, voting, redemption, or jurisdiction terms were returned; those rights remain UNKNOWN."
+        ]
+      }
+    },
+    {
+      "underlyingTicker": "NVDA",
+      "tokenSymbol": "NVDAon",
+      "tokenContractAddress": "0xa9ee28c80f960b889dfbd1902055218cba016f75",
+      "status": "PARTIAL_RIGHTS_EVIDENCE",
+      "latencyMs": 922,
+      "attempts": 2,
+      "profile": {
+        "chainId": 56,
+        "tokenAddress": "0xa9ee28c80f960b889dfbd1902055218cba016f75",
+        "platform": "ondo",
+        "underlying": "NVDA",
+        "underlyingName": "NVIDIA (Ondo)",
+        "assetType": 1,
+        "tokenToShareRatio": 1.0017152487959897,
+        "protections": [
+          {
+            "kind": "dailyAttestationReport",
+            "supported": true,
+            "url": "https://onchainos.bnbstatic.com/images/web3-data/public/token/ondo/pdf/daily-2026-09-15.pdf"
+          },
+          {
+            "kind": "monthlyAttestationReport",
+            "supported": true,
+            "url": "https://onchainos.bnbstatic.com/images/web3-data/public/token/ondo/pdf/monthly-2026-07.pdf"
+          }
+        ],
+        "payloadHash": "0x1d5666ee01f7ee632aa5eead2360d85dfc1d570cc4b9493c9319be0c80851f33"
+      },
+      "market": {
+        "tokenAddress": "0xa9ee28c80f960b889dfbd1902055218cba016f75",
+        "platform": "ondo",
+        "marketStatus": "OVERNIGHT",
+        "payloadHash": "0xb1813711ca8f0332131d127bd93f0714b5ab9773c62e1d3ea6c5913dfe0caa35",
+        "openState": true,
+        "reasonCode": "TRADING",
+        "nextOpenTime": "2026-09-18T08:01:00.000Z",
+        "nextCloseTime": "2026-09-18T07:55:00.000Z",
+        "referencePriceUsd": 218.871308,
+        "underlyingDividendYield": 0.13,
+        "underlyingLatestDividend": 0.25
+      },
+      "assessment": {
+        "rights": {
+          "underlying": "NVDA",
+          "platform": "ondo",
+          "backingModel": "UNKNOWN",
+          "dividendTreatment": "UNKNOWN",
+          "splitTreatment": "UNKNOWN",
+          "votingRights": "UNKNOWN",
+          "redemption": "UNKNOWN",
+          "sourceStatus": "PARTIAL",
+          "sourceVersion": "binance-web3:2026-09-18T01:57:30.253Z",
+          "sourceHashes": [
+            "0x1d5666ee01f7ee632aa5eead2360d85dfc1d570cc4b9493c9319be0c80851f33",
+            "0xb1813711ca8f0332131d127bd93f0714b5ab9773c62e1d3ea6c5913dfe0caa35"
+          ],
+          "fingerprintHash": "0x26c254dcaa6917f0c09958f4fa20fe14b6662c0de4fb730695ec1c4c8defd503"
+        },
+        "claims": {
+          "backingModel": "UNKNOWN",
+          "dividendTreatment": "UNKNOWN",
+          "splitTreatment": "UNKNOWN",
+          "votingRights": "UNKNOWN",
+          "redemption": "UNKNOWN"
+        },
+        "disclosureCoverage": {
+          "authenticatedProfile": true,
+          "authenticatedMarketStatus": true,
+          "supportedProtectionKinds": [
+            "dailyAttestationReport",
+            "monthlyAttestationReport"
+          ],
+          "linkedProtectionKinds": [
+            "dailyAttestationReport",
+            "monthlyAttestationReport"
+          ]
+        },
+        "caveats": [
+          "A supported collateral or attestation report is evidence availability, not proof of a specific backing model.",
+          "Underlying dividend market data does not establish token-holder dividend treatment.",
+          "No machine-readable split, voting, redemption, or jurisdiction terms were returned; those rights remain UNKNOWN."
+        ]
+      }
+    }
+  ],
+  "evidenceRoot": "0xf023ad05623e2f9043b2f0850b771a043a5352491bc0f0021bc84643c7008989"
+}

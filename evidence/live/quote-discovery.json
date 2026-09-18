@@ -1,94 +1,209 @@
 {
-  "schema": "afterbell-quote-discovery/1",
-  "status": "LIVE_QUOTES_FOUND",
+  "schema": "afterbell-quote-discovery/2",
+  "status": "LIVE_ROUND_TRIP_QUOTES_FOUND",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T01:41:59.064Z",
+  "observedAt": "2026-09-18T01:57:38.852Z",
   "source": "Binance Web3 Trading API",
   "walletMode": "QUOTE_ONLY_PLACEHOLDER",
   "wallet": "0x1111111111111111111111111111111111111111",
-  "inputToken": {
+  "stableToken": {
     "symbol": "USDT",
     "address": "0x55d398326f99059ff775485246999027b3197955",
-    "amount": "10000000000000000000"
+    "decimals": 18,
+    "inputAmount": "10000000000000000000"
   },
-  "truthNotice": "Quote discovery only. No transaction was built, signed, simulated, or broadcast.",
+  "truthNotice": "Quote discovery covers buy and immediate exit liquidity only. No transaction was built, signed, simulated, or broadcast.",
   "results": [
     {
       "underlyingTicker": "TSLA",
+      "platformId": "bstock",
       "tokenSymbol": "TSLAB",
       "tokenContractAddress": "0x5b1910eaad6450e50f816082aa078c41f10c292f",
-      "status": "QUOTED",
-      "latencyMs": 379,
-      "attempts": 1,
-      "quote": {
-        "quoteId": "7120f807240348619234a8d360f6c462",
+      "status": "ROUND_TRIP_QUOTED",
+      "latencyMs": 1359,
+      "attempts": 2,
+      "buyQuote": {
+        "quoteId": "4bee3918ece345c1aa42afb0bd3ec30b",
         "vendor": "LiquidMesh",
         "fromTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
         "toTokenAddress": "0x5b1910eaad6450e50f816082aa078c41f10c292f",
         "inputAmount": "10000000000000000000",
-        "outputAmount": "27343149964957676",
-        "observedAt": "2026-09-18T01:41:59.444Z",
-        "expiresAt": "2026-09-18T01:42:29.444Z",
-        "payloadHash": "0xff6d3876eacadd03c260c0613dd8706b9af684186902254af6028e07d2c457a9"
+        "outputAmount": "27329612484614682",
+        "observedAt": "2026-09-18T01:57:39.226Z",
+        "expiresAt": "2026-09-18T01:58:09.226Z",
+        "payloadHash": "0x8acd16903b1fea2646db3e61f781a8fad301289f8dbbde463b585ff9e13ad053"
+      },
+      "sellQuote": {
+        "quoteId": "09381f04c032430796660675c21f66f3",
+        "vendor": "LiquidMesh",
+        "fromTokenAddress": "0x5b1910eaad6450e50f816082aa078c41f10c292f",
+        "toTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
+        "inputAmount": "27329612484614682",
+        "outputAmount": "9998007386350568313",
+        "observedAt": "2026-09-18T01:57:40.210Z",
+        "expiresAt": "2026-09-18T01:58:10.210Z",
+        "payloadHash": "0xa59630183ba356d7f0a8f8510204ca6393509f6d9ae4a0ee575bacd3b607a5c8"
+      },
+      "executable": {
+        "inputUsd": 10,
+        "tokenOutput": 0.02732961248461468,
+        "returnedUsd": 9.998007386350567,
+        "buyPricePerTokenUsd": 365.9034684677487,
+        "sellPricePerTokenUsd": 365.83055804318434,
+        "buyPricePerShareUsd": 365.9034684677487,
+        "sellPricePerShareUsd": 365.83055804318434,
+        "roundTripCostBps": 2,
+        "inventoryReferencePriceUsd": 365.35,
+        "executableBuyPremiumBps": 15,
+        "executableSellDiscountBps": 13
       }
     },
     {
       "underlyingTicker": "TSLA",
+      "platformId": "ondo",
       "tokenSymbol": "TSLAon",
       "tokenContractAddress": "0x2494b603319d4d9f9715c9f4496d9e0364b59d93",
-      "status": "QUOTED",
-      "latencyMs": 413,
-      "attempts": 1,
-      "quote": {
-        "quoteId": "884350721af04247904a9c3b20970838",
+      "status": "ROUND_TRIP_QUOTED",
+      "latencyMs": 1545,
+      "attempts": 2,
+      "buyQuote": {
+        "quoteId": "a9d7924aafd24b25bf98876045fac8e0",
         "vendor": "LiquidMesh",
         "fromTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
         "toTokenAddress": "0x2494b603319d4d9f9715c9f4496d9e0364b59d93",
         "inputAmount": "10000000000000000000",
-        "outputAmount": "27320559711003776",
-        "observedAt": "2026-09-18T01:42:00.509Z",
-        "expiresAt": "2026-09-18T01:42:30.509Z",
-        "payloadHash": "0xbe5f613fb8ce54738b9d69bdd6461e307d4396e4750a2c81676c1b65284e6c1b"
+        "outputAmount": "27313879142762296",
+        "observedAt": "2026-09-18T01:57:41.412Z",
+        "expiresAt": "2026-09-18T01:58:11.412Z",
+        "payloadHash": "0x6d6f53dcecfc14c3f0345bee87e903f6ae407243d5096b457e78c872e5d7349f"
+      },
+      "sellQuote": {
+        "quoteId": "07182d2d6a6a482fa29481ec45b2b719",
+        "vendor": "LiquidMesh",
+        "fromTokenAddress": "0x2494b603319d4d9f9715c9f4496d9e0364b59d93",
+        "toTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
+        "inputAmount": "27313879142762296",
+        "outputAmount": "9979671077008723968",
+        "observedAt": "2026-09-18T01:57:42.609Z",
+        "expiresAt": "2026-09-18T01:58:12.609Z",
+        "payloadHash": "0xb546f203c52c86569114d8c838f8a636803c72dca21dedc7e3d8077154c8483b"
+      },
+      "executable": {
+        "inputUsd": 10,
+        "tokenOutput": 0.027313879142762294,
+        "returnedUsd": 9.979671077008724,
+        "buyPricePerTokenUsd": 366.11423619957793,
+        "sellPricePerTokenUsd": 365.3699653882069,
+        "buyPricePerShareUsd": 366.11423619957793,
+        "sellPricePerShareUsd": 365.3699653882069,
+        "roundTripCostBps": 20,
+        "inventoryReferencePriceUsd": 365.112308,
+        "executableBuyPremiumBps": 27,
+        "executableSellDiscountBps": 7
       }
     },
     {
       "underlyingTicker": "NVDA",
+      "platformId": "bstock",
       "tokenSymbol": "NVDAB",
       "tokenContractAddress": "0x02fca66c1d1afb4e2a7884261eb00f63598a7436",
-      "status": "QUOTED",
-      "latencyMs": 135,
-      "attempts": 1,
-      "quote": {
-        "quoteId": "94f987a5061444a89ad2b000d386f0b5",
+      "status": "ROUND_TRIP_QUOTED",
+      "latencyMs": 1179,
+      "attempts": 2,
+      "buyQuote": {
+        "quoteId": "508e2dc5baf84e89ad28b948cff53e0e",
         "vendor": "LiquidMesh",
         "fromTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
         "toTokenAddress": "0x02fca66c1d1afb4e2a7884261eb00f63598a7436",
         "inputAmount": "10000000000000000000",
-        "outputAmount": "45579458510029827",
-        "observedAt": "2026-09-18T01:42:01.296Z",
-        "expiresAt": "2026-09-18T01:42:31.296Z",
-        "payloadHash": "0xddd9c1683814f43100b1bc951bc173ffc4d9776e6e74b3853f8be3ceed614ca4"
+        "outputAmount": "45548773556288232",
+        "observedAt": "2026-09-18T01:57:43.638Z",
+        "expiresAt": "2026-09-18T01:58:13.638Z",
+        "payloadHash": "0x012bc17fed82f512a733c237c48d9b98902773264d5ed2982e75013e3fa903a7"
+      },
+      "sellQuote": {
+        "quoteId": "4c176d93714a4f5faf163e3c741274c2",
+        "vendor": "LiquidMesh",
+        "fromTokenAddress": "0x02fca66c1d1afb4e2a7884261eb00f63598a7436",
+        "toTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
+        "inputAmount": "45548773556288232",
+        "outputAmount": "9993526446936360960",
+        "observedAt": "2026-09-18T01:57:44.639Z",
+        "expiresAt": "2026-09-18T01:58:14.639Z",
+        "payloadHash": "0x1bc918ed12bb83014fe86cb1076a465bfec35192086a769b6a7ba609341f179b"
+      },
+      "executable": {
+        "inputUsd": 10,
+        "tokenOutput": 0.04554877355628823,
+        "returnedUsd": 9.993526446936361,
+        "buyPricePerTokenUsd": 219.5448794607435,
+        "sellPricePerTokenUsd": 219.40275591803953,
+        "buyPricePerShareUsd": 219.37415728079537,
+        "sellPricePerShareUsd": 219.23214425600054,
+        "roundTripCostBps": 6,
+        "inventoryReferencePriceUsd": 219.23,
+        "executableBuyPremiumBps": 7,
+        "executableSellDiscountBps": 0
       }
     },
     {
       "underlyingTicker": "NVDA",
+      "platformId": "ondo",
       "tokenSymbol": "NVDAon",
       "tokenContractAddress": "0xa9ee28c80f960b889dfbd1902055218cba016f75",
-      "status": "QUOTED",
-      "latencyMs": 343,
-      "attempts": 1,
-      "quote": {
-        "quoteId": "1bef3cdd4b634d7988c81ec48b911d08",
+      "status": "ROUND_TRIP_QUOTED",
+      "latencyMs": 1545,
+      "attempts": 2,
+      "buyQuote": {
+        "quoteId": "c680a6ff037c4c3faa8fcfceab716676",
         "vendor": "LiquidMesh",
         "fromTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
         "toTokenAddress": "0xa9ee28c80f960b889dfbd1902055218cba016f75",
         "inputAmount": "10000000000000000000",
-        "outputAmount": "45527007647140043",
-        "observedAt": "2026-09-18T01:42:02.290Z",
-        "expiresAt": "2026-09-18T01:42:32.290Z",
-        "payloadHash": "0x78e8ae89221ef4176e5d0ae056c8e91ce586ac2a09acd96ee6e7210d1d1064ce"
+        "outputAmount": "45321864376948022",
+        "observedAt": "2026-09-18T01:57:45.836Z",
+        "expiresAt": "2026-09-18T01:58:15.836Z",
+        "payloadHash": "0x4223cfe03e7ffe33bda773d73fdc5e43cf852636e0f7b1545efb9a177da22a8d"
+      },
+      "sellQuote": {
+        "quoteId": "e1ed8115feba409385b278d9d827f905",
+        "vendor": "LiquidMesh",
+        "fromTokenAddress": "0xa9ee28c80f960b889dfbd1902055218cba016f75",
+        "toTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
+        "inputAmount": "45321864376948022",
+        "outputAmount": "9948133612903168000",
+        "observedAt": "2026-09-18T01:57:47.036Z",
+        "expiresAt": "2026-09-18T01:58:17.036Z",
+        "payloadHash": "0xcaec1e4b852e9b317e4a46c05191ff2c517085e9f201baf1ec73d756d92529ed"
+      },
+      "executable": {
+        "inputUsd": 10,
+        "tokenOutput": 0.045321864376948025,
+        "returnedUsd": 9.948133612903169,
+        "buyPricePerTokenUsd": 220.64405640572636,
+        "sellPricePerTokenUsd": 219.4996554017109,
+        "buyPricePerShareUsd": 220.26624499420288,
+        "sellPricePerShareUsd": 219.12380356147938,
+        "roundTripCostBps": 52,
+        "inventoryReferencePriceUsd": 219.44471877159398,
+        "executableBuyPremiumBps": 37,
+        "executableSellDiscountBps": -15
       }
     }
   ],
-  "evidenceRoot": "0x56bdc474f74f63539a0e6e49578ff00c35587f66f694552b8525570bce35d50c"
+  "comparisons": [
+    {
+      "underlyingTicker": "TSLA",
+      "status": "BOTH_DIRECTIONS_COMPARABLE",
+      "executableBuySpreadBps": 6,
+      "executableSellSpreadBps": 13
+    },
+    {
+      "underlyingTicker": "NVDA",
+      "status": "BOTH_DIRECTIONS_COMPARABLE",
+      "executableBuySpreadBps": 41,
+      "executableSellSpreadBps": 5
+    }
+  ],
+  "evidenceRoot": "0x83e5e0c1ac126f35826a4fc8740284931801f2405101af6f456ffbeab8727d0b"
 }

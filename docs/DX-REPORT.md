@@ -27,17 +27,21 @@ This document is intentionally incomplete. It will be updated from real implemen
 - One route returned HTTP 429 and two returned transient fetch failures; quote discovery now throttles requests and retries only network/429 failures, never deterministic business errors.
 - At 10 USDT, TSLA and NVDA returned live LiquidMesh quotes for both bStock and Ondo wrappers, with all four routes succeeding on the first attempt.
 - The TSLAB swap builder returned real calldata. Transaction API simulation correctly failed on the intentionally unfunded placeholder with `BEP20: transfer amount exceeds allowance`, demonstrating a fail-closed authorization boundary without signing or broadcasting.
+- The underlying-profile and underlying-market endpoints returned authenticated data for TSLAB, TSLAon, NVDAB, and NVDAon. Ondo included linked daily and monthly attestation disclosures; bStock advertised collateral-report support without a URL in the observed payloads.
+- None of the four responses exposed machine-readable token-holder dividend treatment, split handling, voting rights, or redemption terms. AfterBell deliberately records these as `UNKNOWN`; underlying equity dividend fields are not repurposed as token-holder rights.
+- All four 10 USDT buy routes also returned immediate stock-to-USDT exit quotes. After ratio normalization, TSLA's cross-wrapper executable buy/exit spreads were 6/13 bps and NVDA's were 41/5 bps.
+- The live equivalence report therefore records executable price equivalence but an overall `UNKNOWN` classification and blocks automatic wrapper rescue. This is expected fail-closed behavior, not a failed demo.
 
-### API observations to verify with live credentials
+### API observations
 
 | Question | Status |
 |---|---|
-| Are RWA platform/list endpoints reachable with current credentials? | Pending |
+| Are RWA platform/list endpoints reachable with current credentials? | Yes; authenticated inventory passed |
 | Do current platform enums include xStocks? | Pending; public schema currently documents `ondo` and `bstock` |
-| Which BSC stock assets have executable quotes? | Pending |
-| What is the smallest mainnet trade size? | Pending |
+| Which BSC stock assets have executable quotes? | Verified for TSLAB, TSLAon, NVDAB, and NVDAon at the tested size |
+| What is the smallest mainnet trade size? | A 10 USDT probe worked; 1 USDT and exact 5 USDT Ondo probes returned minimum-order code `40375` |
 | Does Transaction API accurately report stock-token balance changes? | Pending |
-| Are attestation publication timestamps machine-readable? | Pending |
+| Are attestation publication timestamps machine-readable? | Not in the observed profile payload; URLs encode report dates but AfterBell does not infer timestamps from filenames |
 
 ## Required final sections
 

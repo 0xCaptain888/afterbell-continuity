@@ -10,52 +10,86 @@ async function readJson(path: string): Promise<Record<string, unknown> | undefin
 
 const inventory = await readJson("evidence/live/rwa-inventory.json");
 const quotes = await readJson("evidence/live/quote-discovery.json");
+const rights = await readJson("evidence/live/rights-discovery.json");
+const equivalence = await readJson("evidence/live/economic-equivalence.json");
 const simulation = await readJson("evidence/live/quote-simulation-gate.json");
 
 const inventoryPairs = Array.isArray(inventory?.continuityPairs) ? inventory.continuityPairs as Array<Record<string, unknown>> : [];
-const featured = inventoryPairs
-  .filter((pair) => ["TSLA", "NVDA"].includes(String(pair.underlyingTicker)))
-  .map((pair) => {
-    const bstock = pair.bstock as Record<string, unknown> | undefined;
-    const ondo = pair.ondo as Record<string, unknown> | undefined;
-    return {
-      underlyingTicker: pair.underlyingTicker,
-      normalizedSpreadBps: pair.normalizedSpreadBps,
-      ratioDeltaBps: pair.ratioDeltaBps,
-      bstock: bstock?.tokenSymbol,
-      ondo: ondo?.tokenSymbol,
-      pairEvidenceHash: pair.pairEvidenceHash
-    };
-  });
 const quoteResults = Array.isArray(quotes?.results) ? quotes.results as Array<Record<string, unknown>> : [];
+const quoteComparisons = Array.isArray(quotes?.comparisons) ? quotes.comparisons as Array<Record<string, unknown>> : [];
+const rightsResults = Array.isArray(rights?.results) ? rights.results as Array<Record<string, unknown>> : [];
+const equivalenceResults = Array.isArray(equivalence?.results) ? equivalence.results as Array<Record<string, unknown>> : [];
 const simulationData = simulation?.simulation as Record<string, unknown> | undefined;
 const simulationPayload = simulationData?.data as Record<string, unknown> | undefined;
 
+const featured = ["TSLA", "NVDA"].map((ticker) => {
+  const pair = inventoryPairs.find((item) => item.underlyingTicker === ticker);
+  const comparison = quoteComparisons.find((item) => item.underlyingTicker === ticker);
+  const report = equivalenceResults.find((item) => item.underlyingTicker === ticker);
+  const routes = quoteResults.filter((item) => item.underlyingTicker === ticker).map((route) => {
+    const executable = route.executable as Record<string, unknown> | undefined;
+    const rightsRecord = rightsResults.find((item) => item.tokenContractAddress === route.tokenContractAddress);
+    const assessment = rightsRecord?.assessment as Record<string, unknown> | undefined;
+    const coverage = assessment?.disclosureCoverage as Record<string, unknown> | undefined;
+    return {
+      platformId: route.platformId,
+      tokenSymbol: route.tokenSymbol,
+      status: route.status,
+      buyPricePerShareUsd: executable?.buyPricePerShareUsd,
+      sellPricePerShareUsd: executable?.sellPricePerShareUsd,
+      roundTripCostBps: executable?.roundTripCostBps,
+      disclosureKinds: coverage?.supportedProtectionKinds ?? [],
+      linkedDisclosureKinds: coverage?.linkedProtectionKinds ?? []
+    };
+  });
+  return {
+    underlyingTicker: ticker,
+    inventoryNormalizedSpreadBps: pair?.normalizedSpreadBps,
+    ratioDeltaBps: pair?.ratioDeltaBps,
+    executableBuySpreadBps: comparison?.executableBuySpreadBps,
+    executableSellSpreadBps: comparison?.executableSellSpreadBps,
+    economicPriceResult: report?.economicPriceResult,
+    classification: report?.classification,
+    automaticRescueAllowed: report?.automaticRescueAllowed,
+    decision: report?.decision,
+    missingRightsFields: report?.missingRightsFields,
+    routes
+  };
+});
+
 const summary = {
-  schema: "afterbell-public-live-evidence/1",
+  schema: "afterbell-public-live-evidence/2",
   generatedAt: new Date().toISOString(),
-  truthNotice: "LIVE labels refer to authenticated API evidence. No BSC transaction has been signed or broadcast.",
+  truthNotice: "LIVE labels refer to authenticated read-only API evidence. No BSC transaction has been signed or broadcast. Incomplete rights evidence remains UNKNOWN and blocks automatic rescue.",
   inventory: inventory ? {
     status: inventory.status,
     observedAt: inventory.observedAt,
     parsedAssetCount: inventory.parsedAssetCount,
     continuityPairCount: inventory.continuityPairCount ?? inventoryPairs.length,
-    evidenceRoot: inventory.evidenceRoot,
-    featuredPairs: featured
+    evidenceRoot: inventory.evidenceRoot
+  } : { status: "UNAVAILABLE" },
+  rights: rights ? {
+    status: rights.status,
+    observedAt: rights.observedAt,
+    availableAssets: rightsResults.filter((result) => result.status === "PARTIAL_RIGHTS_EVIDENCE").length,
+    requestedAssets: rightsResults.length,
+    evidenceRoot: rights.evidenceRoot,
+    truthNotice: rights.truthNotice
   } : { status: "UNAVAILABLE" },
   quotes: quotes ? {
     status: quotes.status,
     observedAt: quotes.observedAt,
-    requestedRoutes: quoteResults.length,
-    quotedRoutes: quoteResults.filter((result) => result.status === "QUOTED").length,
-    routes: quoteResults.map((result) => ({
-      underlyingTicker: result.underlyingTicker,
-      tokenSymbol: result.tokenSymbol,
-      status: result.status,
-      latencyMs: result.latencyMs
-    })),
+    requestedWrappers: quoteResults.length,
+    roundTripRoutes: quoteResults.filter((result) => result.status === "ROUND_TRIP_QUOTED").length,
     evidenceRoot: quotes.evidenceRoot
   } : { status: "UNAVAILABLE" },
+  equivalence: equivalence ? {
+    status: equivalence.status,
+    observedAt: equivalence.observedAt,
+    evidenceRoot: equivalence.evidenceRoot,
+    decisionRule: equivalence.decisionRule
+  } : { status: "UNAVAILABLE" },
+  featured,
   simulation: simulation ? {
     status: simulation.status,
     observedAt: simulation.observedAt,
@@ -66,11 +100,8 @@ const summary = {
     evidenceRoot: simulation.evidenceRoot,
     truthNotice: simulation.truthNotice
   } : { status: "UNAVAILABLE" },
-  mainnetExecution: {
-    status: "NOT_EXECUTED",
-    transactionHash: null
-  }
+  mainnetExecution: { status: "NOT_EXECUTED", transactionHash: null }
 };
 
 await writeFile("site/live-evidence.json", JSON.stringify(summary, null, 2));
-console.log(JSON.stringify({ status: "PUBLIC_EVIDENCE_SUMMARY_UPDATED", output: "site/live-evidence.json" }, null, 2));
+console.log(JSON.stringify({ status: "PUBLIC_EVIDENCE_SUMMARY_UPDATED", output: "site/live-evidence.json", featuredAssets: featured.length }, null, 2));

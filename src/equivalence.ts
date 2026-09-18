@@ -37,11 +37,17 @@ export function compareEconomicEquivalence(
   const ratioDeltaBps = Math.abs(basisPointsDelta(left.economicExposurePerToken, right.economicExposurePerToken));
   if (ratioDeltaBps > toleranceBps) reasons.push("share_ratio_mismatch");
 
-  const rightsCompatible =
+  const rightsComplete =
+    leftRights.backingModel !== "UNKNOWN" &&
+    leftRights.dividendTreatment !== "UNKNOWN" &&
+    leftRights.splitTreatment !== "UNKNOWN";
+  const rightsCompatible = rightsComplete &&
     leftRights.backingModel === rightRights.backingModel &&
     leftRights.dividendTreatment === rightRights.dividendTreatment &&
     leftRights.splitTreatment === rightRights.splitTreatment;
-  if (!rightsCompatible) reasons.push("rights_structure_mismatch");
+  if (!rightsComplete || rightRights.backingModel === "UNKNOWN" || rightRights.dividendTreatment === "UNKNOWN" || rightRights.splitTreatment === "UNKNOWN") {
+    reasons.push("rights_evidence_incomplete");
+  } else if (!rightsCompatible) reasons.push("rights_structure_mismatch");
 
   if (left.confidence === "LOW" || right.confidence === "LOW") {
     return { classification: "UNKNOWN", reasons: [...reasons, "insufficient_evidence"], ratioDeltaBps, rightsCompatible };
@@ -49,6 +55,7 @@ export function compareEconomicEquivalence(
   if (reasons.includes("different_underlying") || reasons.includes("share_ratio_mismatch")) {
     return { classification: "NOT_EQUIVALENT", reasons, ratioDeltaBps, rightsCompatible };
   }
+  if (reasons.includes("rights_evidence_incomplete")) return { classification: "UNKNOWN", reasons, ratioDeltaBps, rightsCompatible };
   if (!rightsCompatible) return { classification: "PARTIAL_EQUIVALENCE", reasons, ratioDeltaBps, rightsCompatible };
   return { classification: "SAFE_EQUIVALENT", reasons, ratioDeltaBps, rightsCompatible };
 }

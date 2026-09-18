@@ -20,6 +20,7 @@
     </a>
     <nav>
       <a href="#control">Control center</a>
+      <a href="#live-proof">Live proof</a>
       <a href="#protocol">Protocol</a>
       <a href="#developers">Developers</a>
     </nav>
@@ -37,23 +38,23 @@
           <a class="secondary" href="#protocol">Explore the protocol</a>
         </div>
         <div class="truth-row">
-          <span class="truth simulated">SIMULATED BASELINE</span>
-          <span>No mainnet claim until transaction evidence exists.</span>
+          <span class="truth live-label">LIVE READ-ONLY EVIDENCE</span>
+          <span>Authenticated BNB Chain data and quotes. No transaction claim.</span>
         </div>
       </div>
       <aside class="position-card" id="control">
         <div class="card-topline">
-          <div><span class="muted">Protected exposure</span><h2>NVDA</h2></div>
-          <span class="status protected">Protected</span>
+          <div><span class="muted">Continuity posture</span><h2>NVDA</h2></div>
+          <span class="status review">Review</span>
         </div>
-        <div class="value-row"><strong>$21.34</strong><span>+0.18% normalized premium</span></div>
+        <div class="value-row"><strong>2 routes</strong><span>LIVE round-trip quotes</span></div>
         <div class="health-grid">
-          <div><span>Backing evidence</span><b>Current</b></div>
-          <div><span>Reference age</span><b>18 sec</b></div>
-          <div><span>Exit liquidity</span><b>$48.2k</b></div>
-          <div><span>Price impact</span><b>0.24%</b></div>
+          <div><span>Buy spread</span><b>41 bps</b></div>
+          <div><span>Sell spread</span><b>5 bps</b></div>
+          <div><span>Price equivalence</span><b>Observed</b></div>
+          <div><span>Rights equivalence</span><b>Unknown</b></div>
         </div>
-        <div class="mandate-line"><span>Mandate</span><b>Max premium 0.80%</b><i>Active</i></div>
+        <div class="mandate-line"><span>Rescue mandate</span><b>Complete rights required</b><i class="caution">Blocked</i></div>
         <div class="scanline"></div>
       </aside>
     </section>
@@ -64,12 +65,24 @@
         <p>Every capability is labelled by what exists today—not what the roadmap promises.</p>
       </div>
       <div class="readiness-grid">
-        <article><span class="ready-dot live"></span><div><b>Continuity engine</b><small>IMPLEMENTED · 21 deterministic tests</small></div></article>
+        <article><span class="ready-dot live"></span><div><b>Continuity engine</b><small>IMPLEMENTED · 24 deterministic tests</small></div></article>
         <article><span class="ready-dot live"></span><div><b>SDK + persistent Watchtower</b><small>IMPLEMENTED · local API verified</small></div></article>
-        <article><span class="ready-dot live" id="liveDataDot"></span><div><b>Live RWA + dual-wrapper quotes</b><small id="liveDataStatus">Loading public evidence…</small></div></article>
+        <article><span class="ready-dot live" id="liveDataDot"></span><div><b>Live RWA + round-trip quotes</b><small id="liveDataStatus">Loading public evidence…</small></div></article>
+        <article><span class="ready-dot waiting" id="rightsDataDot"></span><div><b>Rights-continuity gate</b><small id="rightsDataStatus">Loading public evidence…</small></div></article>
         <article><span class="ready-dot waiting" id="simulationDot"></span><div><b>Swap build + Transaction API simulation</b><small id="simulationStatus">Loading public evidence…</small></div></article>
         <article><span class="ready-dot waiting"></span><div><b>BSC mainnet execution</b><small>NOT EXECUTED · wallet authorization required</small></div></article>
       </div>
+    </section>
+
+    <section class="live-proof shell" id="live-proof">
+      <div class="section-title">
+        <div><span class="kicker">LIVE ECONOMIC EQUIVALENCE</span><h2>Price matches. Rights still matter.</h2></div>
+        <p>AfterBell compares executable buy and exit prices per underlying share, then refuses automatic rescue when backing, dividend, split, voting, or redemption terms remain unproven.</p>
+      </div>
+      <div class="proof-grid" id="liveProofGrid">
+        <article class="proof-card loading-card">Loading authenticated public evidence…</article>
+      </div>
+      <p class="proof-note">A green price comparison is not a legal-rights claim. This is the safety boundary most tokenized-stock agents omit.</p>
     </section>
 
     <section class="judge shell" id="judgePanel" hidden>
@@ -78,7 +91,7 @@
         <span class="run-state" id="runState">Waiting</span>
       </div>
       <div class="stage-list" id="stageList"></div>
-      <p class="run-note">The Judge Run is reproducible and simulated. Separate LIVE evidence now proves authenticated inventory, dual-wrapper TSLA/NVDA quotes, calldata construction, and fail-closed Transaction API simulation. No mainnet execution is claimed.</p>
+      <p class="run-note">The Judge Run is reproducible and simulated. Separate LIVE evidence proves authenticated inventory, TSLA/NVDA bidirectional quotes, conservative rights discovery, calldata construction, and fail-closed Transaction API simulation. No mainnet execution is claimed.</p>
     </section>
 
     <section class="protocol shell" id="protocol">

@@ -4,9 +4,9 @@
 
 1. Open the public demo and click **Run Judge Demo**.
 2. Observe a healthy stock exposure remain `PROTECTED`.
-3. Inspect the rights fingerprint—backing, dividends, splits, and redemption are versioned separately from the ticker.
-4. Watch a premium/liquidity breach become `RESCUE_REQUIRED`.
-5. Confirm an economically identical wrapper is `SAFE_EQUIVALENT` while a rights mismatch cannot auto-migrate.
+3. Inspect TSLA/NVDA live bidirectional quote cards: executable price equivalence is visible in basis points.
+4. Observe the deliberate `RIGHTS UNKNOWN` result: authenticated disclosure links exist, but missing holder-right terms block automatic rescue.
+5. Run the deterministic demo and watch a premium/liquidity breach become `RESCUE_REQUIRED`.
 6. See tampered calldata become `CHALLENGE`.
 7. Verify the short-lived EIP-712 credential returns `VALID`.
 
@@ -24,19 +24,22 @@ Then show:
 - `evidence/judge-run.json`
 - `benchmark/results/latest.json`
 - `evidence/watchtower-run.json`
+- `evidence/live/rights-discovery.json`
+- `evidence/live/quote-discovery.json`
+- `evidence/live/economic-equivalence.json`
 - `evidence/deployment/bsc-mainnet-plan.json`
 - `openapi.yaml`
 - the installable SDK package produced by `npm pack --dry-run --cache .runtime/npm-cache`
 
 ## Live mainnet path — pending external authorization
 
-1. Save Binance Web3 credentials locally; run `npm run data:gate`.
-2. Review `evidence/live/candidate-ranking.json`; choose one actually quoted BSC asset.
-3. Configure public wallet and token addresses; run `npm run trade:gate`.
-4. If the path is RFQ, authorize the typed data through the approved wallet. Never substitute a raw private key in source.
-5. Deploy and verify contracts only after reviewing the bytecode hashes in the deployment plan.
-6. Execute one low-value transaction under a strict mandate.
-7. Publish transaction, quote, simulation, calldata, receipt, Passport, and Credential evidence roots.
+1. Save Binance Web3 credentials locally; run `npm run data:gate` and `npm run assets:rank`.
+2. Run `npm run rights:discover`, `npm run quote:discover`, and `npm run equivalence:live`.
+3. Review why live executable price equivalence still produces `UNKNOWN` rights equivalence and blocks auto-rescue.
+4. Configure a public wallet address and run `npm run trade:gate`.
+5. If the path is RFQ, authorize the typed data through the approved wallet. Never substitute a raw private key in source.
+6. Deploy and verify contracts only after reviewing the bytecode hashes in the deployment plan.
+7. Execute one low-value transaction under a strict mandate and publish transaction, receipt, Passport, Credential, and evidence roots.
 
 ## Truth labels
 

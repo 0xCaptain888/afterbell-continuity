@@ -11,7 +11,7 @@ export type EvidenceMode =
   | "UNAVAILABLE";
 
 export type Platform = "bstock" | "ondo" | "xstock" | "unknown";
-export type MarketStatus = "PRE_MARKET" | "REGULAR" | "AFTER_HOURS" | "CLOSED" | "HALTED" | "UNKNOWN";
+export type MarketStatus = "PRE_MARKET" | "REGULAR" | "AFTER_HOURS" | "OVERNIGHT" | "CLOSED" | "HALTED" | "UNKNOWN";
 
 export type AssetSnapshot = {
   chainId: number;

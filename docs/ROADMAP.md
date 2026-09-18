@@ -13,8 +13,11 @@
 - [x] Benchmark, working DX log, and local/static demo
 - [x] Live Binance RWA inventory and cross-wrapper pair receipt
 - [x] Live TSLA/NVDA quotes for bStock and Ondo wrappers
+- [x] Live underlying-profile and market-status evidence for four wrappers
+- [x] Conservative rights gate with machine-readable missing-field detection
+- [x] Bidirectional quote probes and executable per-share equivalence report
 - [x] Live swap build and fail-closed Transaction API simulation
-- [ ] One selected BSC tokenized stock
+- [x] Selected live demo pairs: TSLAB/TSLAon and NVDAB/NVDAon
 - [ ] Agentic Wallet authorization and real small trade
 - [ ] BSC mainnet deployment and source verification
 - [ ] Agent Studio Watchtower deployment receipt

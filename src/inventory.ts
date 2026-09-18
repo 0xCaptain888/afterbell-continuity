@@ -187,14 +187,17 @@ export function rankContinuityPairs(records: RwaTokenRecord[]): ContinuityPairCa
   return pairs.sort((a, b) => b.score - a.score || a.normalizedSpreadBps - b.normalizedSpreadBps);
 }
 
-export function normalizeMarketStatus(value?: string): MarketStatus {
+export function normalizeMarketStatus(value?: string, reasonCode?: string): MarketStatus {
   switch (value?.toLowerCase()) {
     case "pre_market": return "PRE_MARKET";
     case "regular": return "REGULAR";
     case "after_hours": return "AFTER_HOURS";
+    case "overnight": return "OVERNIGHT";
     case "closed": return "CLOSED";
     case "halted": return "HALTED";
-    default: return "UNKNOWN";
+    default:
+      if (reasonCode === "MARKET_PAUSED") return "CLOSED";
+      return "UNKNOWN";
   }
 }
 
