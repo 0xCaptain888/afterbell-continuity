@@ -27,6 +27,16 @@ AfterBell Continuity is the economic-equivalence, rights-continuity, and verifia
 - Authenticated public quote: [`PUBLIC_NEGOTIATION_VERIFIED`](./evidence/live/agent-studio-public-negotiate.json) — OAuth A2A call, `0.01 U`, signature recovered to the deployed testnet wallet
 - Independent paid delivery: [`PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT`](./evidence/live/agent-studio-paid-delivery.json) — buyer `0x2CB7…1Afa`, Job `1254`, `0.01 U`, content-addressed `PROTECTED` result; buyer approval becomes eligible September 19, 2026 at 20:07:31 Beijing time
 
+The settlement command is deliberately time-locked and dry-run by default:
+
+```bash
+npm run bnb-agent:paid:settle
+# After the printed eligibility time, execute only with:
+npm run bnb-agent:paid:settle -- --execute
+```
+
+Before eligibility it returns `TIME_LOCKED` and creates no transaction. After eligibility, omitting `--execute` returns `READY_AWAITING_EXPLICIT_EXECUTE`.
+
 The current `v0.1.0` baseline combines clearly labelled `SIMULATED` / `ADVERSARIAL_TEST` scenarios, authenticated `LIVE` BNB Chain evidence, one user-confirmed BSC mainnet stock-token swap, three source-verified mainnet contracts, a Registry-bound Credential, a live BSC Testnet BNB Agent Studio trial, and one independently funded ERC-8183 delivery. It does **not** claim Agentic Wallet custody, final ERC-8183 buyer settlement, B402 settlement, or automated rescue settlement. The historical zero-address Credential remains preserved beside its active Registry-bound successor.
 
 ## Why this exists

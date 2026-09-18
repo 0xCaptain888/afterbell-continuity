@@ -35,6 +35,7 @@
     "bnb-agent:readiness:record": "node --import tsx scripts/record-bnb-agent-operator-readiness.ts",
     "bnb-agent:public:verify": "node --import tsx scripts/verify-bnb-agent-public.ts",
     "bnb-agent:paid:record": "node --env-file-if-exists=bnb-agent/.studio/.env.local --import tsx scripts/record-bnb-agent-paid-delivery.ts",
+    "bnb-agent:paid:settle": "node --import tsx scripts/settle-bnb-agent-paid-job.ts",
     "bnb-agent:test": "pnpm --config.manage-package-manager-versions=false --dir bnb-agent --filter AfterBellWatchtower-agent test",
     "bnb-agent:build": "pnpm --config.manage-package-manager-versions=false --dir bnb-agent --filter AfterBellWatchtower-agent build",
     "data:gate": "NODE_USE_ENV_PROXY=1 node --env-file-if-exists=.env --import tsx scripts/data-gate.ts",

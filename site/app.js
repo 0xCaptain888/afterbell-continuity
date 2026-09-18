@@ -37,6 +37,18 @@ const liveProofGrid = document.querySelector("#liveProofGrid");
 const verifyEvidenceButton = document.querySelector("#verifyEvidenceButton");
 const verifyEvidenceState = document.querySelector("#verifyEvidenceState");
 const verificationList = document.querySelector("#verificationList");
+const agentPaidStatus = document.querySelector("#agentPaidStatus");
+const agentJobId = document.querySelector("#agentJobId");
+const agentPaidSummary = document.querySelector("#agentPaidSummary");
+const agentBuyer = document.querySelector("#agentBuyer");
+const agentProvider = document.querySelector("#agentProvider");
+const agentBudget = document.querySelector("#agentBudget");
+const agentDecision = document.querySelector("#agentDecision");
+const agentChecks = document.querySelector("#agentChecks");
+const agentSettlement = document.querySelector("#agentSettlement");
+const agentSettlementCountdown = document.querySelector("#agentSettlementCountdown");
+const agentSubmitTxLink = document.querySelector("#agentSubmitTxLink");
+const agentDeliverableLink = document.querySelector("#agentDeliverableLink");
 
 const number = (value, digits = 2) => Number.isFinite(Number(value)) ? Number(value).toFixed(digits) : "—";
 const shortAddress = (value) => typeof value === "string" && value.length > 12 ? `${value.slice(0, 6)}…${value.slice(-4)}` : value;
@@ -293,6 +305,75 @@ function renderLiveProof(featured = []) {
   }
 }
 
+function renderAgentPaidDelivery(paidDelivery) {
+  const job = paidDelivery?.job;
+  const participants = paidDelivery?.participants;
+  const deliverable = paidDelivery?.deliverable;
+  const settlement = paidDelivery?.settlement;
+  const transactions = paidDelivery?.transactions;
+  if (!job || !participants || !deliverable) {
+    if (agentPaidStatus) agentPaidStatus.textContent = "UNAVAILABLE";
+    if (agentPaidSummary) agentPaidSummary.textContent = "The public paid-delivery artifact is unavailable.";
+    return;
+  }
+
+  const checks = deliverable.checks && typeof deliverable.checks === "object"
+    ? Object.values(deliverable.checks)
+    : [];
+  const passedChecks = checks.filter(Boolean).length;
+  if (agentPaidStatus) agentPaidStatus.textContent = String(job.status ?? "SUBMITTED");
+  if (agentJobId) agentJobId.textContent = String(job.id ?? "—");
+  if (agentPaidSummary) {
+    agentPaidSummary.textContent = `${paidDelivery.truthNotice ?? "Independent paid Agent delivery verified."}`;
+  }
+  if (agentBuyer) {
+    agentBuyer.textContent = String(participants.buyer ?? "—");
+    agentBuyer.title = String(participants.buyer ?? "");
+  }
+  if (agentProvider) {
+    agentProvider.textContent = String(participants.provider ?? "—");
+    agentProvider.title = String(participants.provider ?? "");
+  }
+  if (agentBudget) agentBudget.textContent = String(job.budgetDisplay ?? "—");
+  if (agentDecision) agentDecision.textContent = String(deliverable.state ?? "—");
+  if (agentChecks) agentChecks.textContent = `${passedChecks}/${checks.length} PASS`;
+
+  const settlementComplete = settlement?.completed === true || job.status === "COMPLETED";
+  if (agentSettlement) agentSettlement.textContent = settlementComplete ? "COMPLETED" : "TIME-LOCKED";
+  const eligibleAt = Date.parse(String(job.settlementEligibleAt ?? settlement?.earliestBuyerApproval ?? ""));
+  const updateCountdown = () => {
+    if (!agentSettlementCountdown) return;
+    if (settlementComplete) {
+      agentSettlementCountdown.textContent = "Buyer approved; seller payout released.";
+      return;
+    }
+    if (!Number.isFinite(eligibleAt)) {
+      agentSettlementCountdown.textContent = "Settlement eligibility unavailable.";
+      return;
+    }
+    const remaining = eligibleAt - Date.now();
+    if (remaining <= 0) {
+      agentSettlementCountdown.textContent = "Approval is now eligible; completion is not claimed until an on-chain receipt is published.";
+      return;
+    }
+    const hours = Math.floor(remaining / 3_600_000);
+    const minutes = Math.floor((remaining % 3_600_000) / 60_000);
+    const seconds = Math.floor((remaining % 60_000) / 1_000);
+    agentSettlementCountdown.textContent = `Eligible in ${hours}h ${minutes}m ${seconds}s · ${new Date(eligibleAt).toLocaleString()}`;
+  };
+  updateCountdown();
+  window.setInterval(updateCountdown, 1_000);
+
+  const submitHash = String(transactions?.submit?.hash ?? "");
+  if (agentSubmitTxLink && /^0x[0-9a-f]{64}$/i.test(submitHash)) {
+    agentSubmitTxLink.href = `https://testnet.bscscan.com/tx/${submitHash}`;
+  }
+  const deliverableUrl = String(job.deliverableUrl ?? "");
+  if (agentDeliverableLink && /^https:\/\/bnbagent-api\.bnbchain\.world\//i.test(deliverableUrl)) {
+    agentDeliverableLink.href = deliverableUrl;
+  }
+}
+
 function stableJson(value) {
   if (value === null || typeof value !== "object") return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
@@ -476,6 +557,7 @@ fetch("./live-evidence.json", { cache: "no-store" })
       consumerBadge.textContent = "UNAVAILABLE";
       consumerSummary.textContent = "Standalone consumer artifact is unavailable.";
     }
+    renderAgentPaidDelivery(evidence.agentStudio?.paidDelivery);
     renderLiveProof(evidence.featured);
   })
   .catch(() => {

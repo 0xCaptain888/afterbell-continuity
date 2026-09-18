@@ -20,6 +20,7 @@
     </a>
     <nav>
       <a href="#control">Control center</a>
+      <a href="#agent-commerce">Agent commerce</a>
       <a href="#live-proof">Live proof</a>
       <a href="#protocol">Protocol</a>
       <a href="#developers">Developers</a>
@@ -39,7 +40,7 @@
         </div>
         <div class="truth-row">
           <span class="truth live-label">LIVE READ-ONLY EVIDENCE</span>
-          <span>Authenticated BNB Chain data, quotes, and one bounded mainnet execution.</span>
+          <span>Authenticated BNB Chain data, a paid Agent delivery, and one bounded mainnet execution.</span>
         </div>
       </div>
       <aside class="position-card" id="control">
@@ -97,6 +98,43 @@
         <article><span class="ready-dot waiting" id="passportDot"></span><div><b>Passport + EIP-712 credential</b><small id="passportStatus">Loading public evidence…</small></div></article>
         <article><span class="ready-dot live"></span><div><b>BNB Agent Studio Watchtower</b><small><a href="./evidence/agent-studio-paid-delivery.json" target="_blank" rel="noreferrer">PAID JOB 1254 · SUBMITTED · awaiting settlement ↗</a></small></div></article>
         <article><span class="ready-dot live"></span><div><b>Submission readiness</b><small><a href="./evidence/submission-readiness.json" target="_blank" rel="noreferrer">TECHNICALLY READY · 14/14 checks ↗</a></small></div></article>
+      </div>
+    </section>
+
+    <section class="agent-commerce shell" id="agent-commerce" aria-labelledby="agent-commerce-title">
+      <div class="section-title">
+        <div><span class="kicker">LIVE AGENT COMMERCE</span><h2 id="agent-commerce-title">An independent buyer paid. The Agent delivered.</h2></div>
+        <p>This is a real BSC Testnet ERC-8183 lifecycle—not a UI simulation. Quote, escrow funding, deterministic inspection, content-addressed delivery, and on-chain submission are independently verifiable.</p>
+      </div>
+      <div class="commerce-panel">
+        <div class="commerce-summary">
+          <div class="commerce-heading"><span class="status protected" id="agentPaidStatus">LOADING</span><span class="commerce-network">BSC TESTNET · ERC-8183</span></div>
+          <h3>AfterBell Watchtower · Job <span id="agentJobId">—</span></h3>
+          <p id="agentPaidSummary">Loading the independent-buyer delivery receipt…</p>
+          <div class="commerce-parties">
+            <div><span>Independent buyer</span><code id="agentBuyer">—</code></div>
+            <div><span>Agent provider</span><code id="agentProvider">—</code></div>
+          </div>
+        </div>
+        <div class="commerce-metrics">
+          <div><span>Escrowed budget</span><b id="agentBudget">—</b></div>
+          <div><span>Policy decision</span><b id="agentDecision">—</b></div>
+          <div><span>Deterministic checks</span><b id="agentChecks">—</b></div>
+          <div><span>Buyer settlement</span><b class="settlement-state" id="agentSettlement">—</b><small id="agentSettlementCountdown">—</small></div>
+        </div>
+        <div class="commerce-flow" aria-label="Paid Agent lifecycle">
+          <div class="complete"><i>1</i><span>Signed quote</span></div><b></b>
+          <div class="complete"><i>2</i><span>0.01 U funded</span></div><b></b>
+          <div class="complete"><i>3</i><span>Agent verified</span></div><b></b>
+          <div class="complete"><i>4</i><span>Result submitted</span></div><b></b>
+          <div class="pending"><i>5</i><span>Buyer approves</span></div>
+        </div>
+        <div class="commerce-actions">
+          <a id="agentSubmitTxLink" href="#" target="_blank" rel="noreferrer">Open submit transaction ↗</a>
+          <a id="agentDeliverableLink" href="#" target="_blank" rel="noreferrer">Open content-addressed result ↗</a>
+          <a href="./evidence/agent-studio-paid-delivery.json" target="_blank" rel="noreferrer">Open full evidence artifact ↗</a>
+        </div>
+        <p class="commerce-truth">No rescue transaction was signed or broadcast by the Watchtower. Final payment release remains under buyer authority and the canonical dispute-window rules.</p>
       </div>
     </section>
 

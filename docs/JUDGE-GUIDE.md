@@ -64,6 +64,7 @@ Then show:
 - `ADVERSARIAL_TEST`: a deliberately malformed or unsafe scenario.
 - `DESIGN`: implemented packaging or plan without an external deployment receipt.
 - `DEPLOYED_TESTNET_TRIAL`: verified temporary BNB Agent Studio runtime on BSC Testnet; not a mainnet or paid-settlement claim.
+- `PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT`: an independent buyer funded the job and the Agent submitted its deliverable on-chain; payment release is not claimed until buyer approval has its own receipt.
 - `UNAVAILABLE`: a required external credential, wallet, or service is absent.
 
 The demo must never relabel a simulated stage as live, or a deployment plan as a deployment.

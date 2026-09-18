@@ -1,6 +1,6 @@
 {
   "schema": "afterbell-public-live-evidence/4",
-  "generatedAt": "2026-09-18T12:20:14.282Z",
+  "generatedAt": "2026-09-18T12:34:36.621Z",
   "truthNotice": "LIVE and MAINNET labels refer to authenticated API, on-chain receipts, independently matched bytecode, and BscScan-published sources. One bounded stock-token swap and three protocol deployments are verified; incomplete holder-rights evidence remains UNKNOWN and still blocks automatic rescue.",
   "inventory": {
     "status": "LIVE_DATA_GATE_PASSED",
@@ -285,8 +285,8 @@
       "allowGuardedDeposit": false,
       "allowReadOnlyMonitoring": true
     },
-    "evaluatedAt": "2026-09-18T12:20:13.000Z",
-    "evidenceRoot": "0x738fb84fce25d424186cae3c7e88ab4d8714b741e9bbcef1533dddf3f3852c39",
+    "evaluatedAt": "2026-09-18T12:34:36.000Z",
+    "evidenceRoot": "0x5d728623b2c057de335bd11428a7c65c5cd0cd3451ff8e60f25b6c030180ea16",
     "truthNotice": "The reference consumer allows read-only monitoring but blocks automated rescue and Guarded Vault deposits because the live credential is WATCH/HIGH and the Passport is CHALLENGED."
   },
   "agentStudio": {
@@ -402,6 +402,50 @@
         "financialTransactionCreated": false,
         "signingRequested": false,
         "truthNotice": "Deterministic continuity inspection. The service does not possess the buyer wallet, sign a rescue, or broadcast a transaction."
+      },
+      "transactions": {
+        "buyerFundingNative": {
+          "hash": "0x9c0f37cf37ccbdc0bfaadc82acf14d6156429746d2df825184d69eeed1c4e5e6",
+          "blockNumber": "131746079",
+          "status": "success",
+          "gasUsed": "21000"
+        },
+        "buyerFundingU": {
+          "hash": "0x5d238c6502c0c59762c19abd31961527fde9d94414b7f7159f23c2791a1ebfaa",
+          "blockNumber": "131746090",
+          "status": "success",
+          "gasUsed": "65408"
+        },
+        "createJob": {
+          "hash": "0x59d9160faa92885d05aec3d71531fd102d586c81a0fd18469e6ec70025e95099",
+          "blockNumber": "131747904",
+          "status": "success",
+          "gasUsed": "1470963"
+        },
+        "registerJob": {
+          "hash": "0x09b1d28d6e1e713a28f8063288da6dad049349aa286e77431dce9cf84f2549c0",
+          "blockNumber": "131747907",
+          "status": "success",
+          "gasUsed": "215997"
+        },
+        "setBudget": {
+          "hash": "0x2f882443aa6f95dfbd74af44d42adc1b45e8486ed6772622dd9474d2761cb981",
+          "blockNumber": "131747909",
+          "status": "success",
+          "gasUsed": "96341"
+        },
+        "fund": {
+          "hash": "0x6a10dd12a4a84fe7e172195d2a75a8336ca8e569e5dec80ef6659734984cce1a",
+          "blockNumber": "131747917",
+          "status": "success",
+          "gasUsed": "105368"
+        },
+        "submit": {
+          "hash": "0xf26786a929ab2a7955e0006a6367886060f9a899ee715d6e75751c3e63ba853b",
+          "blockNumber": "131747967",
+          "status": "success",
+          "gasUsed": "270798"
+        }
       },
       "settlement": {
         "completed": false,

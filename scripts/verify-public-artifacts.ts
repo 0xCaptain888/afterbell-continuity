@@ -281,6 +281,8 @@ assert(html.includes("agent-studio-package.json"), "agent_studio_package_not_lin
 assert(html.includes("agent-studio-deployment.json"), "agent_studio_deployment_not_linked");
 assert(html.includes("agent-studio-public-negotiate.json"), "agent_studio_negotiation_not_linked");
 assert(html.includes("agent-studio-paid-delivery.json"), "agent_studio_paid_delivery_not_linked");
+assert(html.includes("LIVE AGENT COMMERCE") && html.includes("agentSettlementCountdown"), "paid_agent_commerce_panel_missing");
+assert(app.includes("renderAgentPaidDelivery") && app.includes("agent-studio-paid-delivery.json"), "paid_agent_commerce_rendering_missing");
 await readFile("evidence/agent-studio-package.json", "utf8");
 assert(app.includes("eth_requestAccounts"), "wallet_connect_not_implemented");
 assert(app.includes("eth_sendTransaction"), "bounded_approval_not_implemented");

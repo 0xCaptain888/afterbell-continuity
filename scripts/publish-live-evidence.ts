@@ -177,6 +177,7 @@ const summary = {
       job: (agentPaidDelivery.payload as Record<string, unknown> | undefined)?.job,
       participants: (agentPaidDelivery.payload as Record<string, unknown> | undefined)?.participants,
       deliverable: (agentPaidDelivery.payload as Record<string, unknown> | undefined)?.deliverable,
+      transactions: (agentPaidDelivery.payload as Record<string, unknown> | undefined)?.transactions,
       settlement: (agentPaidDelivery.payload as Record<string, unknown> | undefined)?.settlement,
       evidenceRoot: agentPaidDelivery.evidenceRoot,
       truthNotice: (agentPaidDelivery.payload as Record<string, unknown> | undefined)?.truthNotice

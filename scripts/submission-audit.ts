@@ -53,6 +53,7 @@ const officialAgentPackage = await readJson("bnb-agent/app/agent/package.json");
 const officialStudioToml = await readFile("bnb-agent/app/agent/studio.toml", "utf8");
 const officialAgentSource = await readFile("bnb-agent/app/agent/src/afterbell.ts", "utf8");
 const officialAgentTests = await readFile("bnb-agent/app/agent/test/afterbell.test.ts", "utf8");
+const paidSettlementScript = await readFile("scripts/settle-bnb-agent-paid-job.ts", "utf8");
 const operatorReadiness = await readJson("evidence/bnb-agent-operator-readiness.json");
 const agentDeployment = await readJson("evidence/live/agent-studio-deployment.json");
 const agentNegotiation = await readJson("evidence/live/agent-studio-public-negotiate.json");
@@ -126,6 +127,7 @@ assert(officialStudioToml.includes('default = "bsc-testnet"'), "official_agent_n
 assert(!officialStudioToml.includes("[llm]"), "official_agent_llm_boundary_invalid");
 assert(officialAgentSource.includes("financialTransactionCreated: false") && officialAgentSource.includes("signingRequested: false"), "official_agent_safety_boundary_missing");
 assert(officialAgentTests.includes('result.state, "PROTECTED"') && officialAgentTests.includes('result.state, "BLOCKED"'), "official_agent_tests_missing");
+assert(paidSettlementScript.includes('status: "TIME_LOCKED"') && paidSettlementScript.includes('process.argv.includes("--execute")'), "paid_settlement_time_lock_missing");
 const rebuiltOperatorReadiness = createEvidenceArtifact({
   artifactType: String(operatorReadiness.artifactType),
   mode: "LIVE",
