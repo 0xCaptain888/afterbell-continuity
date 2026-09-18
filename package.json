@@ -34,6 +34,7 @@
     "credentials:binance": "zsh scripts/save-binance-credentials.zsh",
     "credentials:issuer": "node --import tsx scripts/ensure-credential-issuer.ts",
     "passport:publish": "node --env-file-if-exists=.env --import tsx scripts/publish-live-passport.ts",
+    "consumer:verify": "node --import tsx scripts/verify-live-consumer.ts",
     "assets:rank": "node --import tsx scripts/rank-assets.ts",
     "rights:discover": "NODE_USE_ENV_PROXY=1 node --env-file-if-exists=.env --import tsx scripts/rights-discovery.ts",
     "quote:discover": "NODE_USE_ENV_PROXY=1 node --env-file-if-exists=.env --import tsx scripts/quote-discovery.ts",
@@ -47,7 +48,7 @@
     "contracts:compile": "node --import tsx scripts/compile-contracts.ts",
     "contracts:plan": "npm run contracts:compile && node --import tsx scripts/deployment-plan.ts",
     "contracts:deploy:bsc": "npm run contracts:compile && node --env-file-if-exists=.env --import tsx scripts/deploy-contracts.ts",
-    "check": "npm run typecheck && npm test && npm run contracts:compile && npm run judge && npm run benchmark && npm run watchtower:demo && npm run public:verify",
+    "check": "npm run typecheck && npm test && npm run contracts:compile && npm run judge && npm run benchmark && npm run watchtower:demo && npm run consumer:verify && npm run site:evidence && npm run public:verify",
     "security:audit": "npm audit --omit=dev --audit-level=high"
   },
   "dependencies": {

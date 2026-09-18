@@ -6,9 +6,10 @@
 2. Observe a healthy stock exposure remain `PROTECTED`.
 3. Inspect TSLA/NVDA live bidirectional quote cards: executable price equivalence is visible in basis points.
 4. Observe the deliberate `RIGHTS UNKNOWN` result: authenticated disclosure links exist, but missing holder-right terms block automatic rescue.
-5. Click **Verify evidence roots** and confirm all three independently downloaded artifacts return `VERIFIED` in the browser.
-6. Run the deterministic demo and watch a premium/liquidity breach become `RESCUE_REQUIRED`.
-7. See tampered calldata become `CHALLENGE`, then verify the short-lived EIP-712 credential returns `VALID`.
+5. Inspect the live Passport and EIP-712 Credential, including the deliberately disclosed quote-timing challenge.
+6. Inspect the standalone Guarded Consumer: it permits read-only monitoring but blocks automated rescue and deposits.
+7. Click **Verify evidence roots** and confirm all seven independently downloaded artifacts return `VERIFIED` in the browser.
+8. Run the deterministic demo and watch a premium/liquidity breach become `RESCUE_REQUIRED`, then see tampered calldata become `CHALLENGE`.
 
 ## Four-minute technical path
 
@@ -27,19 +28,23 @@ Then show:
 - `evidence/live/rights-discovery.json`
 - `evidence/live/quote-discovery.json`
 - `evidence/live/economic-equivalence.json`
+- `evidence/live/mainnet-stock-swap.json`
+- `evidence/live/mainnet-credential.json`
+- `evidence/live/mainnet-passport.json`
+- `evidence/live/guarded-consumer-admission.json`
 - `evidence/deployment/bsc-mainnet-plan.json`
 - `openapi.yaml`
 - the installable SDK package produced by `npm pack --dry-run --cache .runtime/npm-cache`
 
-## Live mainnet path — pending external authorization
+## Live mainnet path — completed execution, deployment still pending
 
 1. Save Binance Web3 credentials locally; run `npm run data:gate` and `npm run assets:rank`.
 2. Run `npm run rights:discover`, `npm run quote:discover`, and `npm run equivalence:live`.
 3. Review why live executable price equivalence still produces `UNKNOWN` rights equivalence and blocks auto-rescue.
 4. Configure a public wallet address and run `npm run trade:gate`.
-5. If the path is RFQ, authorize the typed data through the approved wallet. Never substitute a raw private key in source.
-6. Deploy and verify contracts only after reviewing the bytecode hashes in the deployment plan.
-7. Execute one low-value transaction under a strict mandate and publish transaction, receipt, Passport, Credential, and evidence roots.
+5. Review the already published low-value transaction, receipt, Passport, Credential, and consumer-admission evidence roots.
+6. Run `npm run consumer:verify` and confirm unsafe automation fails closed outside the AfterBell UI.
+7. Deploy and verify contracts only after reviewing bytecode hashes and obtaining a separate wallet confirmation.
 
 ## Truth labels
 

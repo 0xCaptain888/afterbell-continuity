@@ -8,7 +8,8 @@ const evidenceFiles = [
   "quote-simulation-gate.json",
   "mainnet-stock-swap.json",
   "mainnet-credential.json",
-  "mainnet-passport.json"
+  "mainnet-passport.json",
+  "guarded-consumer-admission.json"
 ];
 
 await rm(output, { recursive: true, force: true });

@@ -5,6 +5,7 @@ import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildEconomicFingerprint, compareEconomicEquivalence } from "./equivalence.js";
 import { verifyBearerToken } from "./auth.js";
+import { deserializeSignedCredential, evaluateConsumerAdmission } from "./consumer.js";
 import { signCredential, verifyCredential } from "./credential.js";
 import { evaluateContinuity } from "./policy.js";
 import { buildRescuePlan } from "./rescue.js";
@@ -281,6 +282,28 @@ const server = createServer(async (request, response) => {
     try {
       const execution = await readJsonBody<ExecutionEvidence>(request);
       return json(response, 200, buildPassport(execution));
+    } catch (error) {
+      return json(response, 422, { error: error instanceof Error ? error.message : String(error) });
+    }
+  }
+
+  if (request.method === "POST" && url.pathname === "/api/v1/consumers/admit") {
+    try {
+      const body = await readJsonBody<{
+        signedCredential: unknown;
+        passport: import("./types.js").ContinuityPassport;
+        trustedSigner: `0x${string}`;
+        nowSeconds?: number;
+        maximumRiskTier?: 0 | 1 | 2 | 3;
+      }>(request);
+      if (!body.passport || !/^0x[0-9a-fA-F]{40}$/.test(body.trustedSigner ?? "")) throw new Error("invalid_consumer_admission_request");
+      return json(response, 200, await evaluateConsumerAdmission({
+        signedCredential: deserializeSignedCredential(body.signedCredential),
+        passport: body.passport,
+        trustedSigner: body.trustedSigner,
+        ...(body.nowSeconds === undefined ? {} : { nowSeconds: body.nowSeconds }),
+        ...(body.maximumRiskTier === undefined ? {} : { maximumRiskTier: body.maximumRiskTier })
+      }));
     } catch (error) {
       return json(response, 422, { error: error instanceof Error ? error.message : String(error) });
     }

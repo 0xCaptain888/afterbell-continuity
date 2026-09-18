@@ -8,6 +8,7 @@
 - The web interface cannot authorize a trade by itself.
 - The credential signer is trusted only for a short validity window.
 - The independent verifier must recompute hashes from source evidence.
+- A consumer must own an explicit trusted-issuer set; it must never trust the signer address merely because the Credential contains it.
 
 ## Fail-closed rules
 

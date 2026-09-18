@@ -77,6 +77,15 @@ paths:
       responses:
         "200":
           description: Independent replay result
+  /v1/consumers/admit:
+    post:
+      operationId: admitConsumer
+      summary: Independently decide whether a wallet or vault may automate against a Credential and Passport
+      responses:
+        "200":
+          description: ALLOW_AUTOMATION, REQUIRE_MANUAL_REVIEW, or DENY with deterministic checks
+        "422":
+          description: Invalid Credential, Passport, signer, or request shape
   /v1/watch/tasks:
     get:
       operationId: listWatchTasks

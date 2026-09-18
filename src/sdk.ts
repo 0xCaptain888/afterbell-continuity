@@ -106,6 +106,20 @@ export class AfterBellClient {
       body: JSON.stringify(execution)
     });
   }
+
+  admitConsumer(input: {
+    signedCredential: SignedCredential;
+    passport: ContinuityPassport;
+    trustedSigner: `0x${string}`;
+    nowSeconds?: number;
+    maximumRiskTier?: 0 | 1 | 2 | 3;
+  }) {
+    return this.request<import("./consumer.js").ConsumerAdmissionDecision>("/v1/consumers/admit", {
+      method: "POST",
+      body: JSON.stringify(input, (_, value) => typeof value === "bigint" ? value.toString() : value)
+    });
+  }
 }
 
 export * from "./types.js";
+export * from "./consumer.js";

@@ -18,8 +18,11 @@
 - [x] Bidirectional quote probes and executable per-share equivalence report
 - [x] Public raw evidence bundle and wallet-free browser root verifier
 - [x] Live swap build and fail-closed Transaction API simulation
+- [x] One bounded, independently verified BSC mainnet TSLAB execution
+- [x] Public EIP-712 Credential and Continuity Passport
+- [x] Standalone Guarded Consumer with an explicit issuer trust list
 - [x] Selected live demo pairs: TSLAB/TSLAon and NVDAB/NVDAon
-- [ ] Agentic Wallet authorization and real small trade
+- [x] Browser-wallet authorization and real small trade
 - [ ] BSC mainnet deployment and source verification
 - [ ] Agent Studio Watchtower deployment receipt
 - [ ] Public demo and four-minute video

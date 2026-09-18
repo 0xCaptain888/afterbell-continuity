@@ -1,0 +1,14 @@
+{
+  "schema": "afterbell-trusted-issuers/1",
+  "chainId": 56,
+  "issuers": [
+    {
+      "address": "0x1EEB975651AD5FCDC7C5F45FD9a72387B8440c80",
+      "role": "AFTERBELL_OFFCHAIN_CREDENTIAL_ISSUER",
+      "status": "ACTIVE",
+      "registryStatus": "NOT_DEPLOYED",
+      "trustedSince": "2026-09-18T05:32:32.000Z"
+    }
+  ],
+  "truthNotice": "This explicit trust list belongs to the reference consumer. Trust is not inferred from the signer embedded in a credential."
+}

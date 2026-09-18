@@ -1,6 +1,6 @@
 {
   "schema": "afterbell-public-live-evidence/3",
-  "generatedAt": "2026-09-18T05:37:36.674Z",
+  "generatedAt": "2026-09-18T05:57:27.975Z",
   "truthNotice": "LIVE labels refer to authenticated API and on-chain evidence. One bounded, user-confirmed BNB Chain stock-token swap is independently verified; incomplete rights evidence remains UNKNOWN and still blocks automatic rescue.",
   "inventory": {
     "status": "LIVE_DATA_GATE_PASSED",
@@ -210,5 +210,30 @@
     },
     "evidenceRoot": "0x6177c400ee6d7f31634dd5b1cfee55f3f2860ae85cccfc7abcf8399442ccac66",
     "truthNotice": "This passport binds the prepared calldata, successful BNB Chain receipt, exact input, output bound, simulation and zero remaining allowance. It remains CHALLENGED because chain confirmation does not prove the quote was submitted within 30 seconds."
+  },
+  "guardedConsumer": {
+    "result": "REQUIRE_MANUAL_REVIEW",
+    "checks": {
+      "signatureTrusted": true,
+      "credentialActive": true,
+      "credentialDigestBound": true,
+      "passportIntegrity": true,
+      "passportProtected": false,
+      "credentialProtected": false,
+      "riskTierAccepted": false
+    },
+    "reasons": [
+      "passportProtected",
+      "credentialProtected",
+      "riskTierAccepted"
+    ],
+    "permissions": {
+      "allowAutomatedRescue": false,
+      "allowGuardedDeposit": false,
+      "allowReadOnlyMonitoring": true
+    },
+    "evaluatedAt": "2026-09-18T05:57:27.000Z",
+    "evidenceRoot": "0xa087b7555242b2985c5db539a0d2d73f525ebdc04b52c3307c723e19a6a80b1f",
+    "truthNotice": "The reference consumer allows read-only monitoring but blocks automated rescue and Guarded Vault deposits because the live credential is WATCH/HIGH and the Passport is CHALLENGED."
   }
 }

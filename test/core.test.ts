@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import { compareEconomicEquivalence, buildEconomicFingerprint } from "../src/equivalence.js";
 import { evaluateContinuity } from "../src/policy.js";
 import { signCredential, verifyCredential } from "../src/credential.js";
+import { evaluateConsumerAdmission } from "../src/consumer.js";
+import { credentialHash } from "../src/credential.js";
 import { buildPassport } from "../src/verifier.js";
 import {
   demoAccount,
@@ -80,4 +82,50 @@ test("correctly bound execution receives PASS", () => {
   const passport = buildPassport(sampleExecution());
   assert.equal(passport.state, "PROTECTED");
   assert.equal(passport.verification.result, "PASS");
+});
+
+test("independent consumer allows only a protected credential bound to a protected passport", async () => {
+  const credential = sampleCredential(nowSeconds);
+  const signedCredential = await signCredential(credential, demoAccount);
+  const passport = buildPassport(sampleExecution({ credentialHash: credentialHash(credential) }), "2026-09-17T12:00:01.000Z");
+  const decision = await evaluateConsumerAdmission({
+    signedCredential,
+    passport,
+    trustedSigner: demoAccount.address,
+    nowSeconds: nowSeconds + 10
+  });
+  assert.equal(decision.result, "ALLOW_AUTOMATION");
+  assert.equal(decision.permissions.allowGuardedDeposit, true);
+});
+
+test("independent consumer requires review for watch credentials or challenged passports", async () => {
+  const credential = { ...sampleCredential(nowSeconds), status: 1 as const, riskTier: 2 as const };
+  const signedCredential = await signCredential(credential, demoAccount);
+  const passport = buildPassport(sampleExecution({
+    credentialHash: credentialHash(credential),
+    executedCalldataHash: `0x${"ef".repeat(32)}`
+  }), "2026-09-17T12:00:01.000Z");
+  const decision = await evaluateConsumerAdmission({
+    signedCredential,
+    passport,
+    trustedSigner: demoAccount.address,
+    nowSeconds: nowSeconds + 10
+  });
+  assert.equal(decision.result, "REQUIRE_MANUAL_REVIEW");
+  assert.equal(decision.permissions.allowAutomatedRescue, false);
+  assert.equal(decision.permissions.allowReadOnlyMonitoring, true);
+});
+
+test("independent consumer denies an untrusted credential signer", async () => {
+  const credential = sampleCredential(nowSeconds);
+  const signedCredential = await signCredential(credential, demoAccount);
+  const passport = buildPassport(sampleExecution({ credentialHash: credentialHash(credential) }), "2026-09-17T12:00:01.000Z");
+  const decision = await evaluateConsumerAdmission({
+    signedCredential,
+    passport,
+    trustedSigner: "0x9999999999999999999999999999999999999999",
+    nowSeconds: nowSeconds + 10
+  });
+  assert.equal(decision.result, "DENY");
+  assert.equal(decision.permissions.allowReadOnlyMonitoring, false);
 });

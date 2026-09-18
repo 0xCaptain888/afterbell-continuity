@@ -25,6 +25,11 @@ const credentialBadge = document.querySelector("#credentialBadge");
 const credentialSummary = document.querySelector("#credentialSummary");
 const credentialSigner = document.querySelector("#credentialSigner");
 const credentialExpiry = document.querySelector("#credentialExpiry");
+const consumerBadge = document.querySelector("#consumerBadge");
+const consumerSummary = document.querySelector("#consumerSummary");
+const consumerRescue = document.querySelector("#consumerRescue");
+const consumerDeposit = document.querySelector("#consumerDeposit");
+const consumerMonitoring = document.querySelector("#consumerMonitoring");
 const rightsDataStatus = document.querySelector("#rightsDataStatus");
 const liveProofGrid = document.querySelector("#liveProofGrid");
 const verifyEvidenceButton = document.querySelector("#verifyEvidenceButton");
@@ -359,11 +364,12 @@ verifyEvidenceButton?.addEventListener("click", async () => {
       verifyPublishedArtifact("./evidence/economic-equivalence.json", "LIVE_ECONOMIC_EQUIVALENCE", "Economic equivalence"),
       verifyPublishedArtifact("./evidence/mainnet-stock-swap.json", "MAINNET_STOCK_SWAP", "Mainnet execution"),
       verifyPublishedArtifact("./evidence/mainnet-credential.json", "LIVE_CONTINUITY_CREDENTIAL", "EIP-712 credential", "wrapped"),
-      verifyPublishedArtifact("./evidence/mainnet-passport.json", "LIVE_CONTINUITY_PASSPORT", "Continuity Passport", "wrapped")
+      verifyPublishedArtifact("./evidence/mainnet-passport.json", "LIVE_CONTINUITY_PASSPORT", "Continuity Passport", "wrapped"),
+      verifyPublishedArtifact("./evidence/guarded-consumer-admission.json", "LIVE_GUARDED_CONSUMER_ADMISSION", "Guarded consumer", "wrapped")
     ]);
     results.forEach(renderVerificationResult);
     const verified = results.every((result) => result.verified);
-    verifyEvidenceState.textContent = verified ? "6/6 VERIFIED · canonical roots match" : "FAILED · published evidence mismatch";
+    verifyEvidenceState.textContent = verified ? "7/7 VERIFIED · canonical roots match" : "FAILED · published evidence mismatch";
     verifyEvidenceState.className = `verify-state ${verified ? "ok" : "bad"}`;
   } catch (error) {
     verifyEvidenceState.textContent = `FAILED · ${error instanceof Error ? error.message : String(error)}`;
@@ -440,6 +446,17 @@ fetch("./live-evidence.json", { cache: "no-store" })
       credentialExpiry.textContent = Number.isFinite(expiresAt) ? new Date(expiresAt).toLocaleString() : "—";
     } else if (passportStatus) {
       passportStatus.textContent = "UNAVAILABLE · public Passport or Credential missing";
+    }
+    const consumer = evidence.guardedConsumer;
+    if (consumer?.result && consumer?.permissions) {
+      consumerBadge.textContent = consumer.result.replaceAll("_", " ");
+      consumerSummary.textContent = consumer.truthNotice ?? "Standalone consumer admission loaded.";
+      consumerRescue.textContent = consumer.permissions.allowAutomatedRescue ? "ALLOWED" : "BLOCKED";
+      consumerDeposit.textContent = consumer.permissions.allowGuardedDeposit ? "ALLOWED" : "BLOCKED";
+      consumerMonitoring.textContent = consumer.permissions.allowReadOnlyMonitoring ? "ALLOWED" : "BLOCKED";
+    } else {
+      consumerBadge.textContent = "UNAVAILABLE";
+      consumerSummary.textContent = "Standalone consumer artifact is unavailable.";
     }
     renderLiveProof(evidence.featured);
   })

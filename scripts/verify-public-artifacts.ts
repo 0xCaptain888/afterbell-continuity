@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { createEvidenceArtifact } from "../src/evidence.js";
 import { verifyCredential } from "../src/credential.js";
 import { buildPassport } from "../src/verifier.js";
+import { deserializeSignedCredential, evaluateConsumerAdmission } from "../src/consumer.js";
 import type { ContinuityCredential, ContinuityPassport, EvidenceMode, ExecutionEvidence, Hex, SignedCredential } from "../src/types.js";
 
 type Json = Record<string, unknown>;
@@ -102,6 +103,8 @@ const equivalence = await readJson("evidence/live/economic-equivalence.json");
 const mainnetSwap = await readJson("evidence/live/mainnet-stock-swap.json");
 const mainnetCredential = await readJson("evidence/live/mainnet-credential.json");
 const mainnetPassport = await readJson("evidence/live/mainnet-passport.json");
+const consumerAdmission = await readJson("evidence/live/guarded-consumer-admission.json");
+const trustedIssuers = await readJson("site/trusted-issuers.json");
 const publicSummary = await readJson("site/live-evidence.json");
 
 verifyRoot({ file: rights, artifactType: "RIGHTS_DISCOVERY" });
@@ -114,6 +117,7 @@ verifyRoot({ file: equivalence, artifactType: "LIVE_ECONOMIC_EQUIVALENCE", paren
 verifyRoot({ file: mainnetSwap, artifactType: "MAINNET_STOCK_SWAP" });
 verifyWrappedRoot(mainnetCredential, "LIVE_CONTINUITY_CREDENTIAL");
 verifyWrappedRoot(mainnetPassport, "LIVE_CONTINUITY_PASSPORT");
+verifyWrappedRoot(consumerAdmission, "LIVE_GUARDED_CONSUMER_ADMISSION");
 
 const credentialPayload = mainnetCredential.payload as Json;
 const signedCredentialJson = credentialPayload.signedCredential as Json;
@@ -144,6 +148,25 @@ assert(passport.verification.result === "CHALLENGE", "passport_must_not_hide_quo
 assert(passport.verification.reasons.length === 1 && passport.verification.reasons[0] === "quoteFresh", "unexpected_passport_challenge_reason");
 assert(Object.entries(passport.verification.checks).filter(([name, passed]) => !passed && name !== "quoteFresh").length === 0, "passport_non_timing_check_failed");
 
+const trustedIssuerRecords = records(trustedIssuers.issuers);
+const activeTrustedIssuer = trustedIssuerRecords.find((issuer) => issuer.status === "ACTIVE");
+assert(activeTrustedIssuer && typeof activeTrustedIssuer.address === "string", "active_consumer_trusted_issuer_missing");
+const consumerPayload = consumerAdmission.payload as Json;
+const publishedConsumerDecision = consumerPayload.decision as Json;
+const consumerEvaluationTime = Math.floor(Date.parse(String(publishedConsumerDecision.evaluatedAt)) / 1_000);
+assert(Number.isFinite(consumerEvaluationTime), "consumer_evaluation_time_invalid");
+const recomputedConsumerDecision = await evaluateConsumerAdmission({
+  signedCredential: deserializeSignedCredential(signedCredentialJson),
+  passport,
+  trustedSigner: String(activeTrustedIssuer.address) as `0x${string}`,
+  nowSeconds: consumerEvaluationTime,
+  maximumRiskTier: 1
+});
+assert(recomputedConsumerDecision.result === publishedConsumerDecision.result, "consumer_result_mismatch");
+assert(JSON.stringify(recomputedConsumerDecision.checks) === JSON.stringify(publishedConsumerDecision.checks), "consumer_checks_mismatch");
+assert(JSON.stringify(recomputedConsumerDecision.permissions) === JSON.stringify(publishedConsumerDecision.permissions), "consumer_permissions_mismatch");
+assert(recomputedConsumerDecision.result !== "ALLOW_AUTOMATION", "live_consumer_must_not_fail_open");
+
 const rightResults = records(rights.results);
 const quoteResults = records(quotes.results);
 const equivalenceResults = records(equivalence.results);
@@ -169,6 +192,7 @@ const publicEquivalence = publicSummary.equivalence as Json | undefined;
 const publicMainnetExecution = publicSummary.mainnetExecution as Json | undefined;
 const publicCredential = publicSummary.continuityCredential as Json | undefined;
 const publicPassport = publicSummary.continuityPassport as Json | undefined;
+const publicConsumer = publicSummary.guardedConsumer as Json | undefined;
 assert(publicSummary.schema === "afterbell-public-live-evidence/3", "unexpected_public_summary_schema");
 assert(publicRights?.evidenceRoot === rights.evidenceRoot, "public_rights_root_mismatch");
 assert(publicQuotes?.evidenceRoot === quotes.evidenceRoot, "public_quotes_root_mismatch");
@@ -183,6 +207,8 @@ assert(publicCredential?.evidenceRoot === mainnetCredential.evidenceRoot, "publi
 assert(publicCredential?.digest === credentialPayload.digest, "public_credential_digest_mismatch");
 assert(publicPassport?.evidenceRoot === mainnetPassport.evidenceRoot, "public_passport_root_mismatch");
 assert(publicPassport?.passportId === passport.passportId, "public_passport_id_mismatch");
+assert(publicConsumer?.evidenceRoot === consumerAdmission.evidenceRoot, "public_consumer_root_mismatch");
+assert(publicConsumer?.result === publishedConsumerDecision.result, "public_consumer_result_mismatch");
 assert(records(publicSummary.featured).length === 2, "public_featured_assets_missing");
 
 const html = await readFile("site/index.html", "utf8");
@@ -190,11 +216,13 @@ const app = await readFile("site/app.js", "utf8");
 for (const asset of ["./styles.css", "./app.js", "./favicon.svg"]) {
   assert(html.includes(asset), `site_asset_not_referenced:${asset}`);
 }
-for (const asset of ["live-evidence.json", "demo-data.json", "wallet-authorization.json", "mainnet-credential.json", "mainnet-passport.json"]) {
+for (const asset of ["live-evidence.json", "demo-data.json", "wallet-authorization.json", "mainnet-credential.json", "mainnet-passport.json", "guarded-consumer-admission.json"]) {
   assert(app.includes(asset), `runtime_asset_not_referenced:${asset}`);
-  if (["mainnet-credential.json", "mainnet-passport.json"].includes(asset)) await readFile(`evidence/live/${asset}`, "utf8");
+  if (["mainnet-credential.json", "mainnet-passport.json", "guarded-consumer-admission.json"].includes(asset)) await readFile(`evidence/live/${asset}`, "utf8");
   else await readFile(`site/${asset}`, "utf8");
 }
+assert(html.includes("trusted-issuers.json"), "consumer_trust_list_not_linked");
+await readFile("site/trusted-issuers.json", "utf8");
 assert(app.includes("eth_requestAccounts"), "wallet_connect_not_implemented");
 assert(app.includes("eth_sendTransaction"), "bounded_approval_not_implemented");
 assert(app.includes("eth_getTransactionByHash"), "broadcast_calldata_not_verified");
@@ -208,11 +236,12 @@ assert(leakedFiles.length === 0, `public_secret_pattern_detected:${leakedFiles.j
 
 console.log(JSON.stringify({
   status: "PUBLIC_ARTIFACTS_VERIFIED",
-  evidence: { rights: rights.evidenceRoot, quotes: quotes.evidenceRoot, equivalence: equivalence.evidenceRoot, mainnetSwap: mainnetSwap.evidenceRoot, credential: mainnetCredential.evidenceRoot, passport: mainnetPassport.evidenceRoot },
+  evidence: { rights: rights.evidenceRoot, quotes: quotes.evidenceRoot, equivalence: equivalence.evidenceRoot, mainnetSwap: mainnetSwap.evidenceRoot, credential: mainnetCredential.evidenceRoot, passport: mainnetPassport.evidenceRoot, consumer: consumerAdmission.evidenceRoot },
   rightsProfiles: rightResults.length,
   roundTripRoutes,
   featuredAssets: equivalenceResults.length,
   publicSecretMatches: leakedFiles.length,
   credentialSigner: signedCredential.signer,
-  passportResult: passport.verification.result
+  passportResult: passport.verification.result,
+  consumerResult: publishedConsumerDecision.result
 }, null, 2));

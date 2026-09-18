@@ -16,6 +16,7 @@ const simulation = await readJson("evidence/live/quote-simulation-gate.json");
 const mainnetSwap = await readJson("evidence/live/mainnet-stock-swap.json");
 const mainnetCredential = await readJson("evidence/live/mainnet-credential.json");
 const mainnetPassport = await readJson("evidence/live/mainnet-passport.json");
+const consumerAdmission = await readJson("evidence/live/guarded-consumer-admission.json");
 
 const inventoryPairs = Array.isArray(inventory?.continuityPairs) ? inventory.continuityPairs as Array<Record<string, unknown>> : [];
 const quoteResults = Array.isArray(quotes?.results) ? quotes.results as Array<Record<string, unknown>> : [];
@@ -139,7 +140,16 @@ const summary = {
     timingDisclosure: (mainnetPassport.payload as Record<string, unknown> | undefined)?.timingDisclosure,
     evidenceRoot: mainnetPassport.evidenceRoot,
     truthNotice: (mainnetPassport.payload as Record<string, unknown> | undefined)?.truthNotice
-  } : { state: "UNAVAILABLE" }
+  } : { state: "UNAVAILABLE" },
+  guardedConsumer: consumerAdmission ? {
+    result: ((consumerAdmission.payload as Record<string, unknown> | undefined)?.decision as Record<string, unknown> | undefined)?.result,
+    checks: ((consumerAdmission.payload as Record<string, unknown> | undefined)?.decision as Record<string, unknown> | undefined)?.checks,
+    reasons: ((consumerAdmission.payload as Record<string, unknown> | undefined)?.decision as Record<string, unknown> | undefined)?.reasons,
+    permissions: ((consumerAdmission.payload as Record<string, unknown> | undefined)?.decision as Record<string, unknown> | undefined)?.permissions,
+    evaluatedAt: ((consumerAdmission.payload as Record<string, unknown> | undefined)?.decision as Record<string, unknown> | undefined)?.evaluatedAt,
+    evidenceRoot: consumerAdmission.evidenceRoot,
+    truthNotice: (consumerAdmission.payload as Record<string, unknown> | undefined)?.truthNotice
+  } : { result: "UNAVAILABLE" }
 };
 
 await writeFile("site/live-evidence.json", JSON.stringify(summary, null, 2));

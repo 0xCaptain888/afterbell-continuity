@@ -87,7 +87,7 @@
         <p>Every capability is labelled by what exists today—not what the roadmap promises.</p>
       </div>
       <div class="readiness-grid">
-        <article><span class="ready-dot live"></span><div><b>Continuity engine</b><small>IMPLEMENTED · 24 deterministic tests</small></div></article>
+        <article><span class="ready-dot live"></span><div><b>Continuity engine</b><small>IMPLEMENTED · 27 deterministic tests</small></div></article>
         <article><span class="ready-dot live"></span><div><b>SDK + persistent Watchtower</b><small>IMPLEMENTED · local API verified</small></div></article>
         <article><span class="ready-dot live" id="liveDataDot"></span><div><b>Live RWA + round-trip quotes</b><small id="liveDataStatus">Loading public evidence…</small></div></article>
         <article><span class="ready-dot waiting" id="rightsDataDot"></span><div><b>Rights-continuity gate</b><small id="rightsDataStatus">Loading public evidence…</small></div></article>
@@ -127,12 +127,26 @@
           </div>
           <a href="./evidence/mainnet-credential.json" target="_blank" rel="noreferrer">Open signed Credential ↗</a>
         </article>
+        <article class="artifact-card consumer-card">
+          <div class="artifact-heading"><span class="kicker">INDEPENDENT GUARDED CONSUMER</span><span class="status review" id="consumerBadge">LOADING</span></div>
+          <h3>A wallet policy that can say “no” to AfterBell.</h3>
+          <p id="consumerSummary">Loading the standalone consumer decision…</p>
+          <div class="artifact-facts consumer-facts">
+            <div><span>Automated rescue</span><b id="consumerRescue">—</b></div>
+            <div><span>Guarded deposit</span><b id="consumerDeposit">—</b></div>
+            <div><span>Read-only monitoring</span><b id="consumerMonitoring">—</b></div>
+          </div>
+          <div class="consumer-links">
+            <a href="./evidence/guarded-consumer-admission.json" target="_blank" rel="noreferrer">Open admission artifact ↗</a>
+            <a href="./trusted-issuers.json" target="_blank" rel="noreferrer">Open consumer trust list ↗</a>
+          </div>
+        </article>
       </div>
       <div class="evidence-verifier">
         <div>
           <span class="kicker">INDEPENDENT BROWSER VERIFIER</span>
           <h3>Don't trust the dashboard. Recompute it.</h3>
-          <p>Download six public artifacts, rebuild their canonical SHA-256 evidence roots in this browser, and compare them with the published commitments. CI additionally recovers the EIP-712 signer.</p>
+          <p>Download seven public artifacts, rebuild their canonical SHA-256 evidence roots in this browser, and compare them with the published commitments. CI additionally recovers the EIP-712 signer and recomputes the consumer admission decision.</p>
         </div>
         <div class="verifier-action">
           <button class="primary" id="verifyEvidenceButton">Verify evidence roots <span>→</span></button>
@@ -146,6 +160,7 @@
           <a href="./evidence/mainnet-stock-swap.json" target="_blank" rel="noreferrer">Mainnet receipt ↗</a>
           <a href="./evidence/mainnet-credential.json" target="_blank" rel="noreferrer">Credential ↗</a>
           <a href="./evidence/mainnet-passport.json" target="_blank" rel="noreferrer">Passport ↗</a>
+          <a href="./evidence/guarded-consumer-admission.json" target="_blank" rel="noreferrer">Consumer decision ↗</a>
         </div>
       </div>
     </section>
