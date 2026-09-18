@@ -1,0 +1,94 @@
+{
+  "schema": "afterbell-quote-discovery/1",
+  "status": "LIVE_QUOTES_FOUND",
+  "mode": "LIVE",
+  "observedAt": "2026-09-18T01:41:59.064Z",
+  "source": "Binance Web3 Trading API",
+  "walletMode": "QUOTE_ONLY_PLACEHOLDER",
+  "wallet": "0x1111111111111111111111111111111111111111",
+  "inputToken": {
+    "symbol": "USDT",
+    "address": "0x55d398326f99059ff775485246999027b3197955",
+    "amount": "10000000000000000000"
+  },
+  "truthNotice": "Quote discovery only. No transaction was built, signed, simulated, or broadcast.",
+  "results": [
+    {
+      "underlyingTicker": "TSLA",
+      "tokenSymbol": "TSLAB",
+      "tokenContractAddress": "0x5b1910eaad6450e50f816082aa078c41f10c292f",
+      "status": "QUOTED",
+      "latencyMs": 379,
+      "attempts": 1,
+      "quote": {
+        "quoteId": "7120f807240348619234a8d360f6c462",
+        "vendor": "LiquidMesh",
+        "fromTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
+        "toTokenAddress": "0x5b1910eaad6450e50f816082aa078c41f10c292f",
+        "inputAmount": "10000000000000000000",
+        "outputAmount": "27343149964957676",
+        "observedAt": "2026-09-18T01:41:59.444Z",
+        "expiresAt": "2026-09-18T01:42:29.444Z",
+        "payloadHash": "0xff6d3876eacadd03c260c0613dd8706b9af684186902254af6028e07d2c457a9"
+      }
+    },
+    {
+      "underlyingTicker": "TSLA",
+      "tokenSymbol": "TSLAon",
+      "tokenContractAddress": "0x2494b603319d4d9f9715c9f4496d9e0364b59d93",
+      "status": "QUOTED",
+      "latencyMs": 413,
+      "attempts": 1,
+      "quote": {
+        "quoteId": "884350721af04247904a9c3b20970838",
+        "vendor": "LiquidMesh",
+        "fromTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
+        "toTokenAddress": "0x2494b603319d4d9f9715c9f4496d9e0364b59d93",
+        "inputAmount": "10000000000000000000",
+        "outputAmount": "27320559711003776",
+        "observedAt": "2026-09-18T01:42:00.509Z",
+        "expiresAt": "2026-09-18T01:42:30.509Z",
+        "payloadHash": "0xbe5f613fb8ce54738b9d69bdd6461e307d4396e4750a2c81676c1b65284e6c1b"
+      }
+    },
+    {
+      "underlyingTicker": "NVDA",
+      "tokenSymbol": "NVDAB",
+      "tokenContractAddress": "0x02fca66c1d1afb4e2a7884261eb00f63598a7436",
+      "status": "QUOTED",
+      "latencyMs": 135,
+      "attempts": 1,
+      "quote": {
+        "quoteId": "94f987a5061444a89ad2b000d386f0b5",
+        "vendor": "LiquidMesh",
+        "fromTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
+        "toTokenAddress": "0x02fca66c1d1afb4e2a7884261eb00f63598a7436",
+        "inputAmount": "10000000000000000000",
+        "outputAmount": "45579458510029827",
+        "observedAt": "2026-09-18T01:42:01.296Z",
+        "expiresAt": "2026-09-18T01:42:31.296Z",
+        "payloadHash": "0xddd9c1683814f43100b1bc951bc173ffc4d9776e6e74b3853f8be3ceed614ca4"
+      }
+    },
+    {
+      "underlyingTicker": "NVDA",
+      "tokenSymbol": "NVDAon",
+      "tokenContractAddress": "0xa9ee28c80f960b889dfbd1902055218cba016f75",
+      "status": "QUOTED",
+      "latencyMs": 343,
+      "attempts": 1,
+      "quote": {
+        "quoteId": "1bef3cdd4b634d7988c81ec48b911d08",
+        "vendor": "LiquidMesh",
+        "fromTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
+        "toTokenAddress": "0xa9ee28c80f960b889dfbd1902055218cba016f75",
+        "inputAmount": "10000000000000000000",
+        "outputAmount": "45527007647140043",
+        "observedAt": "2026-09-18T01:42:02.290Z",
+        "expiresAt": "2026-09-18T01:42:32.290Z",
+        "payloadHash": "0x78e8ae89221ef4176e5d0ae056c8e91ce586ac2a09acd96ee6e7210d1d1064ce"
+      }
+    }
+  ],
+  "evidenceRoot": "0x56bdc474f74f63539a0e6e49578ff00c35587f66f694552b8525570bce35d50c"
+}

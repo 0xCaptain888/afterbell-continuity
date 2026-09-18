@@ -5,9 +5,11 @@ export type RwaTokenRecord = {
   binanceChainId: string;
   tokenContractAddress: `0x${string}`;
   platformId: "ondo" | "bstock";
+  assetType?: number;
   tokenName: string;
   tokenSymbol: string;
   decimals: number;
+  tags?: string[];
   underlyingTicker: string;
   underlyingName: string;
   tokenToShareRatio: string;
@@ -66,7 +68,7 @@ export function parseRwaTokenRecords(value: unknown): RwaTokenRecord[] {
       platformId: platform as "ondo" | "bstock",
       tokenName: stringField(item, "tokenName") ?? symbol,
       tokenSymbol: symbol,
-      decimals: typeof item.decimals === "number" ? item.decimals : 18,
+      decimals: typeof item.decimals === "number" ? item.decimals : Number(stringField(item, "decimals") ?? 18),
       underlyingTicker: ticker,
       underlyingName: stringField(item, "underlyingName") ?? ticker,
       tokenToShareRatio: ratio,
@@ -77,6 +79,8 @@ export function parseRwaTokenRecords(value: unknown): RwaTokenRecord[] {
     const marketCap = stringField(item, "marketCap");
     if (volume24H) record.volume24H = volume24H;
     if (marketCap) record.marketCap = marketCap;
+    if (typeof item.assetType === "number") record.assetType = item.assetType;
+    if (Array.isArray(item.tags)) record.tags = item.tags.filter((tag): tag is string => typeof tag === "string");
     if (isRecord(item.statusInfo)) {
       const statusInfo: NonNullable<RwaTokenRecord["statusInfo"]> = {};
       if (typeof item.statusInfo.openState === "boolean") statusInfo.openState = item.statusInfo.openState;
@@ -114,16 +118,73 @@ export function rankRwaCandidates(records: RwaTokenRecord[]): RankedRwaCandidate
     const premiumBps = expectedTokenPrice > 0 ? Math.round(((tokenPrice / expectedTokenPrice) - 1) * 10_000) : 1_000_000;
     const reasons: string[] = [];
     let score = 0;
-    if (record.binanceChainId === "56") { score += 25; reasons.push("bsc_mainnet"); }
-    if (record.statusInfo?.openState) { score += 15; reasons.push("underlying_market_open"); }
+    const leveraged = /(2x|3x|ultra|short|bull|bear|leveraged|daily)/i.test(`${record.tokenName} ${record.underlyingName}`);
+    if (record.binanceChainId === "56") { score += 20; reasons.push("bsc_mainnet"); }
+    if (record.statusInfo?.openState && record.statusInfo.reasonCode === "TRADING") { score += 20; reasons.push("trading_now"); }
+    else if (record.statusInfo?.reasonCode === "MARKET_PAUSED") { score -= 20; reasons.push("market_paused"); }
+    if (record.assetType === 1) { score += 20; reasons.push("single_stock"); }
+    else if (record.assetType === 3) { score += 5; reasons.push("fund_or_etf"); }
+    if (leveraged) { score -= 30; reasons.push("leveraged_or_inverse_complexity"); }
+    else { score += 5; reasons.push("non_leveraged_structure"); }
     if (Math.abs(premiumBps) <= 100) { score += 20; reasons.push("premium_within_100bps"); }
     else if (Math.abs(premiumBps) <= 250) { score += 8; reasons.push("premium_within_250bps"); }
-    if (volume >= 1_000_000) { score += 20; reasons.push("reported_volume_over_1m"); }
-    else if (volume > 0) { score += 8; reasons.push("reported_volume_present"); }
-    if (ratio > 0) { score += 10; reasons.push("share_ratio_present"); }
-    if (record.platformId === "bstock" || record.platformId === "ondo") { score += 10; reasons.push("supported_platform"); }
+    if (volume >= 1_000_000_000) { score += 10; reasons.push("reported_volume_over_1b"); }
+    else if (volume >= 1_000_000) { score += 6; reasons.push("reported_volume_over_1m"); }
+    else if (volume > 0) { score += 2; reasons.push("reported_volume_present"); }
+    if (ratio > 0) { score += 5; reasons.push("share_ratio_present"); }
     return { ...record, premiumBps, score, reasons, sourcePayloadHash: sha256(stableJson(record)) };
   }).sort((a, b) => b.score - a.score || Math.abs(a.premiumBps) - Math.abs(b.premiumBps));
+}
+
+export type ContinuityPairCandidate = {
+  underlyingTicker: string;
+  bstock: RankedRwaCandidate;
+  ondo: RankedRwaCandidate;
+  normalizedSpreadBps: number;
+  ratioDeltaBps: number;
+  score: number;
+  reasons: string[];
+  pairEvidenceHash: Hex;
+};
+
+function deltaBps(a: number, b: number): number {
+  if (!Number.isFinite(a) || !Number.isFinite(b) || a <= 0 || b <= 0) return 1_000_000;
+  return Math.round(Math.abs(a - b) / ((a + b) / 2) * 10_000);
+}
+
+export function rankContinuityPairs(records: RwaTokenRecord[]): ContinuityPairCandidate[] {
+  const ranked = rankRwaCandidates(records);
+  const groups = new Map<string, RankedRwaCandidate[]>();
+  for (const record of ranked) {
+    const group = groups.get(record.underlyingTicker) ?? [];
+    group.push(record);
+    groups.set(record.underlyingTicker, group);
+  }
+  const pairs: ContinuityPairCandidate[] = [];
+  for (const [underlyingTicker, group] of groups) {
+    const bstocks = group.filter((record) => record.platformId === "bstock");
+    const ondos = group.filter((record) => record.platformId === "ondo");
+    for (const bstock of bstocks) for (const ondo of ondos) {
+      const bRatio = finiteNumber(bstock.tokenToShareRatio) ?? 0;
+      const oRatio = finiteNumber(ondo.tokenToShareRatio) ?? 0;
+      const bPrice = finiteNumber(bstock.tokenPrice) ?? 0;
+      const oPrice = finiteNumber(ondo.tokenPrice) ?? 0;
+      const normalizedSpreadBps = deltaBps(bPrice / bRatio, oPrice / oRatio);
+      const ratioDeltaBps = deltaBps(bRatio, oRatio);
+      const reasons: string[] = ["same_underlying_across_bstock_and_ondo"];
+      let score = Math.round((bstock.score + ondo.score) / 2);
+      if (bstock.statusInfo?.reasonCode === "TRADING" && ondo.statusInfo?.reasonCode === "TRADING") { score += 10; reasons.push("both_trading_now"); }
+      if (bstock.assetType === 1 && ondo.assetType === 1) { score += 10; reasons.push("both_single_stock"); }
+      if (normalizedSpreadBps <= 25) { score += 10; reasons.push("normalized_spread_within_25bps"); }
+      else if (normalizedSpreadBps <= 100) { score += 4; reasons.push("normalized_spread_within_100bps"); }
+      else { score -= 15; reasons.push("wide_normalized_spread"); }
+      if (ratioDeltaBps <= 25) { score += 5; reasons.push("ratio_delta_within_25bps"); }
+      else { score -= 10; reasons.push("material_ratio_delta"); }
+      const core = { underlyingTicker, bstock: bstock.tokenContractAddress, ondo: ondo.tokenContractAddress, normalizedSpreadBps, ratioDeltaBps };
+      pairs.push({ underlyingTicker, bstock, ondo, normalizedSpreadBps, ratioDeltaBps, score, reasons, pairEvidenceHash: sha256(stableJson(core)) });
+    }
+  }
+  return pairs.sort((a, b) => b.score - a.score || a.normalizedSpreadBps - b.normalizedSpreadBps);
 }
 
 export function normalizeMarketStatus(value?: string): MarketStatus {

@@ -1,6 +1,36 @@
 {
-  "status": "BLOCKED",
-  "mode": "UNAVAILABLE",
-  "observedAt": "2026-09-17T16:36:50.438Z",
-  "reason": "missing_binance_web3_api_key"
+  "status": "SIMULATION_BLOCKED",
+  "mode": "LIVE",
+  "observedAt": "2026-09-18T01:44:27.546Z",
+  "walletMode": "SIMULATION_PLACEHOLDER",
+  "quote": {
+    "quoteId": "5f29d166483e4039aebdd9c3e4f90dd7",
+    "vendor": "LiquidMesh",
+    "fromTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
+    "toTokenAddress": "0x5b1910eaad6450e50f816082aa078c41f10c292f",
+    "inputAmount": "10000000000000000000",
+    "outputAmount": "27332091453362370",
+    "observedAt": "2026-09-18T01:44:27.546Z",
+    "expiresAt": "2026-09-18T01:44:57.546Z",
+    "payloadHash": "0x818fc195c1e1b6ec9634ecf0554d0d6680a65e28655815185417cbbe9a7a6a9a"
+  },
+  "transaction": {
+    "from": "0x1111111111111111111111111111111111111111",
+    "to": "0xB44446b0c8E56988c34f7Ff73Ae904982b5FdDA5",
+    "value": "0",
+    "data": "0xad43f73d00000000…",
+    "calldataHash": "0x967514acbbc5e789533e22fa8d43774e00a2d2e942207bd7496ad6e8a653c01d"
+  },
+  "simulation": {
+    "success": false,
+    "payloadHash": "0x9e0e8682d4a556be5cef14185d53591f96c8867f27f3a7ba0debab33146feaff",
+    "data": {
+      "status": "FAILED",
+      "failReason": "execution reverted: BEP20: transfer amount exceeds allowance",
+      "balanceChanges": [],
+      "allowanceChanges": []
+    }
+  },
+  "truthNotice": "This gate uses an unfunded placeholder address to quote, build, and simulate only. It never signs or broadcasts a transaction.",
+  "evidenceRoot": "0xdd8d22b7b77f28a78bd2e901206da288a7e0828fe9a0a1b98db17282b087235b"
 }

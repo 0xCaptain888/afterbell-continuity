@@ -92,11 +92,19 @@ export class BinanceWeb3Client {
       nonce: this.nonce(),
       receiveWindowMs: this.receiveWindowMs
     });
-    const response = await this.requestFetch(`${this.baseUrl}${signed.requestPath}`, {
-      method,
-      headers: signed.headers,
-      ...(signed.body ? { body: signed.body } : {})
-    });
+    let response: Response;
+    try {
+      response = await this.requestFetch(`${this.baseUrl}${signed.requestPath}`, {
+        method,
+        headers: signed.headers,
+        ...(signed.body ? { body: signed.body } : {})
+      });
+    } catch (error) {
+      const cause = error instanceof Error && error.cause && typeof error.cause === "object"
+        ? error.cause as { code?: string; message?: string }
+        : undefined;
+      throw new Error(`Binance Web3 network error: ${cause?.code ?? cause?.message ?? (error instanceof Error ? error.message : String(error))}`);
+    }
     const text = await response.text();
     if (!response.ok) throw new Error(`Binance Web3 API ${response.status}: ${text.slice(0, 500)}`);
     const parsed = JSON.parse(text) as T | BinanceApiEnvelope<unknown>;

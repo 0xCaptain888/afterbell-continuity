@@ -64,10 +64,11 @@
         <p>Every capability is labelled by what exists today—not what the roadmap promises.</p>
       </div>
       <div class="readiness-grid">
-        <article><span class="ready-dot live"></span><div><b>Continuity engine</b><small>IMPLEMENTED · 19 deterministic tests</small></div></article>
+        <article><span class="ready-dot live"></span><div><b>Continuity engine</b><small>IMPLEMENTED · 21 deterministic tests</small></div></article>
         <article><span class="ready-dot live"></span><div><b>SDK + persistent Watchtower</b><small>IMPLEMENTED · local API verified</small></div></article>
-        <article><span class="ready-dot waiting"></span><div><b>Live RWA + quote simulation</b><small>READY · credentials required</small></div></article>
-        <article><span class="ready-dot waiting"></span><div><b>BSC mainnet execution</b><small>BLOCKED · funding and wallet approval</small></div></article>
+        <article><span class="ready-dot live" id="liveDataDot"></span><div><b>Live RWA + dual-wrapper quotes</b><small id="liveDataStatus">Loading public evidence…</small></div></article>
+        <article><span class="ready-dot waiting" id="simulationDot"></span><div><b>Swap build + Transaction API simulation</b><small id="simulationStatus">Loading public evidence…</small></div></article>
+        <article><span class="ready-dot waiting"></span><div><b>BSC mainnet execution</b><small>NOT EXECUTED · wallet authorization required</small></div></article>
       </div>
     </section>
 
@@ -77,7 +78,7 @@
         <span class="run-state" id="runState">Waiting</span>
       </div>
       <div class="stage-list" id="stageList"></div>
-      <p class="run-note">This first build runs reproducible simulated and adversarial scenarios. LIVE RWA, Agentic Wallet and BSC MAINNET stages remain visibly blocked until credentials and funding are configured.</p>
+      <p class="run-note">The Judge Run is reproducible and simulated. Separate LIVE evidence now proves authenticated inventory, dual-wrapper TSLA/NVDA quotes, calldata construction, and fail-closed Transaction API simulation. No mainnet execution is claimed.</p>
     </section>
 
     <section class="protocol shell" id="protocol">

@@ -11,7 +11,9 @@
 - [x] Independent verifier and passport
 - [x] SDK integration surface
 - [x] Benchmark, working DX log, and local/static demo
-- [ ] Live Binance RWA inventory receipt
+- [x] Live Binance RWA inventory and cross-wrapper pair receipt
+- [x] Live TSLA/NVDA quotes for bStock and Ondo wrappers
+- [x] Live swap build and fail-closed Transaction API simulation
 - [ ] One selected BSC tokenized stock
 - [ ] Agentic Wallet authorization and real small trade
 - [ ] BSC mainnet deployment and source verification

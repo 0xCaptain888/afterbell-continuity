@@ -1,0 +1,77 @@
+{
+  "schema": "afterbell-public-live-evidence/1",
+  "generatedAt": "2026-09-18T01:47:08.415Z",
+  "truthNotice": "LIVE labels refer to authenticated API evidence. No BSC transaction has been signed or broadcast.",
+  "inventory": {
+    "status": "LIVE_DATA_GATE_PASSED",
+    "observedAt": "2026-09-18T01:41:35.600Z",
+    "parsedAssetCount": 488,
+    "continuityPairCount": 40,
+    "evidenceRoot": "0xb68d0970e78845dd82315beffdf75a55dc882441653b36a2d678e08df288991b",
+    "featuredPairs": [
+      {
+        "underlyingTicker": "TSLA",
+        "normalizedSpreadBps": 4,
+        "ratioDeltaBps": 0,
+        "bstock": "TSLAB",
+        "ondo": "TSLAon",
+        "pairEvidenceHash": "0x422399b8569be91056dddd9d2c2ae95f526f27b9ecacbd45a9d908cbded8e51b"
+      },
+      {
+        "underlyingTicker": "NVDA",
+        "normalizedSpreadBps": 9,
+        "ratioDeltaBps": 9,
+        "bstock": "NVDAB",
+        "ondo": "NVDAon",
+        "pairEvidenceHash": "0xe31f5e3ac6148deccea5e7246afb2ab0e3b805ac77ebbe18ebc4287519a974c1"
+      }
+    ]
+  },
+  "quotes": {
+    "status": "LIVE_QUOTES_FOUND",
+    "observedAt": "2026-09-18T01:41:59.064Z",
+    "requestedRoutes": 4,
+    "quotedRoutes": 4,
+    "routes": [
+      {
+        "underlyingTicker": "TSLA",
+        "tokenSymbol": "TSLAB",
+        "status": "QUOTED",
+        "latencyMs": 379
+      },
+      {
+        "underlyingTicker": "TSLA",
+        "tokenSymbol": "TSLAon",
+        "status": "QUOTED",
+        "latencyMs": 413
+      },
+      {
+        "underlyingTicker": "NVDA",
+        "tokenSymbol": "NVDAB",
+        "status": "QUOTED",
+        "latencyMs": 135
+      },
+      {
+        "underlyingTicker": "NVDA",
+        "tokenSymbol": "NVDAon",
+        "status": "QUOTED",
+        "latencyMs": 343
+      }
+    ],
+    "evidenceRoot": "0x56bdc474f74f63539a0e6e49578ff00c35587f66f694552b8525570bce35d50c"
+  },
+  "simulation": {
+    "status": "SIMULATION_BLOCKED",
+    "observedAt": "2026-09-18T01:44:27.546Z",
+    "walletMode": "SIMULATION_PLACEHOLDER",
+    "quoteVendor": "LiquidMesh",
+    "simulationSuccess": false,
+    "failReason": "execution reverted: BEP20: transfer amount exceeds allowance",
+    "evidenceRoot": "0xdd8d22b7b77f28a78bd2e901206da288a7e0828fe9a0a1b98db17282b087235b",
+    "truthNotice": "This gate uses an unfunded placeholder address to quote, build, and simulate only. It never signs or broadcasts a transaction."
+  },
+  "mainnetExecution": {
+    "status": "NOT_EXECUTED",
+    "transactionHash": null
+  }
+}

@@ -60,7 +60,7 @@ observe the position
 
 | Capability | Status | Evidence |
 |---|---|---|
-| Core continuity engine | `IMPLEMENTED` | 19 TypeScript tests |
+| Core continuity engine | `IMPLEMENTED` | 21 TypeScript tests |
 | EIP-712 credential | `IMPLEMENTED` | Credential tests |
 | Independent verifier | `IMPLEMENTED` | PASS and CHALLENGE tests |
 | Contracts | `IMPLEMENTED / UNDEPLOYED` | Solidity compilation |
@@ -68,9 +68,10 @@ observe the position
 | TypeScript SDK | `IMPLEMENTED` | package dry build and SDK tests |
 | Persistent Watchtower tasks | `IMPLEMENTED` | JSONL journal and local API smoke test |
 | Agent Studio service package | `DESIGN / UNPUBLISHED` | `agent-studio/` and local endpoint |
-| Binance RWA inventory | `READY / BLOCKED_BY_CREDENTIALS` | `npm run data:gate` |
-| Trading API quote and swap build | `READY / BLOCKED_BY_CREDENTIALS` | `npm run trade:gate` |
-| Transaction API simulation | `READY / BLOCKED_BY_CREDENTIALS` | `npm run trade:gate` |
+| Binance RWA inventory | `LIVE` | 488 parsed assets, 40 cross-wrapper pairs |
+| Trading API quotes | `LIVE` | TSLA and NVDA on bStock + Ondo |
+| Swap calldata build | `LIVE` | TSLAB route, LiquidMesh |
+| Transaction API simulation | `LIVE_BLOCKED` | Placeholder address lacks USDT allowance |
 | Agentic Wallet authorization | `NOT_STARTED` | — |
 | Agent Studio Watchtower | `NOT_STARTED` | — |
 | BSC mainnet contracts | `NOT_DEPLOYED` | — |
@@ -96,9 +97,13 @@ Open `http://127.0.0.1:4173`.
 Create `.env` from `.env.example`, then configure approved Binance Web3 API credentials locally:
 
 ```bash
-cp .env.example .env
+npm run credentials:binance
 npm run data:gate
 ```
+
+The credential command hides both inputs, writes the Git-ignored `.env` with `0600` permissions, and never prints the values.
+
+If direct access to Binance is blocked, set `HTTPS_PROXY` and `HTTP_PROXY` in `.env`. The data and trading gates enable Node's environment-proxy support automatically.
 
 Successful output is written to `evidence/live/rwa-inventory.json`. Secrets are never written to evidence or committed.
 
@@ -106,10 +111,11 @@ Then rank technically suitable demo assets and run the non-broadcast quote/simul
 
 ```bash
 npm run assets:rank
+npm run quote:discover
 npm run trade:gate
 ```
 
-`trade:gate` never signs or broadcasts. It records either a simulated EVM transaction, an explicit RFQ-signature requirement, or a fail-closed blocker.
+`quote:discover` probes both supported wrappers for recognizable cross-platform stock pairs without building or signing a transaction. `trade:gate` never signs or broadcasts; it records either a simulated EVM transaction, an explicit RFQ-signature requirement, or a fail-closed blocker.
 
 For any hosted API, configure `AFTERBELL_API_TOKEN` and send it as a bearer token. The server refuses a non-loopback bind without this protection.
 

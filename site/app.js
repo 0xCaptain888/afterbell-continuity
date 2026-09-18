@@ -3,6 +3,30 @@ const judgePanel = document.querySelector("#judgePanel");
 const stageList = document.querySelector("#stageList");
 const runState = document.querySelector("#runState");
 const connectButton = document.querySelector("#connectButton");
+const liveDataStatus = document.querySelector("#liveDataStatus");
+const simulationStatus = document.querySelector("#simulationStatus");
+
+fetch("./live-evidence.json", { cache: "no-store" })
+  .then((response) => {
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  })
+  .then((evidence) => {
+    if (liveDataStatus) {
+      liveDataStatus.textContent = evidence.inventory?.status === "LIVE_DATA_GATE_PASSED"
+        ? `LIVE · ${evidence.inventory.parsedAssetCount} assets · ${evidence.inventory.continuityPairCount} cross-wrapper pairs · ${evidence.quotes?.quotedRoutes ?? 0}/${evidence.quotes?.requestedRoutes ?? 0} quoted routes`
+        : "UNAVAILABLE · no authenticated inventory evidence";
+    }
+    if (simulationStatus) {
+      simulationStatus.textContent = evidence.simulation?.status === "SIMULATION_BLOCKED"
+        ? `LIVE BLOCKED · ${evidence.simulation.failReason ?? "policy or execution failure"}`
+        : `${evidence.simulation?.status ?? "UNAVAILABLE"}`;
+    }
+  })
+  .catch(() => {
+    if (liveDataStatus) liveDataStatus.textContent = "UNAVAILABLE · public evidence summary missing";
+    if (simulationStatus) simulationStatus.textContent = "UNAVAILABLE · simulation evidence missing";
+  });
 
 connectButton.addEventListener("click", () => {
   connectButton.textContent = "Wallet setup pending";

@@ -18,6 +18,16 @@ This document is intentionally incomplete. It will be updated from real implemen
 - Added a credential-free deployment plan that commits bytecode hashes while refusing to imply deployment.
 - Added a persistent Watchtower task journal and local Agent service boundary; Binance Agent Studio deployment remains explicitly pending.
 
+### 2026-09-18 — first live RWA and Trading API evidence
+
+- Direct access to `web3.binance.com` timed out from the local network, while the configured HTTP proxy reached the service successfully. Node fetch required explicit environment-proxy activation.
+- RWA data authentication passed with approximately 1.8 seconds end-to-end latency for the parallel platform and inventory calls.
+- Live inventory exposed 488 currently parseable BSC records and 40 cross-platform same-underlying pairs in the fetched response.
+- A 1 USDT quote probe produced executable bStock routes but Ondo returned business code `40375`, documenting a 5 USD minimum order. An exact 5 USDT boundary probe still returned the same code, so the final discovery probe uses 10 USDT and documents the boundary/rounding ambiguity.
+- One route returned HTTP 429 and two returned transient fetch failures; quote discovery now throttles requests and retries only network/429 failures, never deterministic business errors.
+- At 10 USDT, TSLA and NVDA returned live LiquidMesh quotes for both bStock and Ondo wrappers, with all four routes succeeding on the first attempt.
+- The TSLAB swap builder returned real calldata. Transaction API simulation correctly failed on the intentionally unfunded placeholder with `BEP20: transfer amount exceeds allowance`, demonstrating a fail-closed authorization boundary without signing or broadcasting.
+
 ### API observations to verify with live credentials
 
 | Question | Status |
