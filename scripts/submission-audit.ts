@@ -49,6 +49,10 @@ const judgeGuide = await readFile("docs/JUDGE-GUIDE.md", "utf8");
 const ciWorkflow = await readFile(".github/workflows/ci.yml", "utf8");
 const pageWorkflow = await readFile(".github/workflows/pages.yml", "utf8");
 const agentManifest = await readJson("agent-studio/agent.json");
+const officialAgentPackage = await readJson("bnb-agent/app/agent/package.json");
+const officialStudioToml = await readFile("bnb-agent/app/agent/studio.toml", "utf8");
+const officialAgentSource = await readFile("bnb-agent/app/agent/src/afterbell.ts", "utf8");
+const officialAgentTests = await readFile("bnb-agent/app/agent/test/afterbell.test.ts", "utf8");
 
 const contracts = records(deployment.contracts);
 const sourceVerification = deployment.sourceVerification as Json;
@@ -109,9 +113,15 @@ const rebuiltAgentPackage = createEvidenceArtifact({
   parentHashes: Array.isArray(agentPackage.parentHashes) ? agentPackage.parentHashes as Hex[] : []
 });
 assert(rebuiltAgentPackage.payloadHash === agentPackage.payloadHash && rebuiltAgentPackage.evidenceRoot === agentPackage.evidenceRoot, "agent_package_evidence_root_mismatch");
-assert((agentPackage.payload as Json).status === "READY_TO_PUBLISH", "agent_package_not_ready");
+assert((agentPackage.payload as Json).status === "READY_TO_DEPLOY", "agent_package_not_ready");
 assert((agentPackage.payload as Json).deploymentStatus === "UNPUBLISHED", "agent_package_truth_label_invalid");
 assert(agentManifest.status === "DESIGN", "unpublished_agent_manifest_must_remain_design");
+assert(officialAgentPackage.name === "AfterBellWatchtower-agent", "official_agent_package_missing");
+assert(officialStudioToml.includes('protocols = ["A2A","X402"]'), "official_agent_protocols_missing");
+assert(officialStudioToml.includes('default = "bsc-testnet"'), "official_agent_network_invalid");
+assert(!officialStudioToml.includes("[llm]"), "official_agent_llm_boundary_invalid");
+assert(officialAgentSource.includes("financialTransactionCreated: false") && officialAgentSource.includes("signingRequested: false"), "official_agent_safety_boundary_missing");
+assert(officialAgentTests.includes('result.state, "PROTECTED"') && officialAgentTests.includes('result.state, "BLOCKED"'), "official_agent_tests_missing");
 await readJson("agent-studio/examples/protected-request.json");
 await readJson("agent-studio/examples/protected-response.json");
 await readJson("agent-studio/examples/rescue-request.json");
@@ -145,7 +155,8 @@ const checks = [
   { id: "public-evidence-synchronized", result: "PASS", evidence: publicSummary.generatedAt, detail: "Public summary roots match deployment, Credential, Passport, and consumer artifacts." },
   { id: "browser-verifier", result: "PASS", evidence: "8 canonical public artifacts", detail: "The wallet-free browser verifier independently recomputes all published roots." },
   { id: "sdk-and-openapi", result: "PASS", evidence: "package export + openapi.yaml", detail: "Wallets, agents, and protocols can integrate without importing the UI." },
-  { id: "agent-service-package", result: "PASS", evidence: agentPackage.evidenceRoot, detail: "Manifest, 0.01 USDT pricing, authentication boundary, and deterministic invocation fixtures are ready to publish without claiming deployment." },
+  { id: "agent-service-package", result: "PASS", evidence: agentPackage.evidenceRoot, detail: "The official BNB Agent Studio A2A/X402 workspace, fixed 0.01 pricing, deterministic inspection, and truthful UNPUBLISHED label are ready for deployment." },
+  { id: "official-agent-safety", result: "PASS", evidence: "bnb-agent/app/agent", detail: "The seller runtime is BSC Testnet-bound, has no LLM pricing or delivery path, and tests PROTECTED, WATCH, RESCUE_REQUIRED, BLOCKED, no-signing, and no-transaction outcomes." },
   { id: "continuous-integration", result: "PASS", evidence: ".github/workflows/ci.yml", detail: "Tests, compilation, package build, security audit, and this readiness audit run in CI." },
   { id: "public-secret-scan", result: "PASS", evidence: `${secretMatches.length} matches`, detail: "No credential or private-key pattern is present in public artifacts." }
 ] as const;

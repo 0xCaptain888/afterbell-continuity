@@ -14,9 +14,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.24.0
       - run: npm ci
+      - run: pnpm --dir bnb-agent install --frozen-lockfile
       - run: npm run check
       - run: npm run build
       - run: npm pack --dry-run --cache .runtime/npm-cache

@@ -21,7 +21,7 @@ AfterBell Continuity is the economic-equivalence, rights-continuity, and verifia
 - Deployment evidence: [`MAINNET_DEPLOYED_VERIFIED`](./evidence/deployment/bsc-mainnet.json)
 - Public continuity artifacts: [`LIVE` EIP-712 Credential](./evidence/live/mainnet-credential.json) and [`CHALLENGED` Passport](./evidence/live/mainnet-passport.json)
 - Machine-readable readiness: [`TECHNICALLY_READY`](./evidence/submission-readiness.json)
-- Agent service package: [`READY_TO_PUBLISH / UNPUBLISHED`](./evidence/agent-studio-package.json)
+- Official BNB Agent Studio package: [`READY_TO_DEPLOY / UNPUBLISHED`](./evidence/agent-studio-package.json)
 
 The current `v0.1.0` baseline combines clearly labelled `SIMULATED` / `ADVERSARIAL_TEST` scenarios, authenticated `LIVE` BNB Chain evidence, one user-confirmed BSC mainnet stock-token swap, three source-verified mainnet contracts, and a Registry-bound Credential. It does **not** claim Agentic Wallet custody, Agent Studio deployment, or automated rescue settlement. The historical zero-address Credential remains preserved beside its active Registry-bound successor.
 
@@ -69,6 +69,7 @@ observe the position
 - OKX Wallet EIP-1193 connection with funded-address enforcement, exact 10 USDT approval, post-broadcast calldata verification, on-chain allowance re-read, and emergency revoke
 - Publishable TypeScript SDK with structured errors and timeouts
 - Persistent Watchtower task journal and Agent service endpoint
+- Official BNB Agent Studio seller workspace with A2A + X402 faces, ERC-8183 + B402 rails, fixed pricing, and deterministic non-LLM delivery
 - Reproducible Judge Run
 - Responsive control-center demo
 - `ContinuityRegistry`, `GuardedStockVault`, and `ExecutionBondEscrow` contracts
@@ -76,7 +77,7 @@ observe the position
 - Solidity compilation in CI
 - Initial threat model, DX log, API specification, and prior-work disclosure
 - A concise [`Judge guide`](./docs/JUDGE-GUIDE.md) with 90-second and four-minute paths
-- A machine-verifiable [`Submission readiness`](./evidence/submission-readiness.json) artifact with eleven fail-closed checks
+- A machine-verifiable [`Submission readiness`](./evidence/submission-readiness.json) artifact with twelve fail-closed checks
 - A timestamped [`four-minute demo script`](./docs/VIDEO-SCRIPT.md) aligned to the public proof path
 
 ## Current status
@@ -90,7 +91,7 @@ observe the position
 | UI and Judge Run | `IMPLEMENTED` | Local/static demo |
 | TypeScript SDK | `IMPLEMENTED` | package dry build and SDK tests |
 | Persistent Watchtower tasks | `IMPLEMENTED` | JSONL journal and local API smoke test |
-| Agent Studio service package | `READY_TO_PUBLISH / UNPUBLISHED` | validated manifest, 0.01 USDT pricing, authenticated endpoint, portable invocation fixtures |
+| BNB Agent Studio service package | `READY_TO_DEPLOY / UNPUBLISHED` | official `bag` scaffold, A2A/X402, ERC-8183/B402, fixed 0.01 pricing, 5/5 deterministic tests, ZIP dry-run |
 | Binance RWA inventory | `LIVE` | 488 parsed assets, 40 cross-wrapper pairs |
 | Underlying + market profiles | `LIVE` | 4/4 TSLA/NVDA wrapper profiles |
 | Rights-continuity evidence | `LIVE_PARTIAL / FAIL_CLOSED` | disclosures found; material holder rights remain `UNKNOWN` |
@@ -100,13 +101,13 @@ observe the position
 | Swap calldata build | `LIVE` | TSLAB route, LiquidMesh |
 | Transaction API simulation | `LIVE_PASS` | exact 10 USDT allowance; simulation spends 10 USDT, receives TSLAB, and reduces allowance to zero |
 | Funded OKX Wallet authorization | `LIVE` | connected, first anomalous approval revoked, exact 10 USDT allowance independently re-read on-chain |
-| Agent Studio Watchtower | `PACKAGE_READY / UNPUBLISHED` | deterministic `PROTECTED → RESCUE_REQUIRED` receipts; platform deployment receipt still required |
+| BNB Agent Studio Watchtower | `READY_TO_DEPLOY / UNPUBLISHED` | deterministic `PROTECTED / WATCH / RESCUE_REQUIRED / BLOCKED`; throwaway testnet wallet, platform login, and deployment receipt still required |
 | BSC mainnet contracts | `MAINNET_DEPLOYED_VERIFIED` | Registry `0xCb1587…C823A`, Vault `0x8f996A…CE1bD`, Bond `0x52B6FF…12029` |
 | BSC mainnet stock trade | `LIVE_SUCCESS` | 10 USDT → 0.027163579421480873 TSLAB; calldata, receipt, slippage, Gas, and zero post-swap allowance independently verified |
 | Live continuity credential | `LIVE / WATCH / REGISTRY_BOUND` | Issuer-signed Credential binds the deployed Registry and deployment evidence root; historical zero-address artifact preserved |
 | Live continuity passport | `CHALLENGED` | 5/6 deterministic checks pass; quote submission time was not independently timestamped, so freshness is not inferred from block confirmation |
 | Independent Guarded Consumer | `LIVE / REQUIRE_MANUAL_REVIEW` | Explicit issuer trust list; automated rescue and deposits blocked; read-only monitoring allowed |
-| Submission readiness | `TECHNICALLY_READY` | 11/11 repository, mainnet, integration, agent-package, truth-label, and public-secret checks pass |
+| Submission readiness | `TECHNICALLY_READY` | 12/12 repository, mainnet, integration, official-agent, truth-label, and public-secret checks pass |
 
 ## Quick start
 
@@ -286,6 +287,7 @@ contracts/   BSC contracts
 src/         core engine, API client, server, verifier
 scripts/     judge, live gates, asset ranking, deployment safety
 agent-studio/ service packaging boundary and honest deployment status
+bnb-agent/   official BNB Agent Studio A2A/X402 seller workspace
 site/        judge-facing control center
 test/        deterministic and adversarial tests
 benchmark/   reproducible baseline-vs-AfterBell scenarios

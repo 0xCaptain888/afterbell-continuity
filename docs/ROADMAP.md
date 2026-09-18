@@ -26,10 +26,12 @@
 - [x] BSC mainnet deployment and source verification
 - [x] Registry-bound Credential reissuance and public evidence refresh
 - [ ] Agent Studio Watchtower deployment receipt
+- [x] Official BNB Agent Studio A2A/X402 workspace, deterministic delivery, fixed pricing, tests, build, and ZIP bundle dry-run
+- [ ] Dedicated throwaway BSC Testnet wallet, platform login, and 48-hour managed-trial deployment
 - [x] Public demo
 - [ ] Four-minute demo video
 - [x] Machine-verifiable submission-readiness report
-- [x] Validated Agent Studio package, pricing, and portable invocation fixtures
+- [x] Validated Agent Studio package, pricing, portable invocation fixtures, and official runtime scaffold
 
 ## Post-hackathon only
 

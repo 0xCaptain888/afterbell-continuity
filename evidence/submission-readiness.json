@@ -2,16 +2,16 @@
   "schema": "afterbell-evidence/1",
   "artifactType": "SUBMISSION_READINESS",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T09:20:55.625Z",
+  "observedAt": "2026-09-18T10:35:11.306Z",
   "source": "AfterBell repository-local submission audit",
   "parentHashes": [
     "0x5a36ce020f566893d938aa0f61bce03723112caa592c0202243ff138cf61522a",
     "0xc71493b59800e9d40bac0cabb1dd0f8d1f00df495b31b16c138e73377b2a6d7b",
     "0xe053cb996a48732c0f5a8e9612df50459c70068d93357d64dd137c9304b02f3f",
     "0xaf8752255c975da3968c32b92bd31258d845d7a8bc33a46130c6e0cd195aa9e4",
-    "0x383d71b0901abbdfdd829024d41eb0518ba3c5bc9a7b58f64026dcaf0d29290b"
+    "0x64c8341184b3fffc6145227092f37875b74b3f889f484693dc035a9d0f2fe810"
   ],
-  "payloadHash": "0x340e68375d03325716038c3de6c06759832cd45ee4b80482aafcf454f7271652",
+  "payloadHash": "0x5870c38c056cf84427d3a09e1e7d5213d853a3f211c28b5ecdeb378899f2816b",
   "payload": {
     "status": "TECHNICALLY_READY",
     "checks": [
@@ -42,13 +42,13 @@
       {
         "id": "independent-fail-closed-consumer",
         "result": "PASS",
-        "evidence": "0x383d71b0901abbdfdd829024d41eb0518ba3c5bc9a7b58f64026dcaf0d29290b",
+        "evidence": "0x64c8341184b3fffc6145227092f37875b74b3f889f484693dc035a9d0f2fe810",
         "detail": "An independent consumer permits monitoring but blocks deposits and automated rescue."
       },
       {
         "id": "public-evidence-synchronized",
         "result": "PASS",
-        "evidence": "2026-09-18T09:20:55.625Z",
+        "evidence": "2026-09-18T10:35:11.306Z",
         "detail": "Public summary roots match deployment, Credential, Passport, and consumer artifacts."
       },
       {
@@ -66,8 +66,14 @@
       {
         "id": "agent-service-package",
         "result": "PASS",
-        "evidence": "0xf15e2a18fbb490c7789b58fd37e12302d1d598a42d2a4cfd7a853bc605eff766",
-        "detail": "Manifest, 0.01 USDT pricing, authentication boundary, and deterministic invocation fixtures are ready to publish without claiming deployment."
+        "evidence": "0xd436bd15132d502a963762bf0d3eb5683500719062edc4ba23b404cdf1dd1626",
+        "detail": "The official BNB Agent Studio A2A/X402 workspace, fixed 0.01 pricing, deterministic inspection, and truthful UNPUBLISHED label are ready for deployment."
+      },
+      {
+        "id": "official-agent-safety",
+        "result": "PASS",
+        "evidence": "bnb-agent/app/agent",
+        "detail": "The seller runtime is BSC Testnet-bound, has no LLM pricing or delivery path, and tests PROTECTED, WATCH, RESCUE_REQUIRED, BLOCKED, no-signing, and no-transaction outcomes."
       },
       {
         "id": "continuous-integration",
@@ -96,5 +102,5 @@
     ],
     "truthNotice": "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, and independent consumer. It does not claim an Agent Studio deployment receipt or a completed submission video."
   },
-  "evidenceRoot": "0xda22284994ee78f21ec02f45e2ac034fa6be4a5862dd9991de1bc0d7fce1a6aa"
+  "evidenceRoot": "0xe7f74641517cd4d354625633ad7e4c70c8026778488d5a4831474acaa27a09f4"
 }

@@ -5,9 +5,9 @@
   "observedAt": "2026-09-18T09:20:00.000Z",
   "source": "AfterBell deterministic package audit",
   "parentHashes": [],
-  "payloadHash": "0xe3da791387506a264096e228af1f3c695557963b9c80925f899f653a336ec253",
+  "payloadHash": "0x36b4cce82eae8a228bee99d1a5ca2a45fba38de4ba7212fad543d9d583476387",
   "payload": {
-    "status": "READY_TO_PUBLISH",
+    "status": "READY_TO_DEPLOY",
     "deploymentStatus": "UNPUBLISHED",
     "manifest": {
       "name": "AfterBell Watchtower",
@@ -28,6 +28,38 @@
       "transactionBroadcast": false,
       "bearerAuthentication": true
     },
+    "officialBnbAgentRuntime": {
+      "workspace": "bnb-agent/",
+      "cli": "@bnbagent/studio-cli 0.0.13",
+      "runtime": "agentcore",
+      "network": "bsc-testnet",
+      "protocols": [
+        "A2A",
+        "X402"
+      ],
+      "rails": [
+        "ERC-8183",
+        "B402"
+      ],
+      "erc8183Price": "0.01 U",
+      "b402Price": "0.01 USD",
+      "deterministicStates": [
+        "PROTECTED",
+        "WATCH",
+        "RESCUE_REQUIRED",
+        "BLOCKED"
+      ],
+      "tests": "5/5 PASS",
+      "build": "PASS",
+      "zipBundleDryRun": "PASS",
+      "deploymentReadiness": "PREFLIGHT_BLOCKED_OPERATOR_SETUP",
+      "externalBlockers": [
+        "Create a new throwaway BSC Testnet wallet and set its ignored WALLET_PASSWORD.",
+        "Authenticate to the BNB managed trial platform.",
+        "Apply for wallet-specific B402 merchant credentials if the paid X402 face is required.",
+        "Start the 48-hour trial only when the submission recording window is ready."
+      ]
+    },
     "examples": {
       "protectedRequest": "agent-studio/examples/protected-request.json",
       "protectedResponse": "agent-studio/examples/protected-response.json",
@@ -39,14 +71,14 @@
       ]
     },
     "publicationChecklist": [
-      "Create the service in Binance Agent Studio.",
-      "Configure the hosted HTTPS endpoint and bearer secret.",
-      "Set per-inspection price to 0.01 USDT.",
-      "Run both portable examples against the hosted service.",
-      "Capture platform service ID, URL, timestamps, and invocation receipts.",
+      "Create a dedicated throwaway BSC Testnet wallet; never reuse a mainnet key.",
+      "Complete `bag platform login` and inspect trial credit.",
+      "Run `bag deploy prepare --provider bnb --backend aws` without bypassing safety checks.",
+      "Deploy the official A2A/X402 seller runtime when the 48-hour recording window is ready.",
+      "Capture platform service ID, URL, ERC-8004 identity, Agent Card, timestamps, and paid invocation receipts.",
       "Only then change deploymentStatus from UNPUBLISHED."
     ],
-    "truthNotice": "The service contract, examples, pricing, authentication, and deterministic state transitions are package-verified. No Binance Agent Studio deployment or paid invocation is claimed."
+    "truthNotice": "The official BNB Agent Studio A2A/X402 workspace, deterministic inspection, fixed pricing, tests, TypeScript build, and ZIP bundle are verified. No managed-platform deployment, ERC-8004 identity, paid invocation, wallet creation, or trial activation is claimed."
   },
-  "evidenceRoot": "0xf15e2a18fbb490c7789b58fd37e12302d1d598a42d2a4cfd7a853bc605eff766"
+  "evidenceRoot": "0xd436bd15132d502a963762bf0d3eb5683500719062edc4ba23b404cdf1dd1626"
 }
