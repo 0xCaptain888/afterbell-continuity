@@ -17,6 +17,7 @@
 npm install
 npm run check
 npm run contracts:plan
+npm run contracts:browser:prepare
 npm run dev
 ```
 
@@ -44,7 +45,9 @@ Then show:
 4. Configure a public wallet address and run `npm run trade:gate`.
 5. Review the already published low-value transaction, receipt, Passport, Credential, and consumer-admission evidence roots.
 6. Run `npm run consumer:verify` and confirm unsafe automation fails closed outside the AfterBell UI.
-7. Deploy and verify contracts only after reviewing bytecode hashes and obtaining a separate wallet confirmation.
+7. Review the auditable browser bundle and [`BSC deployment runbook`](./BSC-DEPLOYMENT.md). Preparing or estimating it sends no transaction.
+8. If deployment is explicitly approved, require three separate wallet confirmations, download the receipt bundle, run `npm run contracts:browser:verify`, and verify all three sources on BscScan.
+9. Reissue the Credential with the deployed Registry as `verifyingContract`; never rewrite the historical zero-address Credential.
 
 ## Truth labels
 

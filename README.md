@@ -78,7 +78,7 @@ observe the position
 | Core continuity engine | `IMPLEMENTED` | 27 TypeScript tests |
 | EIP-712 credential | `IMPLEMENTED` | Credential tests |
 | Independent verifier | `IMPLEMENTED` | PASS and CHALLENGE tests |
-| Contracts | `IMPLEMENTED / UNDEPLOYED` | Solidity compilation |
+| Contracts | `IMPLEMENTED / UNDEPLOYED` | Solidity compilation, audited browser deployment bundle, independent RPC verifier |
 | UI and Judge Run | `IMPLEMENTED` | Local/static demo |
 | TypeScript SDK | `IMPLEMENTED` | package dry build and SDK tests |
 | Persistent Watchtower tasks | `IMPLEMENTED` | JSONL journal and local API smoke test |
@@ -201,9 +201,18 @@ Generate an auditable bytecode commitment without using a wallet:
 
 ```bash
 npm run contracts:plan
+npm run contracts:browser:prepare
 ```
 
-The generated plan reads the public live Credential and commits its exact issuer address as the `ContinuityRegistry` constructor argument. The real deployment script is intentionally guarded: it refuses to run unless the RPC, deployer key, signer address, and exact `DEPLOY_CONFIRM=BSC_MAINNET` acknowledgement are all configured locally. A deployment receipt is still labelled unverified until BscScan verification succeeds.
+The generated plan reads the public live Credential and commits its exact issuer address as the `ContinuityRegistry` constructor argument. `contracts:browser:prepare` builds a Git-ignored, localhost-only OKX Wallet console that pins chain `56`, the expected deployer, constructor values, compiler settings, and bytecode hashes. It adds a 20% buffer to the RPC Gas estimate, requires three separate confirmations, verifies runtime bytecode and contract relationships after every receipt, and exports a receipt bundle.
+
+Place the downloaded receipt at `.runtime/deployment/browser-result.json`, then independently verify receipts, exact creation calldata, runtime code, owner, issuer trust, and Registry pointers:
+
+```bash
+npm run contracts:browser:verify
+```
+
+The evidence remains `MAINNET_DEPLOYED_UNVERIFIED` until all three sources are verified on BscScan. The current zero-address Credential must then be reissued against the deployed Registry; historical evidence is never rewritten. See the complete [`BSC deployment runbook`](./docs/BSC-DEPLOYMENT.md).
 
 ## Safety invariants
 

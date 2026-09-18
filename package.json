@@ -15,6 +15,7 @@
   "files": [
     "package-dist/",
     "contracts/",
+    "docs/BSC-DEPLOYMENT.md",
     "openapi.yaml",
     "README.md",
     "LICENSE"
@@ -47,6 +48,8 @@
     "trade:verify": "NODE_USE_ENV_PROXY=1 node --env-file-if-exists=.env --import tsx scripts/verify-live-swap.ts",
     "contracts:compile": "node --import tsx scripts/compile-contracts.ts",
     "contracts:plan": "npm run contracts:compile && node --import tsx scripts/deployment-plan.ts",
+    "contracts:browser:prepare": "npm run contracts:compile && node --import tsx scripts/prepare-browser-deployment.ts",
+    "contracts:browser:verify": "npm run contracts:compile && node --env-file-if-exists=.env --import tsx scripts/verify-browser-deployment.ts",
     "contracts:deploy:bsc": "npm run contracts:compile && node --env-file-if-exists=.env --import tsx scripts/deploy-contracts.ts",
     "check": "npm run typecheck && npm test && npm run contracts:compile && npm run judge && npm run benchmark && npm run watchtower:demo && npm run consumer:verify && npm run site:evidence && npm run public:verify",
     "security:audit": "npm audit --omit=dev --audit-level=high"

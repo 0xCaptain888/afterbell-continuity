@@ -10,7 +10,7 @@ const input = {
   sources,
   settings: {
     optimizer: { enabled: true, runs: 200 },
-    outputSelection: { "*": { "*": ["abi", "evm.bytecode.object"] } }
+    outputSelection: { "*": { "*": ["abi", "evm.bytecode.object", "evm.deployedBytecode.object", "evm.deployedBytecode.immutableReferences", "metadata"] } }
   }
 };
 
@@ -25,4 +25,5 @@ if (errors.length) {
 }
 await mkdir("artifacts", { recursive: true });
 await writeFile("artifacts/solc-output.json", JSON.stringify(output.contracts, null, 2));
+await writeFile("artifacts/solc-standard-input.json", JSON.stringify(input, null, 2));
 console.log(JSON.stringify({ status: "CONTRACTS_COMPILED", contracts: Object.keys(output.contracts ?? {}) }, null, 2));
