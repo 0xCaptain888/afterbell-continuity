@@ -40,6 +40,7 @@
     "public:verify": "node --import tsx scripts/verify-public-artifacts.ts",
     "site:prepare": "npm run public:verify && node --import tsx scripts/prepare-pages.ts",
     "trade:gate": "NODE_USE_ENV_PROXY=1 node --env-file-if-exists=.env --import tsx scripts/quote-simulate-gate.ts",
+    "trade:prepare": "NODE_USE_ENV_PROXY=1 node --env-file-if-exists=.env --import tsx scripts/prepare-live-swap.ts",
     "contracts:compile": "node --import tsx scripts/compile-contracts.ts",
     "contracts:plan": "npm run contracts:compile && node --import tsx scripts/deployment-plan.ts",
     "contracts:deploy:bsc": "npm run contracts:compile && node --env-file-if-exists=.env --import tsx scripts/deploy-contracts.ts",

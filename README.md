@@ -131,9 +131,10 @@ npm run quote:discover
 npm run equivalence:live
 npm run site:evidence
 npm run trade:gate
+npm run trade:prepare
 ```
 
-`rights:discover` records authenticated profile, market-status, and disclosure coverage while keeping unreturned holder rights `UNKNOWN`. `quote:discover` probes both buy and exit routes for each wrapper without building or signing a transaction. `equivalence:live` combines inventory ratios, executable per-share prices, exit quotes, and rights evidence; it blocks automatic rescue when rights are incomplete. `trade:gate` never signs or broadcasts; it records either a simulated EVM transaction, an explicit RFQ-signature requirement, or a fail-closed blocker.
+`rights:discover` records authenticated profile, market-status, and disclosure coverage while keeping unreturned holder rights `UNKNOWN`. `quote:discover` probes both buy and exit routes for each wrapper without building or signing a transaction. `equivalence:live` combines inventory ratios, executable per-share prices, exit quotes, and rights evidence; it blocks automatic rescue when rights are incomplete. `trade:gate` never signs or broadcasts; it records either a simulated EVM transaction, an explicit RFQ-signature requirement, or a fail-closed blocker. `trade:prepare` additionally verifies the exact allowance, estimates BSC gas, calculates the minimum output under the configured slippage cap, and writes full short-lived calldata only to Git-ignored `.runtime/prepared-live-swap.json`. It still does not sign or broadcast.
 
 ## Latest authenticated evidence — September 18, 2026
 

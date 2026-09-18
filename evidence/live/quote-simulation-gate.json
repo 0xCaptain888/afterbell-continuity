@@ -1,29 +1,29 @@
 {
   "status": "LIVE_QUOTE_AND_SIMULATION_PASSED",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T04:47:39.502Z",
+  "observedAt": "2026-09-18T04:52:24.549Z",
   "walletMode": "USER_PUBLIC_ADDRESS",
   "quote": {
-    "quoteId": "176de25fa4b54229845b8178c0874a28",
+    "quoteId": "72612ac752b24aa39c88a02af18de651",
     "vendor": "LiquidMesh",
     "fromTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
     "toTokenAddress": "0x5b1910eaad6450e50f816082aa078c41f10c292f",
     "inputAmount": "10000000000000000000",
-    "outputAmount": "27194901556575308",
-    "observedAt": "2026-09-18T04:47:39.502Z",
-    "expiresAt": "2026-09-18T04:48:09.502Z",
-    "payloadHash": "0x2549ba7a07c664d18262557504df4841fb77801d2a6246393f7585d161c4bff0"
+    "outputAmount": "27190722112319421",
+    "observedAt": "2026-09-18T04:52:24.549Z",
+    "expiresAt": "2026-09-18T04:52:54.549Z",
+    "payloadHash": "0x4d64fafb2bff25ffe3dc983830dd393975e8da0bcedea7b3d15190de66f0867d"
   },
   "transaction": {
     "from": "0x101fd328a0b2fd9e853909651dab1c0b55947c03",
     "to": "0xB44446b0c8E56988c34f7Ff73Ae904982b5FdDA5",
     "value": "0",
     "data": "0xad43f73d00000000…",
-    "calldataHash": "0x602d41160a4c8a13d5910a9e232e957034d94460f243499d7f6bc1adf7cf813c"
+    "calldataHash": "0xa1642cabfad15c62dec818369cda3a16fa5137e5b51c9bffad8c15bc31a00528"
   },
   "simulation": {
     "success": true,
-    "payloadHash": "0xd1c3db8a7b6fd7ad2ac11d2704782608b2f07aef6df0e084447947aa90728d74",
+    "payloadHash": "0x441ee3b71e979038936aacacb07b39bf4486784ef963e23c781c37e7e62ddd12",
     "data": {
       "status": "SUCCESS",
       "failReason": "",
@@ -37,7 +37,7 @@
         {
           "contractAddress": "0x5b1910eAaD6450E50f816082Aa078C41F10C292f",
           "tokenType": "Erc20",
-          "change": "27194875204812947",
+          "change": "27190722112319421",
           "owner": "0x101fd328a0b2fd9e853909651dab1c0b55947c03"
         }
       ],
@@ -53,5 +53,5 @@
     }
   },
   "truthNotice": "This gate uses a public wallet address to quote, build, and simulate only. It never signs or broadcasts a transaction.",
-  "evidenceRoot": "0x2bc457ba5e353abce30c1ce93c66072b4e3b90076a16097cf78aec2dae0400a1"
+  "evidenceRoot": "0x1d60943bb3c82c4a125880bfe1761378cc0e664a8a1802a16dc065eb715932b4"
 }
