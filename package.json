@@ -50,7 +50,9 @@
     "contracts:plan": "npm run contracts:compile && node --import tsx scripts/deployment-plan.ts",
     "contracts:browser:prepare": "npm run contracts:compile && node --import tsx scripts/prepare-browser-deployment.ts",
     "contracts:browser:verify": "npm run contracts:compile && node --env-file-if-exists=.env --import tsx scripts/verify-browser-deployment.ts",
+    "contracts:sources:finalize": "node --import tsx scripts/finalize-source-verification.ts",
     "contracts:deploy:bsc": "npm run contracts:compile && node --env-file-if-exists=.env --import tsx scripts/deploy-contracts.ts",
+    "mainnet:finalize": "npm run passport:publish && npm run consumer:verify && npm run site:evidence && npm run public:verify && npm run site:prepare",
     "check": "npm run typecheck && npm test && npm run contracts:compile && npm run judge && npm run benchmark && npm run watchtower:demo && npm run consumer:verify && npm run site:evidence && npm run public:verify",
     "security:audit": "npm audit --omit=dev --audit-level=high"
   },

@@ -8,7 +8,7 @@
 4. Observe the deliberate `RIGHTS UNKNOWN` result: authenticated disclosure links exist, but missing holder-right terms block automatic rescue.
 5. Inspect the live Passport and EIP-712 Credential, including the deliberately disclosed quote-timing challenge.
 6. Inspect the standalone Guarded Consumer: it permits read-only monitoring but blocks automated rescue and deposits.
-7. Click **Verify evidence roots** and confirm all seven independently downloaded artifacts return `VERIFIED` in the browser.
+7. Click **Verify evidence roots** and confirm all eight independently downloaded artifacts return `VERIFIED` in the browser, including the source-verified contract deployment.
 8. Run the deterministic demo and watch a premium/liquidity breach become `RESCUE_REQUIRED`, then see tampered calldata become `CHALLENGE`.
 
 ## Four-minute technical path
@@ -33,11 +33,12 @@ Then show:
 - `evidence/live/mainnet-credential.json`
 - `evidence/live/mainnet-passport.json`
 - `evidence/live/guarded-consumer-admission.json`
+- `evidence/deployment/bsc-mainnet.json`
 - `evidence/deployment/bsc-mainnet-plan.json`
 - `openapi.yaml`
 - the installable SDK package produced by `npm pack --dry-run --cache .runtime/npm-cache`
 
-## Live mainnet path — completed execution, deployment still pending
+## Live mainnet path — execution and source-verified deployment complete
 
 1. Save Binance Web3 credentials locally; run `npm run data:gate` and `npm run assets:rank`.
 2. Run `npm run rights:discover`, `npm run quote:discover`, and `npm run equivalence:live`.
@@ -45,9 +46,9 @@ Then show:
 4. Configure a public wallet address and run `npm run trade:gate`.
 5. Review the already published low-value transaction, receipt, Passport, Credential, and consumer-admission evidence roots.
 6. Run `npm run consumer:verify` and confirm unsafe automation fails closed outside the AfterBell UI.
-7. Review the auditable browser bundle and [`BSC deployment runbook`](./BSC-DEPLOYMENT.md). Preparing or estimating it sends no transaction.
-8. If deployment is explicitly approved, require three separate wallet confirmations, download the receipt bundle, run `npm run contracts:browser:verify`, and verify all three sources on BscScan.
-9. Reissue the Credential with the deployed Registry as `verifyingContract`; never rewrite the historical zero-address Credential.
+7. Inspect the three deployment receipts and independently generated [`bsc-mainnet.json`](../evidence/deployment/bsc-mainnet.json).
+8. Open the Registry, Vault, and Bond `#code` pages on BscScan and confirm matching bytecode, compiler `0.8.30`, optimizer runs `200`, MIT License, and exact constructor arguments.
+9. Reissue the Credential with the deployed Registry as `verifyingContract`; the publisher archives rather than rewrites the historical zero-address Credential.
 
 ## Truth labels
 

@@ -104,6 +104,7 @@ const mainnetSwap = await readJson("evidence/live/mainnet-stock-swap.json");
 const mainnetCredential = await readJson("evidence/live/mainnet-credential.json");
 const mainnetPassport = await readJson("evidence/live/mainnet-passport.json");
 const consumerAdmission = await readJson("evidence/live/guarded-consumer-admission.json");
+const deployment = await readJson("evidence/deployment/bsc-mainnet.json");
 const trustedIssuers = await readJson("site/trusted-issuers.json");
 const publicSummary = await readJson("site/live-evidence.json");
 
@@ -115,6 +116,7 @@ const parents = Array.isArray(equivalence.parentHashes)
 assert(parents.length === 2, "equivalence_parent_roots_missing");
 verifyRoot({ file: equivalence, artifactType: "LIVE_ECONOMIC_EQUIVALENCE", parentHashes: parents });
 verifyRoot({ file: mainnetSwap, artifactType: "MAINNET_STOCK_SWAP" });
+verifyRoot({ file: deployment, artifactType: "BSC_MAINNET_DEPLOYMENT" });
 verifyWrappedRoot(mainnetCredential, "LIVE_CONTINUITY_CREDENTIAL");
 verifyWrappedRoot(mainnetPassport, "LIVE_CONTINUITY_PASSPORT");
 verifyWrappedRoot(consumerAdmission, "LIVE_GUARDED_CONSUMER_ADMISSION");
@@ -135,7 +137,19 @@ const issuanceVerification = await verifyCredential({
 assert(issuanceVerification.valid, `credential_invalid_at_issuance:${issuanceVerification.reasons.join(",")}`);
 assert(issuanceVerification.digest === credentialPayload.digest, "credential_digest_mismatch");
 assert((credentialPayload.issuanceVerification as Json | undefined)?.valid === true, "published_issuance_verification_not_valid");
-assert(credential.registry === "0x0000000000000000000000000000000000000000", "credential_must_not_imply_deployed_registry");
+assert(deployment.status === "MAINNET_DEPLOYED_VERIFIED", "deployment_not_source_verified");
+const sourceVerification = deployment.sourceVerification as Json | undefined;
+assert(sourceVerification?.status === "VERIFIED", "deployment_source_verification_missing");
+const deployedContracts = records(deployment.contracts);
+assert(deployedContracts.length === 3, "deployment_contract_count_mismatch");
+const registryDeployment = deployedContracts.find((item) => item.name === "ContinuityRegistry");
+assert(registryDeployment && typeof registryDeployment.address === "string", "verified_registry_missing");
+assert(credential.registry.toLowerCase() === registryDeployment.address.toLowerCase(), "credential_registry_binding_mismatch");
+assert(credentialPayload.registryStatus === "MAINNET_DEPLOYED_VERIFIED", "credential_registry_status_mismatch");
+assert(credentialPayload.deploymentEvidenceRoot === deployment.evidenceRoot, "credential_deployment_root_mismatch");
+assert(Array.isArray(mainnetCredential.parentHashes) && mainnetCredential.parentHashes.includes(deployment.evidenceRoot), "credential_deployment_parent_missing");
+const publishedSourceContracts = records(sourceVerification.contracts);
+assert(publishedSourceContracts.length === 3 && publishedSourceContracts.every((item) => typeof item.sourceUrl === "string" && item.sourceUrl.endsWith("#code")), "deployment_source_urls_missing");
 
 const passportPayload = mainnetPassport.payload as Json;
 const passport = passportPayload.passport as unknown as ContinuityPassport;
@@ -151,6 +165,9 @@ assert(Object.entries(passport.verification.checks).filter(([name, passed]) => !
 const trustedIssuerRecords = records(trustedIssuers.issuers);
 const activeTrustedIssuer = trustedIssuerRecords.find((issuer) => issuer.status === "ACTIVE");
 assert(activeTrustedIssuer && typeof activeTrustedIssuer.address === "string", "active_consumer_trusted_issuer_missing");
+assert(activeTrustedIssuer.registryStatus === "MAINNET_DEPLOYED_VERIFIED", "trusted_issuer_registry_status_mismatch");
+assert(String(activeTrustedIssuer.registryAddress).toLowerCase() === registryDeployment.address.toLowerCase(), "trusted_issuer_registry_address_mismatch");
+assert(activeTrustedIssuer.deploymentEvidenceRoot === deployment.evidenceRoot, "trusted_issuer_deployment_root_mismatch");
 const consumerPayload = consumerAdmission.payload as Json;
 const publishedConsumerDecision = consumerPayload.decision as Json;
 const consumerEvaluationTime = Math.floor(Date.parse(String(publishedConsumerDecision.evaluatedAt)) / 1_000);
@@ -193,7 +210,8 @@ const publicMainnetExecution = publicSummary.mainnetExecution as Json | undefine
 const publicCredential = publicSummary.continuityCredential as Json | undefined;
 const publicPassport = publicSummary.continuityPassport as Json | undefined;
 const publicConsumer = publicSummary.guardedConsumer as Json | undefined;
-assert(publicSummary.schema === "afterbell-public-live-evidence/3", "unexpected_public_summary_schema");
+const publicDeployment = publicSummary.deployment as Json | undefined;
+assert(publicSummary.schema === "afterbell-public-live-evidence/4", "unexpected_public_summary_schema");
 assert(publicRights?.evidenceRoot === rights.evidenceRoot, "public_rights_root_mismatch");
 assert(publicQuotes?.evidenceRoot === quotes.evidenceRoot, "public_quotes_root_mismatch");
 assert(publicEquivalence?.evidenceRoot === equivalence.evidenceRoot, "public_equivalence_root_mismatch");
@@ -203,6 +221,9 @@ assert(BigInt(String((mainnetSwap.output as Json | undefined)?.amountRaw ?? "0")
 assert((mainnetSwap.authorization as Json | undefined)?.postSwapAllowanceRaw === "0", "mainnet_swap_allowance_not_zero");
 assert(publicMainnetExecution?.status === "SUCCESS", "public_mainnet_execution_not_successful");
 assert(publicMainnetExecution?.evidenceRoot === mainnetSwap.evidenceRoot, "public_mainnet_execution_root_mismatch");
+assert(publicDeployment?.status === "MAINNET_DEPLOYED_VERIFIED", "public_deployment_status_mismatch");
+assert(publicDeployment?.evidenceRoot === deployment.evidenceRoot, "public_deployment_root_mismatch");
+assert(publicDeployment?.registryAddress === registryDeployment.address, "public_registry_address_mismatch");
 assert(publicCredential?.evidenceRoot === mainnetCredential.evidenceRoot, "public_credential_root_mismatch");
 assert(publicCredential?.digest === credentialPayload.digest, "public_credential_digest_mismatch");
 assert(publicPassport?.evidenceRoot === mainnetPassport.evidenceRoot, "public_passport_root_mismatch");
@@ -216,9 +237,10 @@ const app = await readFile("site/app.js", "utf8");
 for (const asset of ["./styles.css", "./app.js", "./favicon.svg"]) {
   assert(html.includes(asset), `site_asset_not_referenced:${asset}`);
 }
-for (const asset of ["live-evidence.json", "demo-data.json", "wallet-authorization.json", "mainnet-credential.json", "mainnet-passport.json", "guarded-consumer-admission.json"]) {
+for (const asset of ["live-evidence.json", "demo-data.json", "wallet-authorization.json", "mainnet-credential.json", "mainnet-passport.json", "guarded-consumer-admission.json", "bsc-mainnet.json"]) {
   assert(app.includes(asset), `runtime_asset_not_referenced:${asset}`);
   if (["mainnet-credential.json", "mainnet-passport.json", "guarded-consumer-admission.json"].includes(asset)) await readFile(`evidence/live/${asset}`, "utf8");
+  else if (asset === "bsc-mainnet.json") await readFile("evidence/deployment/bsc-mainnet.json", "utf8");
   else await readFile(`site/${asset}`, "utf8");
 }
 assert(html.includes("trusted-issuers.json"), "consumer_trust_list_not_linked");
@@ -236,7 +258,7 @@ assert(leakedFiles.length === 0, `public_secret_pattern_detected:${leakedFiles.j
 
 console.log(JSON.stringify({
   status: "PUBLIC_ARTIFACTS_VERIFIED",
-  evidence: { rights: rights.evidenceRoot, quotes: quotes.evidenceRoot, equivalence: equivalence.evidenceRoot, mainnetSwap: mainnetSwap.evidenceRoot, credential: mainnetCredential.evidenceRoot, passport: mainnetPassport.evidenceRoot, consumer: consumerAdmission.evidenceRoot },
+  evidence: { rights: rights.evidenceRoot, quotes: quotes.evidenceRoot, equivalence: equivalence.evidenceRoot, mainnetSwap: mainnetSwap.evidenceRoot, deployment: deployment.evidenceRoot, credential: mainnetCredential.evidenceRoot, passport: mainnetPassport.evidenceRoot, consumer: consumerAdmission.evidenceRoot },
   rightsProfiles: rightResults.length,
   roundTripRoutes,
   featuredAssets: equivalenceResults.length,

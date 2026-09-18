@@ -93,6 +93,7 @@
         <article><span class="ready-dot waiting" id="rightsDataDot"></span><div><b>Rights-continuity gate</b><small id="rightsDataStatus">Loading public evidence…</small></div></article>
         <article><span class="ready-dot waiting" id="simulationDot"></span><div><b>Swap build + Transaction API simulation</b><small id="simulationStatus">Loading public evidence…</small></div></article>
         <article><span class="ready-dot waiting" id="executionDot"></span><div><b>BSC mainnet execution</b><small id="executionStatus">Loading public evidence…</small></div></article>
+        <article><span class="ready-dot waiting" id="deploymentDot"></span><div><b>Source-verified BSC contracts</b><small id="deploymentStatus">Loading public evidence…</small></div></article>
         <article><span class="ready-dot waiting" id="passportDot"></span><div><b>Passport + EIP-712 credential</b><small id="passportStatus">Loading public evidence…</small></div></article>
       </div>
     </section>
@@ -146,7 +147,7 @@
         <div>
           <span class="kicker">INDEPENDENT BROWSER VERIFIER</span>
           <h3>Don't trust the dashboard. Recompute it.</h3>
-          <p>Download seven public artifacts, rebuild their canonical SHA-256 evidence roots in this browser, and compare them with the published commitments. CI additionally recovers the EIP-712 signer and recomputes the consumer admission decision.</p>
+          <p>Download eight public artifacts, rebuild their canonical SHA-256 evidence roots in this browser, and compare them with the published commitments. CI additionally recovers the EIP-712 signer, checks the Registry binding, and recomputes the consumer admission decision.</p>
         </div>
         <div class="verifier-action">
           <button class="primary" id="verifyEvidenceButton">Verify evidence roots <span>→</span></button>
@@ -158,6 +159,7 @@
           <a href="./evidence/quote-discovery.json" target="_blank" rel="noreferrer">Round-trip quotes ↗</a>
           <a href="./evidence/economic-equivalence.json" target="_blank" rel="noreferrer">Equivalence report ↗</a>
           <a href="./evidence/mainnet-stock-swap.json" target="_blank" rel="noreferrer">Mainnet receipt ↗</a>
+          <a href="./evidence/bsc-mainnet.json" target="_blank" rel="noreferrer">Verified contracts ↗</a>
           <a href="./evidence/mainnet-credential.json" target="_blank" rel="noreferrer">Credential ↗</a>
           <a href="./evidence/mainnet-passport.json" target="_blank" rel="noreferrer">Passport ↗</a>
           <a href="./evidence/guarded-consumer-admission.json" target="_blank" rel="noreferrer">Consumer decision ↗</a>

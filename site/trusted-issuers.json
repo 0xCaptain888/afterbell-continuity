@@ -6,9 +6,11 @@
       "address": "0x1EEB975651AD5FCDC7C5F45FD9a72387B8440c80",
       "role": "AFTERBELL_OFFCHAIN_CREDENTIAL_ISSUER",
       "status": "ACTIVE",
-      "registryStatus": "NOT_DEPLOYED",
-      "trustedSince": "2026-09-18T05:32:32.000Z"
+      "registryStatus": "MAINNET_DEPLOYED_VERIFIED",
+      "trustedSince": "2026-09-18T05:32:32.000Z",
+      "registryAddress": "0xcb158746e0855ecec2703ce20ec3aa780c0c823a",
+      "deploymentEvidenceRoot": "0x5a36ce020f566893d938aa0f61bce03723112caa592c0202243ff138cf61522a"
     }
   ],
-  "truthNotice": "This explicit trust list belongs to the reference consumer. Trust is not inferred from the signer embedded in a credential."
+  "truthNotice": "This explicit trust list belongs to the reference consumer. The active issuer is independently trusted by the source-verified ContinuityRegistry; trust is never inferred only from the signer embedded in a credential."
 }

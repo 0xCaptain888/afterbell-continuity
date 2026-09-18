@@ -17,6 +17,7 @@ const mainnetSwap = await readJson("evidence/live/mainnet-stock-swap.json");
 const mainnetCredential = await readJson("evidence/live/mainnet-credential.json");
 const mainnetPassport = await readJson("evidence/live/mainnet-passport.json");
 const consumerAdmission = await readJson("evidence/live/guarded-consumer-admission.json");
+const deployment = await readJson("evidence/deployment/bsc-mainnet.json");
 
 const inventoryPairs = Array.isArray(inventory?.continuityPairs) ? inventory.continuityPairs as Array<Record<string, unknown>> : [];
 const quoteResults = Array.isArray(quotes?.results) ? quotes.results as Array<Record<string, unknown>> : [];
@@ -25,6 +26,8 @@ const rightsResults = Array.isArray(rights?.results) ? rights.results as Array<R
 const equivalenceResults = Array.isArray(equivalence?.results) ? equivalence.results as Array<Record<string, unknown>> : [];
 const simulationData = simulation?.simulation as Record<string, unknown> | undefined;
 const simulationPayload = simulationData?.data as Record<string, unknown> | undefined;
+const deploymentContracts = Array.isArray(deployment?.contracts) ? deployment.contracts as Array<Record<string, unknown>> : [];
+const registryDeployment = deploymentContracts.find((item) => item.name === "ContinuityRegistry");
 
 const featured = ["TSLA", "NVDA"].map((ticker) => {
   const pair = inventoryPairs.find((item) => item.underlyingTicker === ticker);
@@ -62,10 +65,10 @@ const featured = ["TSLA", "NVDA"].map((ticker) => {
 });
 
 const summary = {
-  schema: "afterbell-public-live-evidence/3",
+  schema: "afterbell-public-live-evidence/4",
   generatedAt: new Date().toISOString(),
-  truthNotice: mainnetSwap?.status === "SUCCESS"
-    ? "LIVE labels refer to authenticated API and on-chain evidence. One bounded, user-confirmed BNB Chain stock-token swap is independently verified; incomplete rights evidence remains UNKNOWN and still blocks automatic rescue."
+  truthNotice: mainnetSwap?.status === "SUCCESS" && deployment?.status === "MAINNET_DEPLOYED_VERIFIED"
+    ? "LIVE and MAINNET labels refer to authenticated API, on-chain receipts, independently matched bytecode, and BscScan-published sources. One bounded stock-token swap and three protocol deployments are verified; incomplete holder-rights evidence remains UNKNOWN and still blocks automatic rescue."
     : "LIVE labels refer to authenticated API and on-chain evidence. A bounded USDT approval was signed and broadcast by the user; no stock-token swap has been signed or broadcast. Incomplete rights evidence remains UNKNOWN and blocks automatic rescue.",
   inventory: inventory ? {
     status: inventory.status,
@@ -120,6 +123,15 @@ const summary = {
     evidenceRoot: mainnetSwap.evidenceRoot,
     truthNotice: mainnetSwap.truthNotice
   } : { status: "NOT_EXECUTED", transactionHash: null },
+  deployment: deployment ? {
+    status: deployment.status,
+    observedAt: deployment.observedAt,
+    registryAddress: registryDeployment?.address,
+    contracts: deploymentContracts.map((item) => ({ name: item.name, address: item.address, transactionHash: item.transactionHash })),
+    sourceVerification: deployment.sourceVerification,
+    evidenceRoot: deployment.evidenceRoot,
+    truthNotice: deployment.truthNotice
+  } : { status: "NOT_DEPLOYED" },
   continuityCredential: mainnetCredential ? {
     status: (mainnetCredential.payload as Record<string, unknown> | undefined)?.semantics
       ? ((mainnetCredential.payload as Record<string, unknown>).semantics as Record<string, unknown>).status

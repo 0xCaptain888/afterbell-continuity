@@ -2,21 +2,21 @@
   "schema": "afterbell-evidence/1",
   "artifactType": "LIVE_CONTINUITY_PASSPORT",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T08:45:01.409Z",
+  "observedAt": "2026-09-18T05:32:32.038Z",
   "source": "AfterBell deterministic verifier + BNB Chain RPC",
   "parentHashes": [
-    "0xe053cb996a48732c0f5a8e9612df50459c70068d93357d64dd137c9304b02f3f",
+    "0xd95a960b1f26a1c0c149c04a6655b2e90f0878728ff7f05d415d29b7beaf726a",
     "0xc71493b59800e9d40bac0cabb1dd0f8d1f00df495b31b16c138e73377b2a6d7b"
   ],
-  "payloadHash": "0x5856d4a1b7a0dadd86b5e2c4277f3be35b04098ff0057160b1f3de476052ae2b",
+  "payloadHash": "0x49e87f17039f9ccecef5c9f433562a51c68ad52b47822f240dbf7552c24a187b",
   "payload": {
     "passport": {
-      "passportId": "0x4cf42a0c4f7f0593c9b15fbfc8907a50096bde612ac9db7e07b7a53cfa9f0a23",
+      "passportId": "0xf36778b0aa6163709631d8882feda8e37920f769120e182f0c7650411d8427c5",
       "state": "CHALLENGED",
       "execution": {
         "intentHash": "0x871fbc110c43b976c98b254ff0b2271d754ac138d1a479c1b12b5ce70ed14742",
         "mandateHash": "0x11dd2ef1e75040efced04342a21f3bb19ff0859bbffcf6541f8cfdd23fa31466",
-        "credentialHash": "0x979c002c6c876d53302be2043e05aaf5b6bddc530a3858b8950fc727c6aae7b5",
+        "credentialHash": "0xb6c7209f886c2e324778825c682f54ad15fcf631fad4bfca2972f05133be95f3",
         "quoteHash": "0x042ba7e429b30d0e8cbdbf4c26c48bbc993c80e375f46ff828880fa044e7df03",
         "simulation": {
           "simulationHash": "0xd6086a5f27dc2771acee51b269f8ccbec2692b96b56cee3e602db758451a264a",
@@ -67,12 +67,12 @@
         "reasons": [
           "quoteFresh"
         ],
-        "evidenceHash": "0x71e738ef81ecc4223590fdff707056b0313e5ce05bbf42fbea9669bd14e068b6"
+        "evidenceHash": "0x56be53d18f3bf449ab53caff86648318de6110c9f794ed2fbc45334f129a8a2a"
       },
-      "evidenceRoot": "0xe6d4e6f6f18a1d9edbe386300b1ab07d6f6896d6e91fbdbb1df197325f238af6",
-      "issuedAt": "2026-09-18T08:45:01.409Z"
+      "evidenceRoot": "0xece79c70c8f7525b16b15639c09e1dc9a2a8d3b72e7e56c1361b7e2f1de0353c",
+      "issuedAt": "2026-09-18T05:32:32.038Z"
     },
-    "credentialDigest": "0x979c002c6c876d53302be2043e05aaf5b6bddc530a3858b8950fc727c6aae7b5",
+    "credentialDigest": "0xb6c7209f886c2e324778825c682f54ad15fcf631fad4bfca2972f05133be95f3",
     "resultSummary": {
       "passedChecks": [
         "simulationPassed",
@@ -95,5 +95,5 @@
     },
     "truthNotice": "This passport binds the prepared calldata, successful BNB Chain receipt, exact input, output bound, simulation and zero remaining allowance. It remains CHALLENGED because chain confirmation does not prove the quote was submitted within 30 seconds."
   },
-  "evidenceRoot": "0xaf8752255c975da3968c32b92bd31258d845d7a8bc33a46130c6e0cd195aa9e4"
+  "evidenceRoot": "0x6177c400ee6d7f31634dd5b1cfee55f3f2860ae85cccfc7abcf8399442ccac66"
 }

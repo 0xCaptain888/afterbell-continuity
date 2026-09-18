@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import { privateKeyToAccount } from "viem/accounts";
 import { sha256 } from "../src/canonical.js";
 import { credentialHash, signCredential, verifyCredential } from "../src/credential.js";
@@ -38,11 +38,12 @@ function hex(value: unknown, label: string): Hex {
 const signerPrivateKey = process.env.CREDENTIAL_SIGNER_PRIVATE_KEY as Hex | undefined;
 assert(signerPrivateKey && /^0x[0-9a-fA-F]{64}$/.test(signerPrivateKey), "missing_credential_signer_private_key_run_npm_run_credentials_issuer");
 
-const [swap, prepared, rights, equivalence] = await Promise.all([
+const [swap, prepared, rights, equivalence, deployment] = await Promise.all([
   readJson("evidence/live/mainnet-stock-swap.json"),
   readJson(".runtime/prepared-live-swap.json"),
   readJson("evidence/live/rights-discovery.json"),
-  readJson("evidence/live/economic-equivalence.json")
+  readJson("evidence/live/economic-equivalence.json"),
+  readJson("evidence/deployment/bsc-mainnet.json")
 ]);
 
 assert(swap.status === "SUCCESS", "mainnet_swap_not_successful");
@@ -77,21 +78,43 @@ assert(tslaEquivalence, "tsla_equivalence_evidence_missing");
 assert(tslaEquivalence.classification === "UNKNOWN", "unexpected_tsla_rights_classification");
 assert(tslaEquivalence.automaticRescueAllowed === false, "automatic_rescue_must_remain_blocked");
 
+assert(deployment.schema === "afterbell-deployment/2", "deployment_evidence_schema_mismatch");
+assert(deployment.status === "MAINNET_DEPLOYED_VERIFIED", "deployment_sources_not_verified");
+assert(deployment.chainId === 56, "deployment_chain_mismatch");
+const deploymentContracts = Array.isArray(deployment.contracts) ? deployment.contracts as Json[] : [];
+const registryDeployment = deploymentContracts.find((item) => item.name === "ContinuityRegistry");
+assert(registryDeployment, "verified_registry_deployment_missing");
+const registryAddress = address(registryDeployment.address, "registry_address");
+const deploymentEvidenceRoot = hex(deployment.evidenceRoot, "deployment_evidence_root");
+const { evidenceRoot: _deploymentRoot, ...deploymentPayload } = deployment;
+const rebuiltDeployment = createEvidenceArtifact({
+  artifactType: "BSC_MAINNET_DEPLOYMENT",
+  mode: "MAINNET",
+  observedAt: String(deployment.observedAt),
+  source: String(deployment.source),
+  payload: deploymentPayload
+});
+assert(rebuiltDeployment.evidenceRoot === deploymentEvidenceRoot, "deployment_evidence_root_mismatch");
+const sourceVerification = deployment.sourceVerification as Json | undefined;
+assert(sourceVerification?.status === "VERIFIED", "deployment_source_verification_missing");
+
 const issuer = privateKeyToAccount(signerPrivateKey);
+assert(issuer.address.toLowerCase() === String(deployment.credentialIssuer).toLowerCase(), "credential_issuer_not_trusted_by_registry");
 const issuedAt = new Date();
 const issuedAtSeconds = Math.floor(issuedAt.getTime() / 1_000);
 const expiresAtSeconds = issuedAtSeconds + 7 * 24 * 60 * 60;
 const parentEvidenceRoots = [
   hex(rights.evidenceRoot, "rights_evidence_root"),
   hex(equivalence.evidenceRoot, "equivalence_evidence_root"),
-  hex(swap.evidenceRoot, "swap_evidence_root")
+  hex(swap.evidenceRoot, "swap_evidence_root"),
+  deploymentEvidenceRoot
 ];
 const credentialEvidenceRoot = sha256({ parentEvidenceRoots });
 const asset = address(swapOutput.tokenAddress, "output_token");
 const credential: ContinuityCredential = {
   schema: "afterbell-continuity/1",
   chainId: 56,
-  registry: "0x0000000000000000000000000000000000000000",
+  registry: registryAddress,
   asset,
   underlyingHash: sha256("TSLA"),
   economicExposureMicros: 1_000_000n,
@@ -202,7 +225,9 @@ const credentialArtifact = createEvidenceArtifact({
     signedCredential: json(signedCredential),
     digest: credentialHash(credential),
     issuerRole: "AFTERBELL_OFFCHAIN_CREDENTIAL_ISSUER",
-    registryStatus: "NOT_DEPLOYED",
+    registryStatus: "MAINNET_DEPLOYED_VERIFIED",
+    registryAddress,
+    deploymentEvidenceRoot,
     semantics: {
       status: "WATCH",
       riskTier: "HIGH",
@@ -211,7 +236,7 @@ const credentialArtifact = createEvidenceArtifact({
     validFrom: new Date(issuedAtSeconds * 1_000).toISOString(),
     validUntil: new Date(expiresAtSeconds * 1_000).toISOString(),
     issuanceVerification,
-    truthNotice: "The signature proves an AfterBell issuer attested to this bounded evidence set. It is not a wallet-owner signature, ownership claim, deployed-registry claim, or guarantee of shareholder rights."
+    truthNotice: "The signature proves an AfterBell issuer trusted by the source-verified ContinuityRegistry attested to this bounded evidence set. It is not a wallet-owner signature, ownership claim, or guarantee of shareholder rights."
   }
 });
 const passportArtifact = createEvidenceArtifact({
@@ -239,14 +264,38 @@ const passportArtifact = createEvidenceArtifact({
   }
 });
 
+const previousCredential = await readJson("evidence/live/mainnet-credential.json");
+const previousSignedCredential = ((previousCredential.payload as Json | undefined)?.signedCredential as Json | undefined)?.credential as Json | undefined;
+if (previousSignedCredential?.registry === "0x0000000000000000000000000000000000000000") {
+  await mkdir("evidence/history", { recursive: true });
+  await Promise.all([
+    copyFile("evidence/live/mainnet-credential.json", "evidence/history/mainnet-credential-zero-registry.json"),
+    copyFile("evidence/live/mainnet-passport.json", "evidence/history/mainnet-passport-zero-registry.json"),
+    copyFile("evidence/live/guarded-consumer-admission.json", "evidence/history/guarded-consumer-admission-zero-registry.json")
+  ]);
+}
+
+const trustList = await readJson("site/trusted-issuers.json");
+const trustIssuers = Array.isArray(trustList.issuers) ? trustList.issuers as Json[] : [];
+const updatedTrustList = {
+  ...trustList,
+  issuers: trustIssuers.map((item) => String(item.address).toLowerCase() === issuer.address.toLowerCase()
+    ? { ...item, registryStatus: "MAINNET_DEPLOYED_VERIFIED", registryAddress, deploymentEvidenceRoot }
+    : item),
+  truthNotice: "This explicit trust list belongs to the reference consumer. The active issuer is independently trusted by the source-verified ContinuityRegistry; trust is never inferred only from the signer embedded in a credential."
+};
+
 await Promise.all([
   writeFile("evidence/live/mainnet-credential.json", JSON.stringify(credentialArtifact, null, 2)),
-  writeFile("evidence/live/mainnet-passport.json", JSON.stringify(passportArtifact, null, 2))
+  writeFile("evidence/live/mainnet-passport.json", JSON.stringify(passportArtifact, null, 2)),
+  writeFile("site/trusted-issuers.json", JSON.stringify(updatedTrustList, null, 2))
 ]);
 
 console.log(JSON.stringify({
   status: "LIVE_PASSPORT_AND_CREDENTIAL_PUBLISHED",
   issuer: issuer.address,
+  registry: registryAddress,
+  deploymentEvidenceRoot,
   credentialDigest: credentialHash(credential),
   credentialValidUntil: new Date(expiresAtSeconds * 1_000).toISOString(),
   passportId: passport.passportId,

@@ -15,6 +15,8 @@ const simulationStatus = document.querySelector("#simulationStatus");
 const simulationDot = document.querySelector("#simulationDot");
 const executionStatus = document.querySelector("#executionStatus");
 const executionDot = document.querySelector("#executionDot");
+const deploymentStatus = document.querySelector("#deploymentStatus");
+const deploymentDot = document.querySelector("#deploymentDot");
 const passportStatus = document.querySelector("#passportStatus");
 const passportDot = document.querySelector("#passportDot");
 const passportBadge = document.querySelector("#passportBadge");
@@ -363,13 +365,14 @@ verifyEvidenceButton?.addEventListener("click", async () => {
       verifyPublishedArtifact("./evidence/quote-discovery.json", "ROUND_TRIP_QUOTE_DISCOVERY", "Round-trip quotes"),
       verifyPublishedArtifact("./evidence/economic-equivalence.json", "LIVE_ECONOMIC_EQUIVALENCE", "Economic equivalence"),
       verifyPublishedArtifact("./evidence/mainnet-stock-swap.json", "MAINNET_STOCK_SWAP", "Mainnet execution"),
+      verifyPublishedArtifact("./evidence/bsc-mainnet.json", "BSC_MAINNET_DEPLOYMENT", "Verified contract deployment"),
       verifyPublishedArtifact("./evidence/mainnet-credential.json", "LIVE_CONTINUITY_CREDENTIAL", "EIP-712 credential", "wrapped"),
       verifyPublishedArtifact("./evidence/mainnet-passport.json", "LIVE_CONTINUITY_PASSPORT", "Continuity Passport", "wrapped"),
       verifyPublishedArtifact("./evidence/guarded-consumer-admission.json", "LIVE_GUARDED_CONSUMER_ADMISSION", "Guarded consumer", "wrapped")
     ]);
     results.forEach(renderVerificationResult);
     const verified = results.every((result) => result.verified);
-    verifyEvidenceState.textContent = verified ? "7/7 VERIFIED · canonical roots match" : "FAILED · published evidence mismatch";
+    verifyEvidenceState.textContent = verified ? "8/8 VERIFIED · canonical roots match" : "FAILED · published evidence mismatch";
     verifyEvidenceState.className = `verify-state ${verified ? "ok" : "bad"}`;
   } catch (error) {
     verifyEvidenceState.textContent = `FAILED · ${error instanceof Error ? error.message : String(error)}`;
@@ -424,6 +427,18 @@ fetch("./live-evidence.json", { cache: "no-store" })
         executionStatus.textContent = "NOT EXECUTED · no verified mainnet receipt";
       }
     }
+    if (deploymentStatus) {
+      const deployment = evidence.deployment;
+      const sourceContracts = Array.isArray(deployment?.sourceVerification?.contracts) ? deployment.sourceVerification.contracts : [];
+      const verified = deployment?.status === "MAINNET_DEPLOYED_VERIFIED" && sourceContracts.length === 3;
+      if (verified) {
+        deploymentStatus.innerHTML = `MAINNET VERIFIED · Registry ${shortAddress(deployment.registryAddress)} · <a href="${sourceContracts[0].sourceUrl}" target="_blank" rel="noreferrer">BscScan sources ↗</a>`;
+        deploymentDot?.classList.remove("waiting");
+        deploymentDot?.classList.add("live");
+      } else {
+        deploymentStatus.textContent = "UNVERIFIED · deployment or published sources missing";
+      }
+    }
     const passport = evidence.continuityPassport;
     const credential = evidence.continuityCredential;
     const passedChecks = Array.isArray(passport?.resultSummary?.passedChecks) ? passport.resultSummary.passedChecks : [];
@@ -440,7 +455,9 @@ fetch("./live-evidence.json", { cache: "no-store" })
       const expiresAt = Date.parse(credential.validUntil);
       const credentialCurrent = Number.isFinite(expiresAt) && expiresAt > Date.now();
       credentialBadge.textContent = credentialCurrent ? "VALID · WATCH" : "EXPIRED · HISTORICAL";
-      credentialSummary.textContent = "Issuer signature is valid at issuance; status is WATCH because machine-readable shareholder rights remain incomplete. No deployed registry is claimed.";
+      credentialSummary.textContent = credential.registryStatus === "MAINNET_DEPLOYED_VERIFIED"
+        ? "Issuer signature is Registry-bound and valid at issuance; status remains WATCH because machine-readable shareholder rights are incomplete."
+        : "Issuer signature is valid at issuance; status is WATCH because machine-readable shareholder rights remain incomplete.";
       credentialSigner.textContent = shortAddress(credential.signer);
       credentialSigner.title = credential.signer;
       credentialExpiry.textContent = Number.isFinite(expiresAt) ? new Date(expiresAt).toLocaleString() : "—";
@@ -465,6 +482,7 @@ fetch("./live-evidence.json", { cache: "no-store" })
     if (simulationStatus) simulationStatus.textContent = "UNAVAILABLE · simulation evidence missing";
     if (rightsDataStatus) rightsDataStatus.textContent = "UNAVAILABLE · rights evidence missing";
     if (executionStatus) executionStatus.textContent = "UNAVAILABLE · execution evidence missing";
+    if (deploymentStatus) deploymentStatus.textContent = "UNAVAILABLE · deployment evidence missing";
     if (passportStatus) passportStatus.textContent = "UNAVAILABLE · Passport evidence missing";
     if (liveProofGrid) liveProofGrid.textContent = "Public evidence summary unavailable.";
   });

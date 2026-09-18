@@ -2,13 +2,13 @@
   "schema": "afterbell-evidence/1",
   "artifactType": "LIVE_GUARDED_CONSUMER_ADMISSION",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T08:46:35.000Z",
+  "observedAt": "2026-09-18T05:57:27.000Z",
   "source": "Standalone AfterBell Guarded Consumer",
   "parentHashes": [
-    "0xe053cb996a48732c0f5a8e9612df50459c70068d93357d64dd137c9304b02f3f",
-    "0xaf8752255c975da3968c32b92bd31258d845d7a8bc33a46130c6e0cd195aa9e4"
+    "0xd95a960b1f26a1c0c149c04a6655b2e90f0878728ff7f05d415d29b7beaf726a",
+    "0x6177c400ee6d7f31634dd5b1cfee55f3f2860ae85cccfc7abcf8399442ccac66"
   ],
-  "payloadHash": "0x264aff759e5b66dad70cb372c9229a487e405144659f7a7e4ef32ebcc18cbaad",
+  "payloadHash": "0x04430976c6411faad1ac4dea100aa0b09fb5cffd538f0d9a171b8abb7972b532",
   "payload": {
     "decision": {
       "schema": "afterbell-consumer-admission/1",
@@ -27,9 +27,9 @@
         "credentialProtected",
         "riskTierAccepted"
       ],
-      "credentialDigest": "0x979c002c6c876d53302be2043e05aaf5b6bddc530a3858b8950fc727c6aae7b5",
-      "passportId": "0x4cf42a0c4f7f0593c9b15fbfc8907a50096bde612ac9db7e07b7a53cfa9f0a23",
-      "evaluatedAt": "2026-09-18T08:46:35.000Z",
+      "credentialDigest": "0xb6c7209f886c2e324778825c682f54ad15fcf631fad4bfca2972f05133be95f3",
+      "passportId": "0xf36778b0aa6163709631d8882feda8e37920f769120e182f0c7650411d8427c5",
+      "evaluatedAt": "2026-09-18T05:57:27.000Z",
       "permissions": {
         "allowAutomatedRescue": false,
         "allowGuardedDeposit": false,
@@ -37,7 +37,7 @@
       }
     },
     "policy": {
-      "trustedIssuerSetHash": "0x7b4db1c77c2f333913b947a78208308c74c2b53466e0ef7452964a6a08b98901",
+      "trustedIssuerSetHash": "0x83664e0af8952a10c749e55899c3cfcc43118fd8bda7dfa07b5ee6e9708e873a",
       "maximumRiskTier": 1,
       "requireProtectedCredential": true,
       "requireProtectedPassport": true
@@ -45,5 +45,5 @@
     "consumerBoundary": "This decision is computed without the AfterBell UI and does not possess a wallet key or transaction-signing capability.",
     "truthNotice": "The reference consumer allows read-only monitoring but blocks automated rescue and Guarded Vault deposits because the live credential is WATCH/HIGH and the Passport is CHALLENGED."
   },
-  "evidenceRoot": "0x50f433ad1f5a4be6af1ef1e8c0b86921bb3313c65479705e3a92d2db9c74afe6"
+  "evidenceRoot": "0xa087b7555242b2985c5db539a0d2d73f525ebdc04b52c3307c723e19a6a80b1f"
 }

@@ -1,7 +1,7 @@
 {
-  "schema": "afterbell-public-live-evidence/3",
-  "generatedAt": "2026-09-18T05:57:27.975Z",
-  "truthNotice": "LIVE labels refer to authenticated API and on-chain evidence. One bounded, user-confirmed BNB Chain stock-token swap is independently verified; incomplete rights evidence remains UNKNOWN and still blocks automatic rescue.",
+  "schema": "afterbell-public-live-evidence/4",
+  "generatedAt": "2026-09-18T08:46:36.151Z",
+  "truthNotice": "LIVE and MAINNET labels refer to authenticated API, on-chain receipts, independently matched bytecode, and BscScan-published sources. One bounded stock-token swap and three protocol deployments are verified; incomplete holder-rights evidence remains UNKNOWN and still blocks automatic rescue.",
   "inventory": {
     "status": "LIVE_DATA_GATE_PASSED",
     "observedAt": "2026-09-18T01:41:35.600Z",
@@ -174,20 +174,73 @@
     "evidenceRoot": "0xc71493b59800e9d40bac0cabb1dd0f8d1f00df495b31b16c138e73377b2a6d7b",
     "truthNotice": "This artifact records one user-confirmed BNB Chain mainnet stock-token swap and independently verifies its calldata, receipt, token transfers, slippage bound, gas, and post-swap allowance."
   },
+  "deployment": {
+    "status": "MAINNET_DEPLOYED_VERIFIED",
+    "observedAt": "2026-09-18T08:08:06.949Z",
+    "registryAddress": "0xCb158746e0855ECeC2703CE20EC3aA780c0C823A",
+    "contracts": [
+      {
+        "name": "ContinuityRegistry",
+        "address": "0xCb158746e0855ECeC2703CE20EC3aA780c0C823A",
+        "transactionHash": "0xf832d9dbdfe2ec7c26350b8e744105fc57c5a06945176d0238fa0ed577a393b1"
+      },
+      {
+        "name": "GuardedStockVault",
+        "address": "0x8f996AFcb61eaa3FCc6BCe21B691240e6eACE1bD",
+        "transactionHash": "0x9e5426bbe981cee1bb6e1a370ca4103941ef34313d7475bf47fd889dfafe546e"
+      },
+      {
+        "name": "ExecutionBondEscrow",
+        "address": "0x52B6FF2243c3366E14aC13C6490A48580dE12029",
+        "transactionHash": "0x807ea83c13f6477a5b614f3747ed133d57b04d03bd377c852017a0000d3d12c4"
+      }
+    ],
+    "sourceVerification": {
+      "status": "VERIFIED",
+      "verifiedAt": "2026-09-18T08:31:55.257Z",
+      "verifier": "BscScan Standard JSON Input",
+      "compilerVersion": "v0.8.30+commit.73712a01",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "license": "MIT",
+      "standardInput": "evidence/deployment/bscscan-standard-input.json",
+      "contracts": [
+        {
+          "name": "ContinuityRegistry",
+          "address": "0xCb158746e0855ECeC2703CE20EC3aA780c0C823A",
+          "sourceUrl": "https://bscscan.com/address/0xCb158746e0855ECeC2703CE20EC3aA780c0C823A#code"
+        },
+        {
+          "name": "GuardedStockVault",
+          "address": "0x8f996AFcb61eaa3FCc6BCe21B691240e6eACE1bD",
+          "sourceUrl": "https://bscscan.com/address/0x8f996AFcb61eaa3FCc6BCe21B691240e6eACE1bD#code"
+        },
+        {
+          "name": "ExecutionBondEscrow",
+          "address": "0x52B6FF2243c3366E14aC13C6490A48580dE12029",
+          "sourceUrl": "https://bscscan.com/address/0x52B6FF2243c3366E14aC13C6490A48580dE12029#code"
+        }
+      ]
+    },
+    "evidenceRoot": "0x5a36ce020f566893d938aa0f61bce03723112caa592c0202243ff138cf61522a",
+    "truthNotice": "Deployment receipts, exact creation calldata, runtime bytecode, Registry relationships, and all three published Solidity sources are independently inspectable on BNB Chain and BscScan."
+  },
   "continuityCredential": {
     "status": "WATCH",
     "signer": "0x1EEB975651AD5FCDC7C5F45FD9a72387B8440c80",
-    "digest": "0xb6c7209f886c2e324778825c682f54ad15fcf631fad4bfca2972f05133be95f3",
-    "validFrom": "2026-09-18T05:32:32.000Z",
-    "validUntil": "2026-09-25T05:32:32.000Z",
-    "registryStatus": "NOT_DEPLOYED",
-    "evidenceRoot": "0xd95a960b1f26a1c0c149c04a6655b2e90f0878728ff7f05d415d29b7beaf726a",
-    "truthNotice": "The signature proves an AfterBell issuer attested to this bounded evidence set. It is not a wallet-owner signature, ownership claim, deployed-registry claim, or guarantee of shareholder rights."
+    "digest": "0x979c002c6c876d53302be2043e05aaf5b6bddc530a3858b8950fc727c6aae7b5",
+    "validFrom": "2026-09-18T08:45:01.000Z",
+    "validUntil": "2026-09-25T08:45:01.000Z",
+    "registryStatus": "MAINNET_DEPLOYED_VERIFIED",
+    "evidenceRoot": "0xe053cb996a48732c0f5a8e9612df50459c70068d93357d64dd137c9304b02f3f",
+    "truthNotice": "The signature proves an AfterBell issuer trusted by the source-verified ContinuityRegistry attested to this bounded evidence set. It is not a wallet-owner signature, ownership claim, or guarantee of shareholder rights."
   },
   "continuityPassport": {
     "state": "CHALLENGED",
     "result": "CHALLENGE",
-    "passportId": "0xf36778b0aa6163709631d8882feda8e37920f769120e182f0c7650411d8427c5",
+    "passportId": "0x4cf42a0c4f7f0593c9b15fbfc8907a50096bde612ac9db7e07b7a53cfa9f0a23",
     "resultSummary": {
       "passedChecks": [
         "simulationPassed",
@@ -208,7 +261,7 @@
       "chainConfirmedAt": "2026-09-18T05:15:21.000Z",
       "limitation": "The wallet UI rejected stale quotes, but no independently timestamped broadcast event was retained. The passport therefore challenges quote freshness instead of inferring it from a successful receipt."
     },
-    "evidenceRoot": "0x6177c400ee6d7f31634dd5b1cfee55f3f2860ae85cccfc7abcf8399442ccac66",
+    "evidenceRoot": "0xaf8752255c975da3968c32b92bd31258d845d7a8bc33a46130c6e0cd195aa9e4",
     "truthNotice": "This passport binds the prepared calldata, successful BNB Chain receipt, exact input, output bound, simulation and zero remaining allowance. It remains CHALLENGED because chain confirmation does not prove the quote was submitted within 30 seconds."
   },
   "guardedConsumer": {
@@ -232,8 +285,8 @@
       "allowGuardedDeposit": false,
       "allowReadOnlyMonitoring": true
     },
-    "evaluatedAt": "2026-09-18T05:57:27.000Z",
-    "evidenceRoot": "0xa087b7555242b2985c5db539a0d2d73f525ebdc04b52c3307c723e19a6a80b1f",
+    "evaluatedAt": "2026-09-18T08:46:35.000Z",
+    "evidenceRoot": "0x50f433ad1f5a4be6af1ef1e8c0b86921bb3313c65479705e3a92d2db9c74afe6",
     "truthNotice": "The reference consumer allows read-only monitoring but blocks automated rescue and Guarded Vault deposits because the live credential is WATCH/HIGH and the Passport is CHALLENGED."
   }
 }

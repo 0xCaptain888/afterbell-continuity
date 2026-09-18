@@ -1,0 +1,100 @@
+{
+  "schema": "afterbell-deployment/2",
+  "status": "MAINNET_DEPLOYED_VERIFIED",
+  "mode": "MAINNET",
+  "observedAt": "2026-09-18T08:08:06.949Z",
+  "source": "BNB Chain RPC",
+  "chainId": 56,
+  "deployer": "0x101FD328a0B2Fd9E853909651dAB1c0B55947C03",
+  "credentialIssuer": "0x1EEB975651AD5FCDC7C5F45FD9a72387B8440c80",
+  "contracts": [
+    {
+      "name": "ContinuityRegistry",
+      "address": "0xCb158746e0855ECeC2703CE20EC3aA780c0C823A",
+      "transactionHash": "0xf832d9dbdfe2ec7c26350b8e744105fc57c5a06945176d0238fa0ed577a393b1",
+      "blockNumber": "122568015",
+      "gasUsed": "427875",
+      "constructorAddress": "0x1EEB975651AD5FCDC7C5F45FD9a72387B8440c80",
+      "runtimeBytes": 1505,
+      "receiptStatus": "success",
+      "actualBlockNumber": "122568015",
+      "actualGasUsed": "427875",
+      "constructorInputMatched": true,
+      "creationBytecodeHash": "0x2a318de553c49f05dae07dbfd1e4962f23de6dd4b969cb0acbf68cdc12b70849",
+      "runtimeBytecodeHashTemplate": "0x3d1e8336f0acda9fa849fd04bad363ac30a21851697e94d426b0de3984183197",
+      "runtimeBytecodeMatched": true
+    },
+    {
+      "name": "GuardedStockVault",
+      "address": "0x8f996AFcb61eaa3FCc6BCe21B691240e6eACE1bD",
+      "transactionHash": "0x9e5426bbe981cee1bb6e1a370ca4103941ef34313d7475bf47fd889dfafe546e",
+      "blockNumber": "122569024",
+      "gasUsed": "933898",
+      "constructorAddress": "0xcb158746e0855ecec2703ce20ec3aa780c0c823a",
+      "runtimeBytes": 4063,
+      "receiptStatus": "success",
+      "actualBlockNumber": "122569024",
+      "actualGasUsed": "933898",
+      "constructorInputMatched": true,
+      "creationBytecodeHash": "0x2c6cef4a1629e4991d76f6476133795d0ac9a63b5449e9c77b11f5e392b91779",
+      "runtimeBytecodeHashTemplate": "0xc6392c0c673c423b98ff2e71f0b7e51ad43ad1ff4dbb6d4b60feeff29c4aa645",
+      "runtimeBytecodeMatched": true
+    },
+    {
+      "name": "ExecutionBondEscrow",
+      "address": "0x52B6FF2243c3366E14aC13C6490A48580dE12029",
+      "transactionHash": "0x807ea83c13f6477a5b614f3747ed133d57b04d03bd377c852017a0000d3d12c4",
+      "blockNumber": "122570376",
+      "gasUsed": "681798",
+      "constructorAddress": "0xcb158746e0855ecec2703ce20ec3aa780c0c823a",
+      "runtimeBytes": 2896,
+      "receiptStatus": "success",
+      "actualBlockNumber": "122570376",
+      "actualGasUsed": "681798",
+      "constructorInputMatched": true,
+      "creationBytecodeHash": "0xf5fb41f73bc015c4468c835883c3db50f8e9b87e251b188940bcd57d55e1a418",
+      "runtimeBytecodeHashTemplate": "0xcf02dcf6208d833be538c1af36b46001482d46211d6cce5975f75fb084e5a7be",
+      "runtimeBytecodeMatched": true
+    }
+  ],
+  "checks": {
+    "allReceiptsSucceeded": true,
+    "allCreationTransactionsMatchedDeployer": true,
+    "allRuntimeBytecodesMatched": true,
+    "registryOwnerMatchedDeployer": true,
+    "credentialIssuerTrusted": true,
+    "vaultRegistryMatched": true,
+    "bondRegistryMatched": true
+  },
+  "sourceVerification": {
+    "status": "VERIFIED",
+    "verifiedAt": "2026-09-18T08:31:55.257Z",
+    "verifier": "BscScan Standard JSON Input",
+    "compilerVersion": "v0.8.30+commit.73712a01",
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "license": "MIT",
+    "standardInput": "evidence/deployment/bscscan-standard-input.json",
+    "contracts": [
+      {
+        "name": "ContinuityRegistry",
+        "address": "0xCb158746e0855ECeC2703CE20EC3aA780c0C823A",
+        "sourceUrl": "https://bscscan.com/address/0xCb158746e0855ECeC2703CE20EC3aA780c0C823A#code"
+      },
+      {
+        "name": "GuardedStockVault",
+        "address": "0x8f996AFcb61eaa3FCc6BCe21B691240e6eACE1bD",
+        "sourceUrl": "https://bscscan.com/address/0x8f996AFcb61eaa3FCc6BCe21B691240e6eACE1bD#code"
+      },
+      {
+        "name": "ExecutionBondEscrow",
+        "address": "0x52B6FF2243c3366E14aC13C6490A48580dE12029",
+        "sourceUrl": "https://bscscan.com/address/0x52B6FF2243c3366E14aC13C6490A48580dE12029#code"
+      }
+    ]
+  },
+  "truthNotice": "Deployment receipts, exact creation calldata, runtime bytecode, Registry relationships, and all three published Solidity sources are independently inspectable on BNB Chain and BscScan.",
+  "evidenceRoot": "0x5a36ce020f566893d938aa0f61bce03723112caa592c0202243ff138cf61522a"
+}

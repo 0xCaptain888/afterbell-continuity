@@ -23,7 +23,8 @@
 - [x] Standalone Guarded Consumer with an explicit issuer trust list
 - [x] Selected live demo pairs: TSLAB/TSLAon and NVDAB/NVDAon
 - [x] Browser-wallet authorization and real small trade
-- [ ] BSC mainnet deployment and source verification
+- [x] BSC mainnet deployment and source verification
+- [ ] Registry-bound Credential reissuance and public evidence refresh
 - [ ] Agent Studio Watchtower deployment receipt
 - [ ] Public demo and four-minute video
 
