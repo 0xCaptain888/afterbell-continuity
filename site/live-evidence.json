@@ -1,6 +1,6 @@
 {
   "schema": "afterbell-public-live-evidence/2",
-  "generatedAt": "2026-09-18T01:59:53.022Z",
+  "generatedAt": "2026-09-18T04:16:04.329Z",
   "truthNotice": "LIVE labels refer to authenticated read-only API evidence. No BSC transaction has been signed or broadcast. Incomplete rights evidence remains UNKNOWN and blocks automatic rescue.",
   "inventory": {
     "status": "LIVE_DATA_GATE_PASSED",
@@ -18,16 +18,16 @@
     "truthNotice": "Authenticated disclosure coverage is LIVE. Backing model, token-holder dividend treatment, split handling, voting rights, and redemption remain UNKNOWN unless explicitly machine-readable."
   },
   "quotes": {
-    "status": "LIVE_ROUND_TRIP_QUOTES_FOUND",
-    "observedAt": "2026-09-18T01:57:38.852Z",
+    "status": "PARTIAL_ROUND_TRIP_QUOTES_FOUND",
+    "observedAt": "2026-09-18T04:13:46.124Z",
     "requestedWrappers": 4,
-    "roundTripRoutes": 4,
-    "evidenceRoot": "0x83e5e0c1ac126f35826a4fc8740284931801f2405101af6f456ffbeab8727d0b"
+    "roundTripRoutes": 3,
+    "evidenceRoot": "0x9a16bacbc90111695e7c740024a9a40180205ac1fe10246c10fcaa09e91909c7"
   },
   "equivalence": {
     "status": "LIVE_PRICE_EVIDENCE_RIGHTS_FAIL_CLOSED",
-    "observedAt": "2026-09-18T01:59:52.714Z",
-    "evidenceRoot": "0xd03f28a779e979826b881b46a434be75fa290947b08543315138e7b511634233",
+    "observedAt": "2026-09-18T04:16:03.938Z",
+    "evidenceRoot": "0xdc841599b6266638b8d101d48c059e91bc2208eab997ab3bf1198111d950de8c",
     "decisionRule": "Automatic wrapper rescue requires both executable economic equivalence and complete compatible rights evidence. Price-only equivalence is insufficient."
   },
   "featured": [
@@ -35,9 +35,7 @@
       "underlyingTicker": "TSLA",
       "inventoryNormalizedSpreadBps": 4,
       "ratioDeltaBps": 0,
-      "executableBuySpreadBps": 6,
-      "executableSellSpreadBps": 13,
-      "economicPriceResult": "EXECUTABLE_PRICE_EQUIVALENT",
+      "economicPriceResult": "PRICE_EQUIVALENCE_UNPROVEN",
       "classification": "UNKNOWN",
       "automaticRescueAllowed": false,
       "decision": "WATCH_ONLY_MANUAL_REVIEW",
@@ -53,8 +51,8 @@
           "platformId": "bstock",
           "tokenSymbol": "TSLAB",
           "status": "ROUND_TRIP_QUOTED",
-          "buyPricePerShareUsd": 365.9034684677487,
-          "sellPricePerShareUsd": 365.83055804318434,
+          "buyPricePerShareUsd": 367.54483028605046,
+          "sellPricePerShareUsd": 367.4649405600476,
           "roundTripCostBps": 2,
           "disclosureKinds": [
             "collateralReport"
@@ -64,10 +62,7 @@
         {
           "platformId": "ondo",
           "tokenSymbol": "TSLAon",
-          "status": "ROUND_TRIP_QUOTED",
-          "buyPricePerShareUsd": 366.11423619957793,
-          "sellPricePerShareUsd": 365.3699653882069,
-          "roundTripCostBps": 20,
+          "status": "NO_QUOTE",
           "disclosureKinds": [
             "dailyAttestationReport",
             "monthlyAttestationReport"
@@ -83,8 +78,8 @@
       "underlyingTicker": "NVDA",
       "inventoryNormalizedSpreadBps": 9,
       "ratioDeltaBps": 9,
-      "executableBuySpreadBps": 41,
-      "executableSellSpreadBps": 5,
+      "executableBuySpreadBps": 0,
+      "executableSellSpreadBps": 1,
       "economicPriceResult": "EXECUTABLE_PRICE_EQUIVALENT",
       "classification": "UNKNOWN",
       "automaticRescueAllowed": false,
@@ -101,9 +96,9 @@
           "platformId": "bstock",
           "tokenSymbol": "NVDAB",
           "status": "ROUND_TRIP_QUOTED",
-          "buyPricePerShareUsd": 219.37415728079537,
-          "sellPricePerShareUsd": 219.23214425600054,
-          "roundTripCostBps": 6,
+          "buyPricePerShareUsd": 220.3528222295389,
+          "sellPricePerShareUsd": 220.29027060243675,
+          "roundTripCostBps": 3,
           "disclosureKinds": [
             "collateralReport"
           ],
@@ -113,9 +108,9 @@
           "platformId": "ondo",
           "tokenSymbol": "NVDAon",
           "status": "ROUND_TRIP_QUOTED",
-          "buyPricePerShareUsd": 220.26624499420288,
-          "sellPricePerShareUsd": 219.12380356147938,
-          "roundTripCostBps": 52,
+          "buyPricePerShareUsd": 220.34393335838197,
+          "sellPricePerShareUsd": 220.2784014040018,
+          "roundTripCostBps": 3,
           "disclosureKinds": [
             "dailyAttestationReport",
             "monthlyAttestationReport"
@@ -130,13 +125,13 @@
   ],
   "simulation": {
     "status": "SIMULATION_BLOCKED",
-    "observedAt": "2026-09-18T01:44:27.546Z",
-    "walletMode": "SIMULATION_PLACEHOLDER",
+    "observedAt": "2026-09-18T04:13:54.701Z",
+    "walletMode": "USER_PUBLIC_ADDRESS",
     "quoteVendor": "LiquidMesh",
     "simulationSuccess": false,
     "failReason": "execution reverted: BEP20: transfer amount exceeds allowance",
-    "evidenceRoot": "0xdd8d22b7b77f28a78bd2e901206da288a7e0828fe9a0a1b98db17282b087235b",
-    "truthNotice": "This gate uses an unfunded placeholder address to quote, build, and simulate only. It never signs or broadcasts a transaction."
+    "evidenceRoot": "0x644ab8f7bf9ffc8ddd40a3e4f7e0b42740b69b32295601ad4d93d3120ea1c441",
+    "truthNotice": "This gate uses a public wallet address to quote, build, and simulate only. It never signs or broadcasts a transaction."
   },
   "mainnetExecution": {
     "status": "NOT_EXECUTED",

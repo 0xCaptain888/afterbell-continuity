@@ -81,11 +81,11 @@ observe the position
 | Binance RWA inventory | `LIVE` | 488 parsed assets, 40 cross-wrapper pairs |
 | Underlying + market profiles | `LIVE` | 4/4 TSLA/NVDA wrapper profiles |
 | Rights-continuity evidence | `LIVE_PARTIAL / FAIL_CLOSED` | disclosures found; material holder rights remain `UNKNOWN` |
-| Trading API round trips | `LIVE` | 4/4 USDT → stock → USDT routes on bStock + Ondo |
-| Executable price equivalence | `LIVE` | TSLA buy/exit spread 6/13 bps; NVDA 41/5 bps |
+| Trading API round trips | `LIVE_PARTIAL` | 3/4 USDT → stock → USDT routes; TSLAon returned an explicit liquidity blocker |
+| Executable price equivalence | `LIVE_PARTIAL` | NVDA buy/exit spread 0/1 bps; TSLA remains unproven while one wrapper has no executable quote |
 | Automatic cross-wrapper rescue | `BLOCKED` | price similarity cannot substitute for complete rights evidence |
 | Swap calldata build | `LIVE` | TSLAB route, LiquidMesh |
-| Transaction API simulation | `LIVE_BLOCKED` | Placeholder address lacks USDT allowance |
+| Transaction API simulation | `LIVE_BLOCKED` | Funded public OKX Wallet address lacks the bounded USDT allowance; no signature or broadcast |
 | Agentic Wallet authorization | `NOT_STARTED` | — |
 | Agent Studio Watchtower | `NOT_STARTED` | — |
 | BSC mainnet contracts | `NOT_DEPLOYED` | — |
@@ -138,10 +138,10 @@ npm run trade:gate
 
 | Underlying | Wrappers | Executable buy spread | Executable exit spread | Decision |
 |---|---|---:|---:|---|
-| TSLA | TSLAB / TSLAon | 6 bps | 13 bps | price-equivalent; rights `UNKNOWN`; auto-rescue blocked |
-| NVDA | NVDAB / NVDAon | 41 bps | 5 bps | price-equivalent; rights `UNKNOWN`; auto-rescue blocked |
+| TSLA | TSLAB / TSLAon | unavailable | unavailable | one wrapper lacked executable liquidity; equivalence unproven; auto-rescue blocked |
+| NVDA | NVDAB / NVDAon | 0 bps | 1 bps | price-equivalent; rights `UNKNOWN`; auto-rescue blocked |
 
-The four routes are authenticated Trading API quotes for a 10 USDT probe and its immediate quoted exit. They prove current quote availability, not depth at larger size or completed settlement. Evidence roots are published in [`site/live-evidence.json`](./site/live-evidence.json).
+Three of four routes returned authenticated Trading API quotes for a 10 USDT probe and its immediate quoted exit. TSLAon returned an explicit insufficient-liquidity result, which remains visible instead of being replaced by fixture data. The funded public wallet then produced real TSLAB calldata, and Transaction API simulation failed closed because the required USDT allowance has not been granted. No transaction was signed or broadcast. Evidence roots are published in [`site/live-evidence.json`](./site/live-evidence.json).
 
 For any hosted API, configure `AFTERBELL_API_TOKEN` and send it as a bearer token. The server refuses a non-loopback bind without this protection.
 

@@ -73,11 +73,18 @@ const quoteResults = records(quotes.results);
 const equivalenceResults = records(equivalence.results);
 assert(rights.status === "LIVE_PARTIAL_RIGHTS_EVIDENCE", "unexpected_rights_status");
 assert(rightResults.length === 4 && rightResults.every((item) => item.status === "PARTIAL_RIGHTS_EVIDENCE"), "rights_coverage_not_4_of_4");
-assert(quotes.status === "LIVE_ROUND_TRIP_QUOTES_FOUND", "unexpected_quote_status");
-assert(quoteResults.length === 4 && quoteResults.every((item) => item.status === "ROUND_TRIP_QUOTED"), "round_trip_quotes_not_4_of_4");
+const roundTripRoutes = quoteResults.filter((item) => item.status === "ROUND_TRIP_QUOTED").length;
+const expectedQuoteStatus = roundTripRoutes === quoteResults.length
+  ? "LIVE_ROUND_TRIP_QUOTES_FOUND"
+  : roundTripRoutes > 0
+    ? "PARTIAL_ROUND_TRIP_QUOTES_FOUND"
+    : "NO_ROUND_TRIP_QUOTES_FOUND";
+assert(quotes.status === expectedQuoteStatus, "quote_status_count_mismatch");
+assert(quoteResults.length === 4 && roundTripRoutes > 0, "live_round_trip_evidence_missing");
 assert(equivalence.status === "LIVE_PRICE_EVIDENCE_RIGHTS_FAIL_CLOSED", "unexpected_equivalence_status");
 assert(equivalenceResults.length === 2, "expected_two_featured_equivalence_results");
-assert(equivalenceResults.every((item) => item.economicPriceResult === "EXECUTABLE_PRICE_EQUIVALENT"), "price_equivalence_missing");
+assert(equivalenceResults.every((item) => ["EXECUTABLE_PRICE_EQUIVALENT", "PRICE_EQUIVALENCE_UNPROVEN"].includes(String(item.economicPriceResult))), "invalid_price_equivalence_result");
+assert(equivalenceResults.some((item) => item.economicPriceResult === "EXECUTABLE_PRICE_EQUIVALENT"), "price_equivalence_missing");
 assert(equivalenceResults.every((item) => item.classification === "UNKNOWN" && item.automaticRescueAllowed === false), "rights_gate_failed_open");
 
 const publicRights = publicSummary.rights as Json | undefined;
@@ -105,7 +112,7 @@ console.log(JSON.stringify({
   status: "PUBLIC_ARTIFACTS_VERIFIED",
   evidence: { rights: rights.evidenceRoot, quotes: quotes.evidenceRoot, equivalence: equivalence.evidenceRoot },
   rightsProfiles: rightResults.length,
-  roundTripRoutes: quoteResults.length,
+  roundTripRoutes,
   featuredAssets: equivalenceResults.length,
   publicSecretMatches: leakedFiles.length
 }, null, 2));

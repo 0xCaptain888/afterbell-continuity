@@ -2,19 +2,17 @@
   "schema": "afterbell-live-economic-equivalence/1",
   "status": "LIVE_PRICE_EVIDENCE_RIGHTS_FAIL_CLOSED",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T01:59:52.714Z",
+  "observedAt": "2026-09-18T04:16:03.938Z",
   "source": "Derived from authenticated Binance Web3 RWA profile, market, inventory, and bidirectional Trading API quotes",
   "decisionRule": "Automatic wrapper rescue requires both executable economic equivalence and complete compatible rights evidence. Price-only equivalence is insufficient.",
   "results": [
     {
       "underlyingTicker": "TSLA",
-      "economicPriceResult": "EXECUTABLE_PRICE_EQUIVALENT",
+      "economicPriceResult": "PRICE_EQUIVALENCE_UNPROVEN",
       "classification": "UNKNOWN",
       "automaticRescueAllowed": false,
       "inventoryNormalizedSpreadBps": 7,
       "ratioDeltaBps": 0,
-      "executableBuySpreadBps": 6,
-      "executableSellSpreadBps": 13,
       "rightsEvidenceStatus": "LIVE_PARTIAL",
       "missingRightsFields": [
         "backingModel",
@@ -34,10 +32,10 @@
           "tokenSymbol": "TSLAB",
           "tokenContractAddress": "0x5b1910eaad6450e50f816082aa078c41f10c292f",
           "marketStatus": "UNKNOWN",
-          "buyPricePerShareUsd": 365.9034684677487,
-          "sellPricePerShareUsd": 365.83055804318434,
+          "buyPricePerShareUsd": 367.54483028605046,
+          "sellPricePerShareUsd": 367.4649405600476,
           "roundTripCostBps": 2,
-          "executableBuyPremiumBps": 15,
+          "executableBuyPremiumBps": 60,
           "protectionDisclosures": [
             "collateralReport"
           ],
@@ -49,10 +47,6 @@
           "tokenSymbol": "TSLAon",
           "tokenContractAddress": "0x2494b603319d4d9f9715c9f4496d9e0364b59d93",
           "marketStatus": "OVERNIGHT",
-          "buyPricePerShareUsd": 366.11423619957793,
-          "sellPricePerShareUsd": 365.3699653882069,
-          "roundTripCostBps": 20,
-          "executableBuyPremiumBps": 27,
           "protectionDisclosures": [
             "dailyAttestationReport",
             "monthlyAttestationReport"
@@ -72,8 +66,8 @@
       "automaticRescueAllowed": false,
       "inventoryNormalizedSpreadBps": 10,
       "ratioDeltaBps": 9,
-      "executableBuySpreadBps": 41,
-      "executableSellSpreadBps": 5,
+      "executableBuySpreadBps": 0,
+      "executableSellSpreadBps": 1,
       "rightsEvidenceStatus": "LIVE_PARTIAL",
       "missingRightsFields": [
         "backingModel",
@@ -93,10 +87,10 @@
           "tokenSymbol": "NVDAB",
           "tokenContractAddress": "0x02fca66c1d1afb4e2a7884261eb00f63598a7436",
           "marketStatus": "UNKNOWN",
-          "buyPricePerShareUsd": 219.37415728079537,
-          "sellPricePerShareUsd": 219.23214425600054,
-          "roundTripCostBps": 6,
-          "executableBuyPremiumBps": 7,
+          "buyPricePerShareUsd": 220.3528222295389,
+          "sellPricePerShareUsd": 220.29027060243675,
+          "roundTripCostBps": 3,
+          "executableBuyPremiumBps": 51,
           "protectionDisclosures": [
             "collateralReport"
           ],
@@ -108,10 +102,10 @@
           "tokenSymbol": "NVDAon",
           "tokenContractAddress": "0xa9ee28c80f960b889dfbd1902055218cba016f75",
           "marketStatus": "OVERNIGHT",
-          "buyPricePerShareUsd": 220.26624499420288,
-          "sellPricePerShareUsd": 219.12380356147938,
-          "roundTripCostBps": 52,
-          "executableBuyPremiumBps": 37,
+          "buyPricePerShareUsd": 220.34393335838197,
+          "sellPricePerShareUsd": 220.2784014040018,
+          "roundTripCostBps": 3,
+          "executableBuyPremiumBps": 41,
           "protectionDisclosures": [
             "dailyAttestationReport",
             "monthlyAttestationReport"
@@ -125,9 +119,9 @@
       ]
     }
   ],
-  "evidenceRoot": "0xd03f28a779e979826b881b46a434be75fa290947b08543315138e7b511634233",
+  "evidenceRoot": "0xdc841599b6266638b8d101d48c059e91bc2208eab997ab3bf1198111d950de8c",
   "parentHashes": [
     "0xf023ad05623e2f9043b2f0850b771a043a5352491bc0f0021bc84643c7008989",
-    "0x83e5e0c1ac126f35826a4fc8740284931801f2405101af6f456ffbeab8727d0b"
+    "0x9a16bacbc90111695e7c740024a9a40180205ac1fe10246c10fcaa09e91909c7"
   ]
 }

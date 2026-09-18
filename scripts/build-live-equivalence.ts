@@ -74,7 +74,7 @@ const results = tickers.map((ticker) => {
   };
 });
 
-const payload = {
+const payload = JSON.parse(JSON.stringify({
   schema: "afterbell-live-economic-equivalence/1",
   status: "LIVE_PRICE_EVIDENCE_RIGHTS_FAIL_CLOSED",
   mode: "LIVE" as const,
@@ -82,9 +82,9 @@ const payload = {
   source: "Derived from authenticated Binance Web3 RWA profile, market, inventory, and bidirectional Trading API quotes",
   decisionRule: "Automatic wrapper rescue requires both executable economic equivalence and complete compatible rights evidence. Price-only equivalence is insufficient.",
   results
-};
+})) as Record<string, unknown>;
 const parentHashes = [rights.evidenceRoot, quotes.evidenceRoot].filter((value): value is Hex => typeof value === "string" && value.startsWith("0x")) as Hex[];
-const evidence = createEvidenceArtifact({ artifactType: "LIVE_ECONOMIC_EQUIVALENCE", mode: "LIVE", observedAt, source: payload.source, payload, parentHashes });
+const evidence = createEvidenceArtifact({ artifactType: "LIVE_ECONOMIC_EQUIVALENCE", mode: "LIVE", observedAt, source: String(payload.source), payload, parentHashes });
 await writeFile("evidence/live/economic-equivalence.json", JSON.stringify({ ...payload, evidenceRoot: evidence.evidenceRoot, parentHashes }, null, 2));
 console.log(JSON.stringify({
   status: payload.status,

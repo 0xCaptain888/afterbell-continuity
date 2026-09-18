@@ -1,29 +1,29 @@
 {
   "status": "SIMULATION_BLOCKED",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T01:44:27.546Z",
-  "walletMode": "SIMULATION_PLACEHOLDER",
+  "observedAt": "2026-09-18T04:13:54.701Z",
+  "walletMode": "USER_PUBLIC_ADDRESS",
   "quote": {
-    "quoteId": "5f29d166483e4039aebdd9c3e4f90dd7",
+    "quoteId": "0c54ca7805494c63ae2ee776fb2265bf",
     "vendor": "LiquidMesh",
     "fromTokenAddress": "0x55d398326f99059ff775485246999027b3197955",
     "toTokenAddress": "0x5b1910eaad6450e50f816082aa078c41f10c292f",
     "inputAmount": "10000000000000000000",
-    "outputAmount": "27332091453362370",
-    "observedAt": "2026-09-18T01:44:27.546Z",
-    "expiresAt": "2026-09-18T01:44:57.546Z",
-    "payloadHash": "0x818fc195c1e1b6ec9634ecf0554d0d6680a65e28655815185417cbbe9a7a6a9a"
+    "outputAmount": "27207565379758607",
+    "observedAt": "2026-09-18T04:13:54.701Z",
+    "expiresAt": "2026-09-18T04:14:24.701Z",
+    "payloadHash": "0x2e24b67e3f1bfc11257820b7091b3e3e22d6977dea3eb54700674ff941c544b8"
   },
   "transaction": {
-    "from": "0x1111111111111111111111111111111111111111",
+    "from": "0x101fd328a0b2fd9e853909651dab1c0b55947c03",
     "to": "0xB44446b0c8E56988c34f7Ff73Ae904982b5FdDA5",
     "value": "0",
     "data": "0xad43f73d00000000…",
-    "calldataHash": "0x967514acbbc5e789533e22fa8d43774e00a2d2e942207bd7496ad6e8a653c01d"
+    "calldataHash": "0xa0f474da89383e8a6131152e2672cd147703afbc989d59d33dafea8012bc1f38"
   },
   "simulation": {
     "success": false,
-    "payloadHash": "0x9e0e8682d4a556be5cef14185d53591f96c8867f27f3a7ba0debab33146feaff",
+    "payloadHash": "0xd810403d20304e6e12f2821049b6a365861162ca0ede365c46d262cc46266521",
     "data": {
       "status": "FAILED",
       "failReason": "execution reverted: BEP20: transfer amount exceeds allowance",
@@ -31,6 +31,6 @@
       "allowanceChanges": []
     }
   },
-  "truthNotice": "This gate uses an unfunded placeholder address to quote, build, and simulate only. It never signs or broadcasts a transaction.",
-  "evidenceRoot": "0xdd8d22b7b77f28a78bd2e901206da288a7e0828fe9a0a1b98db17282b087235b"
+  "truthNotice": "This gate uses a public wallet address to quote, build, and simulate only. It never signs or broadcasts a transaction.",
+  "evidenceRoot": "0x644ab8f7bf9ffc8ddd40a3e4f7e0b42740b69b32295601ad4d93d3120ea1c441"
 }
