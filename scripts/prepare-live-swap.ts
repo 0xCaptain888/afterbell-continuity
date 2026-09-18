@@ -118,6 +118,8 @@ const prepared = {
   quote: {
     quoteId: quote.quoteId,
     vendor: quote.vendor,
+    fromTokenAddress,
+    toTokenAddress,
     inputAmount: amount,
     inputAmountUsdt: formatUnits(BigInt(amount)),
     expectedOutputAmount: quote.outputAmount,

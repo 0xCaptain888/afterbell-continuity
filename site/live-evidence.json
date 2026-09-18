@@ -1,7 +1,7 @@
 {
   "schema": "afterbell-public-live-evidence/2",
-  "generatedAt": "2026-09-18T04:49:04.911Z",
-  "truthNotice": "LIVE labels refer to authenticated API and on-chain evidence. A bounded USDT approval was signed and broadcast by the user; no stock-token swap has been signed or broadcast. Incomplete rights evidence remains UNKNOWN and blocks automatic rescue.",
+  "generatedAt": "2026-09-18T05:24:45.229Z",
+  "truthNotice": "LIVE labels refer to authenticated API and on-chain evidence. One bounded, user-confirmed BNB Chain stock-token swap is independently verified; incomplete rights evidence remains UNKNOWN and still blocks automatic rescue.",
   "inventory": {
     "status": "LIVE_DATA_GATE_PASSED",
     "observedAt": "2026-09-18T01:41:35.600Z",
@@ -125,16 +125,53 @@
   ],
   "simulation": {
     "status": "LIVE_QUOTE_AND_SIMULATION_PASSED",
-    "observedAt": "2026-09-18T04:47:39.502Z",
+    "observedAt": "2026-09-18T04:52:24.549Z",
     "walletMode": "USER_PUBLIC_ADDRESS",
     "quoteVendor": "LiquidMesh",
     "simulationSuccess": true,
     "failReason": "",
-    "evidenceRoot": "0x2bc457ba5e353abce30c1ce93c66072b4e3b90076a16097cf78aec2dae0400a1",
+    "evidenceRoot": "0x1d60943bb3c82c4a125880bfe1761378cc0e664a8a1802a16dc065eb715932b4",
     "truthNotice": "This gate uses a public wallet address to quote, build, and simulate only. It never signs or broadcasts a transaction."
   },
   "mainnetExecution": {
-    "status": "NOT_EXECUTED",
-    "transactionHash": null
+    "status": "SUCCESS",
+    "observedAt": "2026-09-18T05:15:21.000Z",
+    "transactionHash": "0xb4f2bd0cd1383ec16ca72d61fe353ed81eb8f2843f038f5e11bf7ecd22ef431c",
+    "explorerUrl": "https://bscscan.com/tx/0xb4f2bd0cd1383ec16ca72d61fe353ed81eb8f2843f038f5e11bf7ecd22ef431c",
+    "blockNumber": 122547693,
+    "input": {
+      "tokenAddress": "0x55d398326f99059ff775485246999027b3197955",
+      "amountRaw": "10000000000000000000",
+      "amountUsdt": "10"
+    },
+    "output": {
+      "tokenAddress": "0x5b1910eaad6450e50f816082aa078c41f10c292f",
+      "amountRaw": "27163579421480873",
+      "amountTslab": "0.027163579421480873",
+      "quotedAmountRaw": "27170400519308105",
+      "minimumAmountRaw": "27034548516711564",
+      "realizedShortfallBps": 2
+    },
+    "gas": {
+      "gasUsed": "354266",
+      "effectiveGasPriceWei": "85186391",
+      "paidWei": "30178641994006",
+      "paidBnb": "0.000030178641994006"
+    },
+    "authorization": {
+      "postSwapAllowanceRaw": "0",
+      "postSwapAllowanceUsdt": "0"
+    },
+    "verification": {
+      "receiptSucceeded": true,
+      "senderMatched": true,
+      "targetMatched": true,
+      "calldataMatchedPreparedTransaction": true,
+      "exactInputSpent": true,
+      "minimumOutputMet": true,
+      "allowanceConsumedToZero": true
+    },
+    "evidenceRoot": "0xc71493b59800e9d40bac0cabb1dd0f8d1f00df495b31b16c138e73377b2a6d7b",
+    "truthNotice": "This artifact records one user-confirmed BNB Chain mainnet stock-token swap and independently verifies its calldata, receipt, token transfers, slippage bound, gas, and post-swap allowance."
   }
 }

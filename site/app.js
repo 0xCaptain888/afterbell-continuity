@@ -13,6 +13,8 @@ const approvalSpender = document.querySelector("#approvalSpender");
 const liveDataStatus = document.querySelector("#liveDataStatus");
 const simulationStatus = document.querySelector("#simulationStatus");
 const simulationDot = document.querySelector("#simulationDot");
+const executionStatus = document.querySelector("#executionStatus");
+const executionDot = document.querySelector("#executionDot");
 const rightsDataStatus = document.querySelector("#rightsDataStatus");
 const liveProofGrid = document.querySelector("#liveProofGrid");
 const verifyEvidenceButton = document.querySelector("#verifyEvidenceButton");
@@ -363,12 +365,30 @@ fetch("./live-evidence.json", { cache: "no-store" })
         simulationDot.classList.add("live");
       }
     }
+    if (executionStatus) {
+      const execution = evidence.mainnetExecution;
+      const transactionHash = String(execution?.transactionHash ?? "");
+      const explorerUrl = String(execution?.explorerUrl ?? "");
+      const verified = execution?.status === "SUCCESS"
+        && /^0x[0-9a-f]{64}$/i.test(transactionHash)
+        && /^https:\/\/bscscan\.com\/tx\/0x[0-9a-f]{64}$/i.test(explorerUrl);
+      if (verified) {
+        const spent = execution.input?.amountUsdt ?? "?";
+        const received = execution.output?.amountTslab ?? "?";
+        executionStatus.innerHTML = `LIVE SUCCESS · ${spent} USDT → ${received} TSLAB · <a href="${explorerUrl}" target="_blank" rel="noreferrer">BscScan ↗</a>`;
+        executionDot?.classList.remove("waiting");
+        executionDot?.classList.add("live");
+      } else {
+        executionStatus.textContent = "NOT EXECUTED · no verified mainnet receipt";
+      }
+    }
     renderLiveProof(evidence.featured);
   })
   .catch(() => {
     if (liveDataStatus) liveDataStatus.textContent = "UNAVAILABLE · public evidence summary missing";
     if (simulationStatus) simulationStatus.textContent = "UNAVAILABLE · simulation evidence missing";
     if (rightsDataStatus) rightsDataStatus.textContent = "UNAVAILABLE · rights evidence missing";
+    if (executionStatus) executionStatus.textContent = "UNAVAILABLE · execution evidence missing";
     if (liveProofGrid) liveProofGrid.textContent = "Public evidence summary unavailable.";
   });
 

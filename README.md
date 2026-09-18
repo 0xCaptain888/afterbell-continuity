@@ -15,9 +15,9 @@ AfterBell Continuity is the economic-equivalence, rights-continuity, and verifia
 - Full verification: `npm run check`
 - Public demo: **https://0xcaptain888.github.io/afterbell-continuity/**
 - Browser verifier: open **Live proof → Verify evidence roots** to recompute three canonical SHA-256 commitments without a wallet
-- BSC mainnet evidence: **not created yet**
+- BSC mainnet evidence: [verified 10 USDT → TSLAB transaction](https://bscscan.com/tx/0xb4f2bd0cd1383ec16ca72d61fe353ed81eb8f2843f038f5e11bf7ecd22ef431c)
 
-The current `v0.1.0` baseline combines clearly labelled `SIMULATED` / `ADVERSARIAL_TEST` scenarios with authenticated `LIVE` read-only BNB Chain evidence. It does **not** claim a signed stock trade, Agentic Wallet authorization, Agent Studio deployment, or BSC mainnet settlement.
+The current `v0.1.0` baseline combines clearly labelled `SIMULATED` / `ADVERSARIAL_TEST` scenarios, authenticated `LIVE` BNB Chain evidence, and one user-confirmed BSC mainnet stock-token swap. It does **not** claim Agentic Wallet custody, Agent Studio deployment, verified protocol-contract deployment, or automated rescue settlement.
 
 ## Why this exists
 
@@ -90,7 +90,7 @@ observe the position
 | Funded OKX Wallet authorization | `LIVE` | connected, first anomalous approval revoked, exact 10 USDT allowance independently re-read on-chain |
 | Agent Studio Watchtower | `NOT_STARTED` | — |
 | BSC mainnet contracts | `NOT_DEPLOYED` | — |
-| BSC mainnet stock trade | `NOT_EXECUTED` | — |
+| BSC mainnet stock trade | `LIVE_SUCCESS` | 10 USDT → 0.027163579421480873 TSLAB; calldata, receipt, slippage, Gas, and zero post-swap allowance independently verified |
 
 ## Quick start
 
@@ -143,7 +143,7 @@ npm run trade:prepare
 | TSLA | TSLAB / TSLAon | unavailable | unavailable | one wrapper lacked executable liquidity; equivalence unproven; auto-rescue blocked |
 | NVDA | NVDAB / NVDAon | 0 bps | 1 bps | price-equivalent; rights `UNKNOWN`; auto-rescue blocked |
 
-Three of four routes returned authenticated Trading API quotes for a 10 USDT probe and its immediate quoted exit. TSLAon returned an explicit insufficient-liquidity result, which remains visible instead of being replaced by fixture data. The funded public wallet produced real TSLAB calldata; after an anomalous oversized approval was detected and revoked, an exact 10 USDT allowance was independently confirmed on-chain. Transaction API simulation then passed with explicit balance and allowance deltas. No stock-token swap has been signed or broadcast. Evidence roots are published in [`site/live-evidence.json`](./site/live-evidence.json).
+Three of four routes returned authenticated Trading API quotes for a 10 USDT probe and its immediate quoted exit. TSLAon returned an explicit insufficient-liquidity result, which remains visible instead of being replaced by fixture data. The funded public wallet produced real TSLAB calldata; after an anomalous oversized approval was detected and revoked, an exact 10 USDT allowance was independently confirmed on-chain. Transaction API simulation passed, then the user confirmed one bounded BSC mainnet swap. The verified receipt spent exactly 10 USDT, received 0.027163579421480873 TSLAB, stayed inside the 0.5% slippage boundary, consumed the allowance to zero, and paid 0.000030178641994006 BNB in Gas. See the [BscScan transaction](https://bscscan.com/tx/0xb4f2bd0cd1383ec16ca72d61fe353ed81eb8f2843f038f5e11bf7ecd22ef431c) and [`evidence/live/mainnet-stock-swap.json`](./evidence/live/mainnet-stock-swap.json).
 
 For any hosted API, configure `AFTERBELL_API_TOKEN` and send it as a bearer token. The server refuses a non-loopback bind without this protection.
 
@@ -261,12 +261,13 @@ POST /v1/agent/watchtower
 - [x] Select genuinely quoted BSC stock-token pairs (TSLA and NVDA across bStock/Ondo)
 - [x] Record live RWA, underlying, market-status, and disclosure evidence; unresolved rights remain explicit
 - [x] Obtain real bidirectional quote and exit-liquidity measurements
-- [ ] Simulate with Transaction API
+- [x] Simulate with Transaction API
 - [ ] Enforce Agentic Wallet limits
 - [ ] Deploy and verify contracts on BscScan
-- [ ] Execute one small BSC mainnet stock transaction
-- [ ] Re-verify calldata, output, slippage, and receipt independently
-- [ ] Publish Passport, Credential, transaction link, and evidence root
+- [x] Execute one small BSC mainnet stock transaction
+- [x] Re-verify calldata, output, slippage, and receipt independently
+- [x] Publish transaction link and evidence root
+- [ ] Publish Passport and Credential
 - [ ] Integrate one independent demo wallet or Guarded Vault consumer
 
 ## Prior work

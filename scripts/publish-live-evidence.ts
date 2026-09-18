@@ -13,6 +13,7 @@ const quotes = await readJson("evidence/live/quote-discovery.json");
 const rights = await readJson("evidence/live/rights-discovery.json");
 const equivalence = await readJson("evidence/live/economic-equivalence.json");
 const simulation = await readJson("evidence/live/quote-simulation-gate.json");
+const mainnetSwap = await readJson("evidence/live/mainnet-stock-swap.json");
 
 const inventoryPairs = Array.isArray(inventory?.continuityPairs) ? inventory.continuityPairs as Array<Record<string, unknown>> : [];
 const quoteResults = Array.isArray(quotes?.results) ? quotes.results as Array<Record<string, unknown>> : [];
@@ -60,7 +61,9 @@ const featured = ["TSLA", "NVDA"].map((ticker) => {
 const summary = {
   schema: "afterbell-public-live-evidence/2",
   generatedAt: new Date().toISOString(),
-  truthNotice: "LIVE labels refer to authenticated API and on-chain evidence. A bounded USDT approval was signed and broadcast by the user; no stock-token swap has been signed or broadcast. Incomplete rights evidence remains UNKNOWN and blocks automatic rescue.",
+  truthNotice: mainnetSwap?.status === "SUCCESS"
+    ? "LIVE labels refer to authenticated API and on-chain evidence. One bounded, user-confirmed BNB Chain stock-token swap is independently verified; incomplete rights evidence remains UNKNOWN and still blocks automatic rescue."
+    : "LIVE labels refer to authenticated API and on-chain evidence. A bounded USDT approval was signed and broadcast by the user; no stock-token swap has been signed or broadcast. Incomplete rights evidence remains UNKNOWN and blocks automatic rescue.",
   inventory: inventory ? {
     status: inventory.status,
     observedAt: inventory.observedAt,
@@ -100,7 +103,20 @@ const summary = {
     evidenceRoot: simulation.evidenceRoot,
     truthNotice: simulation.truthNotice
   } : { status: "UNAVAILABLE" },
-  mainnetExecution: { status: "NOT_EXECUTED", transactionHash: null }
+  mainnetExecution: mainnetSwap ? {
+    status: mainnetSwap.status,
+    observedAt: mainnetSwap.observedAt,
+    transactionHash: mainnetSwap.transactionHash,
+    explorerUrl: mainnetSwap.explorerUrl,
+    blockNumber: mainnetSwap.blockNumber,
+    input: mainnetSwap.input,
+    output: mainnetSwap.output,
+    gas: mainnetSwap.gas,
+    authorization: mainnetSwap.authorization,
+    verification: mainnetSwap.verification,
+    evidenceRoot: mainnetSwap.evidenceRoot,
+    truthNotice: mainnetSwap.truthNotice
+  } : { status: "NOT_EXECUTED", transactionHash: null }
 };
 
 await writeFile("site/live-evidence.json", JSON.stringify(summary, null, 2));

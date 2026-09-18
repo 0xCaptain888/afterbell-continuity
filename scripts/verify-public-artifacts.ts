@@ -58,6 +58,7 @@ async function scanPublicFiles(directory: string): Promise<string[]> {
 const rights = await readJson("evidence/live/rights-discovery.json");
 const quotes = await readJson("evidence/live/quote-discovery.json");
 const equivalence = await readJson("evidence/live/economic-equivalence.json");
+const mainnetSwap = await readJson("evidence/live/mainnet-stock-swap.json");
 const publicSummary = await readJson("site/live-evidence.json");
 
 verifyRoot({ file: rights, artifactType: "RIGHTS_DISCOVERY" });
@@ -67,6 +68,7 @@ const parents = Array.isArray(equivalence.parentHashes)
   : [];
 assert(parents.length === 2, "equivalence_parent_roots_missing");
 verifyRoot({ file: equivalence, artifactType: "LIVE_ECONOMIC_EQUIVALENCE", parentHashes: parents });
+verifyRoot({ file: mainnetSwap, artifactType: "MAINNET_STOCK_SWAP" });
 
 const rightResults = records(rights.results);
 const quoteResults = records(quotes.results);
@@ -90,10 +92,17 @@ assert(equivalenceResults.every((item) => item.classification === "UNKNOWN" && i
 const publicRights = publicSummary.rights as Json | undefined;
 const publicQuotes = publicSummary.quotes as Json | undefined;
 const publicEquivalence = publicSummary.equivalence as Json | undefined;
+const publicMainnetExecution = publicSummary.mainnetExecution as Json | undefined;
 assert(publicSummary.schema === "afterbell-public-live-evidence/2", "unexpected_public_summary_schema");
 assert(publicRights?.evidenceRoot === rights.evidenceRoot, "public_rights_root_mismatch");
 assert(publicQuotes?.evidenceRoot === quotes.evidenceRoot, "public_quotes_root_mismatch");
 assert(publicEquivalence?.evidenceRoot === equivalence.evidenceRoot, "public_equivalence_root_mismatch");
+assert(mainnetSwap.status === "SUCCESS", "mainnet_swap_not_successful");
+assert((mainnetSwap.input as Json | undefined)?.amountRaw === "10000000000000000000", "mainnet_swap_input_not_exact_10_usdt");
+assert(BigInt(String((mainnetSwap.output as Json | undefined)?.amountRaw ?? "0")) >= BigInt(String((mainnetSwap.output as Json | undefined)?.minimumAmountRaw ?? "1")), "mainnet_swap_minimum_output_not_met");
+assert((mainnetSwap.authorization as Json | undefined)?.postSwapAllowanceRaw === "0", "mainnet_swap_allowance_not_zero");
+assert(publicMainnetExecution?.status === "SUCCESS", "public_mainnet_execution_not_successful");
+assert(publicMainnetExecution?.evidenceRoot === mainnetSwap.evidenceRoot, "public_mainnet_execution_root_mismatch");
 assert(records(publicSummary.featured).length === 2, "public_featured_assets_missing");
 
 const html = await readFile("site/index.html", "utf8");
@@ -118,7 +127,7 @@ assert(leakedFiles.length === 0, `public_secret_pattern_detected:${leakedFiles.j
 
 console.log(JSON.stringify({
   status: "PUBLIC_ARTIFACTS_VERIFIED",
-  evidence: { rights: rights.evidenceRoot, quotes: quotes.evidenceRoot, equivalence: equivalence.evidenceRoot },
+  evidence: { rights: rights.evidenceRoot, quotes: quotes.evidenceRoot, equivalence: equivalence.evidenceRoot, mainnetSwap: mainnetSwap.evidenceRoot },
   rightsProfiles: rightResults.length,
   roundTripRoutes,
   featuredAssets: equivalenceResults.length,
