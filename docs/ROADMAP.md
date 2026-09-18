@@ -29,6 +29,7 @@
 - [x] Public demo
 - [ ] Four-minute demo video
 - [x] Machine-verifiable submission-readiness report
+- [x] Validated Agent Studio package, pricing, and portable invocation fixtures
 
 ## Post-hackathon only
 

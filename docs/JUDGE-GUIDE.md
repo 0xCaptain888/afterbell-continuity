@@ -49,7 +49,8 @@ Then show:
 7. Inspect the three deployment receipts and independently generated [`bsc-mainnet.json`](../evidence/deployment/bsc-mainnet.json).
 8. Open the Registry, Vault, and Bond `#code` pages on BscScan and confirm matching bytecode, compiler `0.8.30`, optimizer runs `200`, MIT License, and exact constructor arguments.
 9. Inspect the current Registry-bound Credential and its deployment evidence parent; compare it with the preserved historical zero-address artifact under `evidence/history/`.
-10. Run `npm run submission:audit` and confirm all ten repository, mainnet, integration, truth-label, and secret-scan checks pass.
+10. Open the Agent service package and inspect its deterministic `PROTECTED → RESCUE_REQUIRED` invocation fixtures and explicit `UNPUBLISHED` deployment label.
+11. Run `npm run submission:audit` and confirm all eleven repository, mainnet, integration, Agent-package, truth-label, and secret-scan checks pass.
 
 ## Truth labels
 

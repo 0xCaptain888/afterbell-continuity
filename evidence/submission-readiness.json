@@ -2,16 +2,16 @@
   "schema": "afterbell-evidence/1",
   "artifactType": "SUBMISSION_READINESS",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T09:04:57.774Z",
+  "observedAt": "2026-09-18T09:20:55.625Z",
   "source": "AfterBell repository-local submission audit",
   "parentHashes": [
     "0x5a36ce020f566893d938aa0f61bce03723112caa592c0202243ff138cf61522a",
     "0xc71493b59800e9d40bac0cabb1dd0f8d1f00df495b31b16c138e73377b2a6d7b",
     "0xe053cb996a48732c0f5a8e9612df50459c70068d93357d64dd137c9304b02f3f",
     "0xaf8752255c975da3968c32b92bd31258d845d7a8bc33a46130c6e0cd195aa9e4",
-    "0xc6806291b7bd4777eed41c722d7b0da446fa0c1bef192f587cc0539faad80095"
+    "0x383d71b0901abbdfdd829024d41eb0518ba3c5bc9a7b58f64026dcaf0d29290b"
   ],
-  "payloadHash": "0x2044f537a4b87bc42a00bb3f255a923a9c92c1b3fed3b0553e26c0d1bc145fb4",
+  "payloadHash": "0x340e68375d03325716038c3de6c06759832cd45ee4b80482aafcf454f7271652",
   "payload": {
     "status": "TECHNICALLY_READY",
     "checks": [
@@ -42,13 +42,13 @@
       {
         "id": "independent-fail-closed-consumer",
         "result": "PASS",
-        "evidence": "0xc6806291b7bd4777eed41c722d7b0da446fa0c1bef192f587cc0539faad80095",
+        "evidence": "0x383d71b0901abbdfdd829024d41eb0518ba3c5bc9a7b58f64026dcaf0d29290b",
         "detail": "An independent consumer permits monitoring but blocks deposits and automated rescue."
       },
       {
         "id": "public-evidence-synchronized",
         "result": "PASS",
-        "evidence": "2026-09-18T09:04:57.774Z",
+        "evidence": "2026-09-18T09:20:55.625Z",
         "detail": "Public summary roots match deployment, Credential, Passport, and consumer artifacts."
       },
       {
@@ -62,6 +62,12 @@
         "result": "PASS",
         "evidence": "package export + openapi.yaml",
         "detail": "Wallets, agents, and protocols can integrate without importing the UI."
+      },
+      {
+        "id": "agent-service-package",
+        "result": "PASS",
+        "evidence": "0xf15e2a18fbb490c7789b58fd37e12302d1d598a42d2a4cfd7a853bc605eff766",
+        "detail": "Manifest, 0.01 USDT pricing, authentication boundary, and deterministic invocation fixtures are ready to publish without claiming deployment."
       },
       {
         "id": "continuous-integration",
@@ -90,5 +96,5 @@
     ],
     "truthNotice": "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, and independent consumer. It does not claim an Agent Studio deployment receipt or a completed submission video."
   },
-  "evidenceRoot": "0xb844e881d0023a6bcd6e0b8378557eb935663591132655e612ffd3c245a1d310"
+  "evidenceRoot": "0xda22284994ee78f21ec02f45e2ac034fa6be4a5862dd9991de1bc0d7fce1a6aa"
 }

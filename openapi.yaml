@@ -119,11 +119,24 @@ paths:
   /v1/agent/watchtower:
     post:
       operationId: invokeWatchtowerAgent
+      summary: Inspect one tokenized-stock position without wallet custody or transaction authority
       security:
         - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WatchedPosition"
       responses:
         "200":
-          description: Local deterministic Agent service response
+          description: Deterministic Agent service response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentWatchtowerResponse"
+        "401":
+          description: Missing or invalid bearer token
         "422":
           description: Invalid watched position
 components:
@@ -132,3 +145,38 @@ components:
       type: http
       scheme: bearer
       description: Required for mutable or signing endpoints when AFTERBELL_API_TOKEN is configured.
+  schemas:
+    WatchedPosition:
+      type: object
+      required: [positionId, wallet, amount, positionUsd, snapshot, rights, mandate]
+      properties:
+        positionId: { type: string }
+        wallet: { type: string, pattern: "^0x[0-9a-fA-F]{40}$" }
+        amount: { type: number, minimum: 0 }
+        positionUsd: { type: number, minimum: 0 }
+        snapshot: { type: object, additionalProperties: true }
+        rights: { type: object, additionalProperties: true }
+        mandate: { type: object, additionalProperties: true }
+    WatchtowerEvent:
+      type: object
+      required: [eventId, positionId, observedAt, state, reasons, decisionHash, mode]
+      properties:
+        eventId: { type: string, pattern: "^0x[0-9a-f]{64}$" }
+        positionId: { type: string }
+        observedAt: { type: string, format: date-time }
+        previousState: { type: string }
+        state: { type: string, enum: [PROTECTED, WATCH, RESCUE_REQUIRED, BLOCKED, CHALLENGED] }
+        reasons:
+          type: array
+          items: { type: string }
+        decisionHash: { type: string, pattern: "^0x[0-9a-f]{64}$" }
+        mode: { type: string, enum: [LIVE, MAINNET, SIMULATED, ADVERSARIAL_TEST, DESIGN, UNAVAILABLE] }
+    AgentWatchtowerResponse:
+      type: object
+      required: [schema, deploymentMode, event, truthNotice]
+      properties:
+        schema: { type: string, const: afterbell-agent-service/1 }
+        deploymentMode: { type: string }
+        event:
+          $ref: "#/components/schemas/WatchtowerEvent"
+        truthNotice: { type: string }

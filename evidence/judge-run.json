@@ -1,6 +1,6 @@
 {
   "schema": "afterbell-judge-run/1",
-  "generatedAt": "2026-09-18T09:04:56.058Z",
+  "generatedAt": "2026-09-18T09:20:53.980Z",
   "truthNotice": "This baseline run uses SIMULATED and ADVERSARIAL_TEST data. No mainnet transaction is claimed.",
   "stages": {
     "safe": {
@@ -66,7 +66,7 @@
       "reasons": [
         "calldataBound"
       ],
-      "evidenceHash": "0x4bccf05b3cdba9fc6620fe43031a6a2a0896bc311eaaa1526357b89c2a993e6a"
+      "evidenceHash": "0xe968df418f4164db756c1e754c50f3314ac47ac8094e2395d76944fd57230249"
     }
   }
 }

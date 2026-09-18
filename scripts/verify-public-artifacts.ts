@@ -247,6 +247,8 @@ assert(html.includes("trusted-issuers.json"), "consumer_trust_list_not_linked");
 await readFile("site/trusted-issuers.json", "utf8");
 assert(html.includes("submission-readiness.json"), "submission_readiness_not_linked");
 await readFile("evidence/submission-readiness.json", "utf8");
+assert(html.includes("agent-studio-package.json"), "agent_studio_package_not_linked");
+await readFile("evidence/agent-studio-package.json", "utf8");
 assert(app.includes("eth_requestAccounts"), "wallet_connect_not_implemented");
 assert(app.includes("eth_sendTransaction"), "bounded_approval_not_implemented");
 assert(app.includes("eth_getTransactionByHash"), "broadcast_calldata_not_verified");

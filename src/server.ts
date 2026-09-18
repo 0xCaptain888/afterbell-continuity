@@ -41,7 +41,7 @@ function json(response: import("node:http").ServerResponse, status: number, valu
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Content-Type"
+    "Access-Control-Allow-Headers": "Content-Type, Authorization"
   });
   response.end(JSON.stringify(value, (_, item) => typeof item === "bigint" ? item.toString() : item, 2));
 }
@@ -69,7 +69,7 @@ const server = createServer(async (request, response) => {
   if (request.method === "OPTIONS") {
     response.writeHead(204, {
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
       "Access-Control-Allow-Methods": "GET,POST,OPTIONS"
     });
     return response.end();

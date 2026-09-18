@@ -31,6 +31,7 @@
     "judge": "node --import tsx scripts/judge-run.ts",
     "benchmark": "node --import tsx scripts/benchmark.ts",
     "watchtower:demo": "node --import tsx scripts/watchtower-demo.ts",
+    "agent-studio:package": "node --import tsx scripts/package-agent-studio.ts",
     "data:gate": "NODE_USE_ENV_PROXY=1 node --env-file-if-exists=.env --import tsx scripts/data-gate.ts",
     "credentials:binance": "zsh scripts/save-binance-credentials.zsh",
     "credentials:issuer": "node --import tsx scripts/ensure-credential-issuer.ts",
@@ -42,7 +43,7 @@
     "equivalence:live": "node --import tsx scripts/build-live-equivalence.ts",
     "site:evidence": "node --import tsx scripts/publish-live-evidence.ts",
     "public:verify": "node --import tsx scripts/verify-public-artifacts.ts",
-    "site:prepare": "npm run submission:audit && node --import tsx scripts/prepare-pages.ts",
+    "site:prepare": "npm run agent-studio:package && npm run submission:audit && node --import tsx scripts/prepare-pages.ts",
     "trade:gate": "NODE_USE_ENV_PROXY=1 node --env-file-if-exists=.env --import tsx scripts/quote-simulate-gate.ts",
     "trade:prepare": "NODE_USE_ENV_PROXY=1 node --env-file-if-exists=.env --import tsx scripts/prepare-live-swap.ts",
     "trade:verify": "NODE_USE_ENV_PROXY=1 node --env-file-if-exists=.env --import tsx scripts/verify-live-swap.ts",
@@ -54,7 +55,7 @@
     "contracts:deploy:bsc": "npm run contracts:compile && node --env-file-if-exists=.env --import tsx scripts/deploy-contracts.ts",
     "mainnet:finalize": "npm run passport:publish && npm run consumer:verify && npm run site:evidence && npm run public:verify && npm run site:prepare",
     "submission:audit": "npm run public:verify && node --import tsx scripts/submission-audit.ts",
-    "check": "npm run typecheck && npm test && npm run contracts:compile && npm run judge && npm run benchmark && npm run watchtower:demo && npm run consumer:verify && npm run site:evidence && npm run submission:audit",
+    "check": "npm run typecheck && npm test && npm run contracts:compile && npm run judge && npm run benchmark && npm run watchtower:demo && npm run agent-studio:package && npm run consumer:verify && npm run site:evidence && npm run submission:audit",
     "security:audit": "npm audit --omit=dev --audit-level=high"
   },
   "dependencies": {

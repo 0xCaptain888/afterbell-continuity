@@ -1,0 +1,18 @@
+{
+  "schema": "afterbell-agent-service/1",
+  "deploymentMode": "LOCAL_UNPUBLISHED",
+  "event": {
+    "positionId": "agent-studio-nvda-1",
+    "observedAt": "2026-09-18T09:20:00.000Z",
+    "previousState": "PROTECTED",
+    "state": "RESCUE_REQUIRED",
+    "reasons": [
+      "premiumWithinLimit",
+      "exitLiquiditySufficient"
+    ],
+    "decisionHash": "0x0ca379027fedd7159516bd3de602f4d28f357633aa6335e4e1c0fc4391201602",
+    "mode": "SIMULATED",
+    "eventId": "0x8a29b32c52bd58f5ea78b5a09ea6284203755d4395871ec554a7b8572b17ba69"
+  },
+  "truthNotice": "Deterministic local service response. This is not yet an Agent Studio deployment receipt."
+}

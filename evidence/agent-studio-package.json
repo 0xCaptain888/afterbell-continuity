@@ -1,0 +1,52 @@
+{
+  "schema": "afterbell-evidence/1",
+  "artifactType": "AGENT_STUDIO_PACKAGE",
+  "mode": "DESIGN",
+  "observedAt": "2026-09-18T09:20:00.000Z",
+  "source": "AfterBell deterministic package audit",
+  "parentHashes": [],
+  "payloadHash": "0xe3da791387506a264096e228af1f3c695557963b9c80925f899f653a336ec253",
+  "payload": {
+    "status": "READY_TO_PUBLISH",
+    "deploymentStatus": "UNPUBLISHED",
+    "manifest": {
+      "name": "AfterBell Watchtower",
+      "version": "0.1.0",
+      "endpoint": "POST /api/v1/agent/watchtower",
+      "input": "WatchedPosition",
+      "output": "WatchtowerEvent",
+      "billing": {
+        "model": "per-inspection",
+        "currency": "USDT",
+        "price": "0.01"
+      }
+    },
+    "safetyBoundary": {
+      "deterministicPolicy": true,
+      "walletKeyAccess": false,
+      "transactionSigning": false,
+      "transactionBroadcast": false,
+      "bearerAuthentication": true
+    },
+    "examples": {
+      "protectedRequest": "agent-studio/examples/protected-request.json",
+      "protectedResponse": "agent-studio/examples/protected-response.json",
+      "rescueRequest": "agent-studio/examples/rescue-request.json",
+      "rescueResponse": "agent-studio/examples/rescue-response.json",
+      "expectedTransitions": [
+        "PROTECTED",
+        "RESCUE_REQUIRED"
+      ]
+    },
+    "publicationChecklist": [
+      "Create the service in Binance Agent Studio.",
+      "Configure the hosted HTTPS endpoint and bearer secret.",
+      "Set per-inspection price to 0.01 USDT.",
+      "Run both portable examples against the hosted service.",
+      "Capture platform service ID, URL, timestamps, and invocation receipts.",
+      "Only then change deploymentStatus from UNPUBLISHED."
+    ],
+    "truthNotice": "The service contract, examples, pricing, authentication, and deterministic state transitions are package-verified. No Binance Agent Studio deployment or paid invocation is claimed."
+  },
+  "evidenceRoot": "0xf15e2a18fbb490c7789b58fd37e12302d1d598a42d2a4cfd7a853bc605eff766"
+}

@@ -39,6 +39,7 @@ const swap = await readJson("evidence/live/mainnet-stock-swap.json");
 const credential = await readJson("evidence/live/mainnet-credential.json");
 const passport = await readJson("evidence/live/mainnet-passport.json");
 const consumer = await readJson("evidence/live/guarded-consumer-admission.json");
+const agentPackage = await readJson("evidence/agent-studio-package.json");
 const publicSummary = await readJson("site/live-evidence.json");
 const trustedIssuers = await readJson("site/trusted-issuers.json");
 const packageJson = await readJson("package.json");
@@ -47,6 +48,7 @@ const roadmap = await readFile("docs/ROADMAP.md", "utf8");
 const judgeGuide = await readFile("docs/JUDGE-GUIDE.md", "utf8");
 const ciWorkflow = await readFile(".github/workflows/ci.yml", "utf8");
 const pageWorkflow = await readFile(".github/workflows/pages.yml", "utf8");
+const agentManifest = await readJson("agent-studio/agent.json");
 
 const contracts = records(deployment.contracts);
 const sourceVerification = deployment.sourceVerification as Json;
@@ -98,6 +100,22 @@ assert(publicDeployment.evidenceRoot === deployment.evidenceRoot, "public_deploy
 assert(publicCredential.evidenceRoot === credential.evidenceRoot, "public_credential_root_stale");
 assert(publicPassport.evidenceRoot === passport.evidenceRoot, "public_passport_root_stale");
 assert(publicConsumer.evidenceRoot === consumer.evidenceRoot, "public_consumer_root_stale");
+const rebuiltAgentPackage = createEvidenceArtifact({
+  artifactType: String(agentPackage.artifactType),
+  mode: "DESIGN",
+  observedAt: String(agentPackage.observedAt),
+  source: String(agentPackage.source),
+  payload: agentPackage.payload,
+  parentHashes: Array.isArray(agentPackage.parentHashes) ? agentPackage.parentHashes as Hex[] : []
+});
+assert(rebuiltAgentPackage.payloadHash === agentPackage.payloadHash && rebuiltAgentPackage.evidenceRoot === agentPackage.evidenceRoot, "agent_package_evidence_root_mismatch");
+assert((agentPackage.payload as Json).status === "READY_TO_PUBLISH", "agent_package_not_ready");
+assert((agentPackage.payload as Json).deploymentStatus === "UNPUBLISHED", "agent_package_truth_label_invalid");
+assert(agentManifest.status === "DESIGN", "unpublished_agent_manifest_must_remain_design");
+await readJson("agent-studio/examples/protected-request.json");
+await readJson("agent-studio/examples/protected-response.json");
+await readJson("agent-studio/examples/rescue-request.json");
+await readJson("agent-studio/examples/rescue-response.json");
 
 assert(readme.includes("https://0xcaptain888.github.io/afterbell-continuity/"), "public_demo_not_linked");
 assert(readme.includes("eight canonical SHA-256 commitments"), "browser_verifier_count_stale");
@@ -127,6 +145,7 @@ const checks = [
   { id: "public-evidence-synchronized", result: "PASS", evidence: publicSummary.generatedAt, detail: "Public summary roots match deployment, Credential, Passport, and consumer artifacts." },
   { id: "browser-verifier", result: "PASS", evidence: "8 canonical public artifacts", detail: "The wallet-free browser verifier independently recomputes all published roots." },
   { id: "sdk-and-openapi", result: "PASS", evidence: "package export + openapi.yaml", detail: "Wallets, agents, and protocols can integrate without importing the UI." },
+  { id: "agent-service-package", result: "PASS", evidence: agentPackage.evidenceRoot, detail: "Manifest, 0.01 USDT pricing, authentication boundary, and deterministic invocation fixtures are ready to publish without claiming deployment." },
   { id: "continuous-integration", result: "PASS", evidence: ".github/workflows/ci.yml", detail: "Tests, compilation, package build, security audit, and this readiness audit run in CI." },
   { id: "public-secret-scan", result: "PASS", evidence: `${secretMatches.length} matches`, detail: "No credential or private-key pattern is present in public artifacts." }
 ] as const;
