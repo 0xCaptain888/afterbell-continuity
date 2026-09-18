@@ -1,0 +1,18 @@
+{
+  "schema": "afterbell-wallet-authorization/1",
+  "observedAt": "2026-09-18T04:21:30.027Z",
+  "chainId": "0x38",
+  "chainName": "BNB Smart Chain",
+  "expectedWallet": "0x101fd328a0b2fd9e853909651dab1c0b55947c03",
+  "token": {
+    "symbol": "USDT",
+    "address": "0x55d398326f99059ff775485246999027b3197955",
+    "decimals": 18
+  },
+  "spender": "0xB44446b0c8E56988c34f7Ff73Ae904982b5FdDA5",
+  "vendor": "LiquidMesh",
+  "amount": "10000000000000000000",
+  "amountDisplay": "10 USDT",
+  "calldata": "0x095ea7b3000000000000000000000000b44446b0c8e56988c34f7ff73ae904982b5fdda50000000000000000000000000000000000000000000000008ac7230489e80000",
+  "truthNotice": "This is a bounded ERC-20 approval template returned by the authenticated Binance Web3 approve-transaction endpoint. It grants exactly 10 USDT and does not execute a swap. The wallet must still show and confirm the transaction."
+}

@@ -3,6 +3,12 @@ const judgePanel = document.querySelector("#judgePanel");
 const stageList = document.querySelector("#stageList");
 const runState = document.querySelector("#runState");
 const connectButton = document.querySelector("#connectButton");
+const walletConnectButton = document.querySelector("#walletConnectButton");
+const approveButton = document.querySelector("#approveButton");
+const walletState = document.querySelector("#walletState");
+const walletHelp = document.querySelector("#walletHelp");
+const approvalToken = document.querySelector("#approvalToken");
+const approvalSpender = document.querySelector("#approvalSpender");
 const liveDataStatus = document.querySelector("#liveDataStatus");
 const simulationStatus = document.querySelector("#simulationStatus");
 const rightsDataStatus = document.querySelector("#rightsDataStatus");
@@ -12,6 +18,118 @@ const verifyEvidenceState = document.querySelector("#verifyEvidenceState");
 const verificationList = document.querySelector("#verificationList");
 
 const number = (value, digits = 2) => Number.isFinite(Number(value)) ? Number(value).toFixed(digits) : "—";
+const shortAddress = (value) => typeof value === "string" && value.length > 12 ? `${value.slice(0, 6)}…${value.slice(-4)}` : value;
+let walletProvider;
+let connectedWallet;
+let authorization;
+
+function setWalletState(message, kind = "") {
+  if (!walletState) return;
+  walletState.textContent = message;
+  walletState.className = `wallet-state ${kind}`.trim();
+}
+
+function getWalletProvider() {
+  return walletProvider ?? window.okxwallet?.ethereum ?? window.okxwallet ?? window.ethereum;
+}
+
+async function loadAuthorization() {
+  const response = await fetch("./wallet-authorization.json", { cache: "no-store" });
+  if (!response.ok) throw new Error(`Authorization template HTTP ${response.status}`);
+  const data = await response.json();
+  const encodedSpender = String(data.spender).slice(2).toLowerCase().padStart(64, "0");
+  const encodedAmount = BigInt(data.amount).toString(16).padStart(64, "0");
+  const expectedCalldata = `0x095ea7b3${encodedSpender}${encodedAmount}`;
+  if (data.amount !== "10000000000000000000" || String(data.calldata).toLowerCase() !== expectedCalldata) {
+    throw new Error("Bounded approval template failed validation");
+  }
+  authorization = data;
+  approvalToken.textContent = shortAddress(data.token.address);
+  approvalSpender.textContent = shortAddress(data.spender);
+  return data;
+}
+
+async function ensureBnbChain(provider) {
+  const currentChain = await provider.request({ method: "eth_chainId" });
+  if (String(currentChain).toLowerCase() === authorization.chainId) return;
+  try {
+    await provider.request({ method: "wallet_switchEthereumChain", params: [{ chainId: authorization.chainId }] });
+  } catch (error) {
+    if (Number(error?.code) !== 4902) throw error;
+    await provider.request({
+      method: "wallet_addEthereumChain",
+      params: [{
+        chainId: authorization.chainId,
+        chainName: authorization.chainName,
+        nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 },
+        rpcUrls: ["https://bsc-dataseed.bnbchain.org"],
+        blockExplorerUrls: ["https://bscscan.com"]
+      }]
+    });
+  }
+}
+
+async function connectWallet() {
+  if (!authorization) await loadAuthorization();
+  walletProvider = getWalletProvider();
+  if (!walletProvider?.request) {
+    setWalletState("OKX Wallet provider not detected", "bad");
+    walletHelp.textContent = "Install the OKX Wallet Chrome extension, or open this URL inside the OKX Wallet DApp browser.";
+    return;
+  }
+  walletConnectButton.disabled = true;
+  connectButton.disabled = true;
+  setWalletState("Waiting for wallet connection…");
+  try {
+    const accounts = await walletProvider.request({ method: "eth_requestAccounts" });
+    const account = Array.isArray(accounts) ? accounts[0] : undefined;
+    if (!account) throw new Error("No wallet account returned");
+    if (account.toLowerCase() !== authorization.expectedWallet.toLowerCase()) {
+      connectedWallet = undefined;
+      approveButton.disabled = true;
+      throw new Error(`Wrong account: ${shortAddress(account)}. Switch to the funded wallet.`);
+    }
+    await ensureBnbChain(walletProvider);
+    connectedWallet = account;
+    connectButton.textContent = shortAddress(account);
+    walletConnectButton.textContent = "Wallet verified";
+    approveButton.disabled = false;
+    setWalletState(`VERIFIED · ${shortAddress(account)} · BNB Chain`, "ok");
+    walletHelp.textContent = "The next button requests one bounded USDT approval. The wallet popup remains the final authority.";
+  } catch (error) {
+    setWalletState(error?.message ?? String(error), "bad");
+  } finally {
+    walletConnectButton.disabled = false;
+    connectButton.disabled = false;
+  }
+}
+
+async function requestBoundedApproval() {
+  if (!walletProvider || !connectedWallet || !authorization) {
+    setWalletState("Connect and verify the funded wallet first", "bad");
+    return;
+  }
+  approveButton.disabled = true;
+  setWalletState("Wallet confirmation required · verify 10 USDT and the spender");
+  try {
+    await ensureBnbChain(walletProvider);
+    const transactionHash = await walletProvider.request({
+      method: "eth_sendTransaction",
+      params: [{
+        from: connectedWallet,
+        to: authorization.token.address,
+        value: "0x0",
+        data: authorization.calldata
+      }]
+    });
+    setWalletState(`BROADCAST · ${shortAddress(transactionHash)} · approval only`, "ok");
+    walletHelp.innerHTML = `Approval broadcast. No swap was executed. <a href="https://bscscan.com/tx/${transactionHash}" target="_blank" rel="noreferrer">Open BscScan ↗</a>`;
+    approveButton.textContent = "Approval broadcast";
+  } catch (error) {
+    setWalletState(error?.message ?? String(error), "bad");
+    approveButton.disabled = false;
+  }
+}
 
 function renderLiveProof(featured = []) {
   if (!liveProofGrid) return;
@@ -142,10 +260,15 @@ fetch("./live-evidence.json", { cache: "no-store" })
     if (liveProofGrid) liveProofGrid.textContent = "Public evidence summary unavailable.";
   });
 
-connectButton.addEventListener("click", () => {
-  connectButton.textContent = "Wallet setup pending";
-  connectButton.title = "Agentic Wallet connection will become LIVE after approved credentials are configured.";
+connectButton?.addEventListener("click", () => document.querySelector("#wallet-auth")?.scrollIntoView({ behavior: "smooth", block: "center" }));
+walletConnectButton?.addEventListener("click", connectWallet);
+approveButton?.addEventListener("click", requestBoundedApproval);
+loadAuthorization().catch((error) => setWalletState(error?.message ?? String(error), "bad"));
+
+window.addEventListener("eip6963:announceProvider", (event) => {
+  if (event?.detail?.info?.name === "OKX Wallet") walletProvider = event.detail.provider;
 });
+window.dispatchEvent(new Event("eip6963:requestProvider"));
 
 judgeButton.addEventListener("click", async () => {
   judgePanel.hidden = false;

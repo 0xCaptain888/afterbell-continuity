@@ -29,6 +29,8 @@
 | Non-equivalent wrapper | Automatic migration prohibited |
 | Duplicate intent | Escrow/runner rejects second execution |
 | Excessive allowance | Simulation policy rejects write |
+| Wrong browser wallet account | UI refuses approval unless the connected address matches the configured funded address |
+| Unlimited approval | UI uses audited calldata for exactly 10 USDT and exposes no arbitrary amount field |
 | RPC outage | No new transaction is generated |
 | LLM prompt injection | Structured policy validator rejects unsupported fields |
 

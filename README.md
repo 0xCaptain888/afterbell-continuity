@@ -57,6 +57,7 @@ observe the position
 - Quote → swap-build → Transaction API simulation gate with RFQ handling
 - Hash-linked evidence artifacts and tamper verification
 - Independent in-browser verifier for the published rights, quote, and equivalence roots
+- OKX Wallet EIP-1193 connection with funded-address enforcement and an exact 10 USDT approval boundary
 - Publishable TypeScript SDK with structured errors and timeouts
 - Persistent Watchtower task journal and Agent service endpoint
 - Reproducible Judge Run
@@ -86,7 +87,7 @@ observe the position
 | Automatic cross-wrapper rescue | `BLOCKED` | price similarity cannot substitute for complete rights evidence |
 | Swap calldata build | `LIVE` | TSLAB route, LiquidMesh |
 | Transaction API simulation | `LIVE_BLOCKED` | Funded public OKX Wallet address lacks the bounded USDT allowance; no signature or broadcast |
-| Agentic Wallet authorization | `NOT_STARTED` | — |
+| Funded OKX Wallet connection | `IMPLEMENTED / USER_CONFIRMATION_REQUIRED` | exact-address gate, BNB Chain switch, bounded 10 USDT approval request |
 | Agent Studio Watchtower | `NOT_STARTED` | — |
 | BSC mainnet contracts | `NOT_DEPLOYED` | — |
 | BSC mainnet stock trade | `NOT_EXECUTED` | — |

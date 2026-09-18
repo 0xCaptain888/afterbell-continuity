@@ -24,7 +24,7 @@
       <a href="#protocol">Protocol</a>
       <a href="#developers">Developers</a>
     </nav>
-    <button class="wallet" id="connectButton">Connect wallet</button>
+    <button class="wallet" id="connectButton">Connect OKX Wallet</button>
   </header>
 
   <main id="top">
@@ -56,6 +56,27 @@
         </div>
         <div class="mandate-line"><span>Rescue mandate</span><b>Complete rights required</b><i class="caution">Blocked</i></div>
         <div class="scanline"></div>
+      </aside>
+    </section>
+
+    <section class="wallet-auth shell" id="wallet-auth" aria-labelledby="wallet-auth-title">
+      <div class="wallet-auth-copy">
+        <span class="kicker">BOUNDED WALLET AUTHORIZATION</span>
+        <h2 id="wallet-auth-title">One explicit permission. No hidden execution.</h2>
+        <p>Connect the funded OKX Wallet, verify the BNB Chain account, then approve exactly 10 USDT for the live LiquidMesh route. This step cannot buy a stock token and never requests unlimited allowance.</p>
+        <div class="wallet-state" id="walletState">Not connected · no transaction requested</div>
+        <div class="wallet-actions">
+          <button class="primary" id="walletConnectButton">Connect OKX Wallet <span>→</span></button>
+          <button class="approval-button" id="approveButton" disabled>Approve exactly 10 USDT</button>
+        </div>
+        <p class="wallet-help" id="walletHelp">Use the OKX Wallet browser extension or open this page in the OKX Wallet DApp browser. You will confirm every wallet popup yourself.</p>
+      </div>
+      <aside class="approval-card">
+        <div><span>Network</span><b>BNB Smart Chain</b></div>
+        <div><span>Token</span><b>USDT</b><code id="approvalToken">Loading…</code></div>
+        <div><span>Spending cap</span><b class="safe-cap">10 USDT</b></div>
+        <div><span>Approved spender</span><b>LiquidMesh route</b><code id="approvalSpender">Loading…</code></div>
+        <div class="approval-boundary"><span>After approval</span><b>STOP · swap still requires a separate action</b></div>
       </aside>
     </section>
 

@@ -101,10 +101,15 @@ const app = await readFile("site/app.js", "utf8");
 for (const asset of ["./styles.css", "./app.js", "./favicon.svg"]) {
   assert(html.includes(asset), `site_asset_not_referenced:${asset}`);
 }
-for (const asset of ["live-evidence.json", "demo-data.json"]) {
+for (const asset of ["live-evidence.json", "demo-data.json", "wallet-authorization.json"]) {
   assert(app.includes(asset), `runtime_asset_not_referenced:${asset}`);
   await readFile(`site/${asset}`, "utf8");
 }
+assert(app.includes("eth_requestAccounts"), "wallet_connect_not_implemented");
+assert(app.includes("eth_sendTransaction"), "bounded_approval_not_implemented");
+const walletAuthorization = await readJson("site/wallet-authorization.json");
+assert(walletAuthorization.amount === "10000000000000000000", "wallet_approval_not_bounded_to_10_usdt");
+assert(typeof walletAuthorization.calldata === "string" && /^0x095ea7b3[0-9a-f]{128}$/i.test(walletAuthorization.calldata), "invalid_wallet_approval_calldata");
 const leakedFiles = await scanPublicFiles("site");
 assert(leakedFiles.length === 0, `public_secret_pattern_detected:${leakedFiles.join(",")}`);
 
