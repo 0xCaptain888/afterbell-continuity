@@ -27,7 +27,7 @@ const artifact = createEvidenceArtifact({
       deployedAgents: 1,
       slug: "afterbellwatchtower",
       agentId: "01M2T4KMDTJCBQ25HAMPZ9JZ9D",
-      deploymentId: "01M2T4KMDT387DD25BNN602NE5",
+      deploymentId: "01M2T6J1RNRQVP9573A1GDJRNX",
       runtimeState: "running (ready)"
     },
     wallet: {
@@ -63,11 +63,11 @@ const artifact = createEvidenceArtifact({
       financialTransactionCreated: false
     },
     remainingExternalItems: [
-      "Use an independent funded buyer wallet for a complete ERC-8183 create/fund/notify/deliver/settle lifecycle.",
+      "Approve independent-buyer Job 1254 after the canonical 24-hour dispute window closes on 2026-09-19T12:07:31.000Z.",
       "Configure official B402 merchant credentials only if a paid x402 settlement receipt is required.",
       "Record the demo while the managed 48-hour trial remains active."
     ],
-    truthNotice: "This proves the managed BSC Testnet trial deployment, active runtime, ERC-8004 identity, authenticated public A2A access, and an independently recovered wallet signature. It does not claim a funded ERC-8183 job, B402 settlement, or any financial transaction from the public smoke."
+    truthNotice: "This proves the managed BSC Testnet trial deployment, active runtime, ERC-8004 identity, authenticated public A2A access, and an independently recovered wallet signature. Independent-buyer Job 1254 is separately proven paid and submitted; final settlement and B402 payment remain unclaimed."
   }
 });
 

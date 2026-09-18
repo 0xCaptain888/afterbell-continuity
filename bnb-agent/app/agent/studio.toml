@@ -80,11 +80,11 @@ work_timeout_seconds = 60
 [deploy.platform]
 terms_accepted_at = "2026-09-18T11:31:54Z"
 slug = "afterbellwatchtower"
-deployment_id = "01M2T4KMDT387DD25BNN602NE5"
+deployment_id = "01M2T6J1RNRQVP9573A1GDJRNX"
 backend = "aws"
 agent_id = "01M2T4KMDTJCBQ25HAMPZ9JZ9D"
 invoke_url = "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json"
-last_deploy_at = "2026-09-18T11:32:46Z"
+last_deploy_at = "2026-09-18T12:06:33Z"
 
 [identity]
 endpoint = "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json"

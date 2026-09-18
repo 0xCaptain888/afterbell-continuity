@@ -2,14 +2,15 @@
   "schema": "afterbell-evidence/1",
   "artifactType": "AGENT_STUDIO_PACKAGE",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T11:43:16.196Z",
+  "observedAt": "2026-09-18T12:17:03.706Z",
   "source": "AfterBell deterministic package audit plus BNB Agent Studio managed-trial deployment evidence",
   "parentHashes": [
-    "0x58f595ffe4932463d41ca261d4ee7d66436a406c4d352216203dfc4a81ed1eb7",
-    "0xe2cacfe887355e5402e6cc64ab55acf4bcaffb1af3cbecc87013bcb3f481db9f",
-    "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed"
+    "0xe6c1e5a8de562b7332d6535c8de03f8e33d09b36f45a326e2422939a27db181a",
+    "0x53f434283ad50f85cc560e496f9f9611e2f02aa9477ffeef44c92add0068e1df",
+    "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092",
+    "0xa1d91d451f818a7f3004e063c8d27d79dadd98aa19ca13281a393f38ba631b67"
   ],
-  "payloadHash": "0xdc6774d7b8b1d9518eb6817860f418a431be9737c8052c65df80803385fc4894",
+  "payloadHash": "0x5cda3ffd450eb7e3ef5061e3a43f572d078c1663a7cda5c1d0c3d118b8e973ec",
   "payload": {
     "status": "DEPLOYED_TESTNET_TRIAL",
     "deploymentStatus": "RUNNING_READY",
@@ -53,21 +54,21 @@
         "RESCUE_REQUIRED",
         "BLOCKED"
       ],
-      "tests": "5/5 PASS",
+      "tests": "8/8 PASS",
       "build": "PASS",
       "zipBundleDryRun": "PASS",
       "deploymentReadiness": "DEPLOYED_TESTNET_TRIAL",
-      "operatorReadinessEvidence": "0x58f595ffe4932463d41ca261d4ee7d66436a406c4d352216203dfc4a81ed1eb7",
-      "deploymentEvidence": "0xe2cacfe887355e5402e6cc64ab55acf4bcaffb1af3cbecc87013bcb3f481db9f",
-      "publicNegotiationEvidence": "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed",
+      "operatorReadinessEvidence": "0xe6c1e5a8de562b7332d6535c8de03f8e33d09b36f45a326e2422939a27db181a",
+      "deploymentEvidence": "0x53f434283ad50f85cc560e496f9f9611e2f02aa9477ffeef44c92add0068e1df",
+      "publicNegotiationEvidence": "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092",
       "agentId": "01M2T4KMDTJCBQ25HAMPZ9JZ9D",
-      "deploymentId": "01M2T4KMDT387DD25BNN602NE5",
+      "deploymentId": "01M2T6J1RNRQVP9573A1GDJRNX",
       "erc8004AgentId": "2447",
       "runtimeState": "running (ready)",
       "agentCard": "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json",
       "trialExpiresAt": "2026-09-20T11:32:43.000Z",
       "externalBlockers": [
-        "Use an independent funded buyer wallet for the paid ERC-8183 end-to-end lifecycle.",
+        "Approve independent-buyer Job 1254 after its canonical 24-hour dispute window closes.",
         "Apply for wallet-specific B402 merchant credentials only if a paid X402 settlement is required."
       ]
     },
@@ -87,9 +88,12 @@
       "Runtime reports running (ready); official deploy verify passed.",
       "ERC-8004 Agent ID 2447 registered.",
       "OAuth-protected public A2A negotiate returned a signed 0.01 U quote.",
-      "Provider signature independently recovered to the deployed Agent wallet."
+      "Provider signature independently recovered to the deployed Agent wallet.",
+      "Independent buyer funded Job 1254 with 0.01 U; the Agent submitted a content-addressed PROTECTED result on-chain.",
+      "Fail-closed regression jobs 1252 and 1253 exposed malformed-payload and SDK tuple-array compatibility issues before the successful paid run."
     ],
-    "truthNotice": "The official BNB Agent Studio runtime is live in the managed BSC Testnet trial, with an ERC-8004 identity and authenticated public signed quote. No funded ERC-8183 delivery, B402 settlement, or public-smoke financial transaction is claimed."
+    "paidDeliveryEvidence": "0xa1d91d451f818a7f3004e063c8d27d79dadd98aa19ca13281a393f38ba631b67",
+    "truthNotice": "The official BNB Agent Studio runtime is live in the managed BSC Testnet trial, with an ERC-8004 identity, authenticated public signed quote, and a real independent-buyer ERC-8183 delivery submitted on-chain. Buyer approval remains time-gated; no completed settlement or B402 payment is claimed."
   },
-  "evidenceRoot": "0x3df8491474cc4dc2f54e2fe594423c26b6055e675610effb730cd3510e3e77f4"
+  "evidenceRoot": "0xe10164bd119cac76447db75e1d6f65a2ab279812a8557c576ddd635deb6b2ee6"
 }

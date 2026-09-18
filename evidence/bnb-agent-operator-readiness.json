@@ -2,13 +2,13 @@
   "schema": "afterbell-evidence/1",
   "artifactType": "BNB_AGENT_OPERATOR_READINESS",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T11:43:16.196Z",
+  "observedAt": "2026-09-18T12:17:03.706Z",
   "source": "Official bag CLI platform, wallet, deployment, ERC-8004, and authenticated public A2A verification",
   "parentHashes": [
-    "0xe2cacfe887355e5402e6cc64ab55acf4bcaffb1af3cbecc87013bcb3f481db9f",
-    "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed"
+    "0x53f434283ad50f85cc560e496f9f9611e2f02aa9477ffeef44c92add0068e1df",
+    "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092"
   ],
-  "payloadHash": "0x70fff54de2d7252d6c038dc0c98e558bc5fddda820af94528b0434478ac10084",
+  "payloadHash": "0x776414f0b438c6a21d24a92e42c929dbf6660ae0d2eb6c746b281b982859c186",
   "payload": {
     "status": "DEPLOYED_TESTNET_TRIAL",
     "platform": {
@@ -21,7 +21,7 @@
       "deployedAgents": 1,
       "slug": "afterbellwatchtower",
       "agentId": "01M2T4KMDTJCBQ25HAMPZ9JZ9D",
-      "deploymentId": "01M2T4KMDT387DD25BNN602NE5",
+      "deploymentId": "01M2T6J1RNRQVP9573A1GDJRNX",
       "runtimeState": "running (ready)"
     },
     "wallet": {
@@ -38,7 +38,7 @@
     },
     "deployment": {
       "status": "DEPLOYED_TESTNET_TRIAL",
-      "evidenceRoot": "0xe2cacfe887355e5402e6cc64ab55acf4bcaffb1af3cbecc87013bcb3f481db9f",
+      "evidenceRoot": "0x53f434283ad50f85cc560e496f9f9611e2f02aa9477ffeef44c92add0068e1df",
       "erc8004AgentId": "2447",
       "officialVerify": "PASS",
       "agentCard": "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json",
@@ -52,19 +52,19 @@
       "priceDisplay": "0.01 U",
       "currency": "0xc70B8741B8B07A6d61E54fd4B20f22Fa648E5565",
       "chainId": 97,
-      "negotiationHash": "0x372ed26efadc5085bbd006bbdf72110a3bed51bc756588d844631c040775766a",
-      "providerSignature": "0xf286c8a0ba988075a7512e3300180eb36280ce9d28841dcb500c0e3c124cbb3348669ccd43aee550f66bed299eb8404801d7e8134f123bec9a0f49662a5940871c",
+      "negotiationHash": "0x0d3992a85ae74d499f02c9ff45c30a9ee7508bcea35e263a9ef1a0c2ef57e5ca",
+      "providerSignature": "0xa81e56db1e1a1c3a3910739c6ea269c8c451e8cf35af23155097321e16a196a24dc0722c8576745a2c40f7082e047e3ba28f7cee5691672d38ff70665ab522c31c",
       "recoveredSigner": "0x83B2B8D09d822DAed95e94E10062b232A54fd123",
       "signatureVerified": true,
-      "evidenceRoot": "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed",
+      "evidenceRoot": "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092",
       "financialTransactionCreated": false
     },
     "remainingExternalItems": [
-      "Use an independent funded buyer wallet for a complete ERC-8183 create/fund/notify/deliver/settle lifecycle.",
+      "Approve independent-buyer Job 1254 after the canonical 24-hour dispute window closes on 2026-09-19T12:07:31.000Z.",
       "Configure official B402 merchant credentials only if a paid x402 settlement receipt is required.",
       "Record the demo while the managed 48-hour trial remains active."
     ],
-    "truthNotice": "This proves the managed BSC Testnet trial deployment, active runtime, ERC-8004 identity, authenticated public A2A access, and an independently recovered wallet signature. It does not claim a funded ERC-8183 job, B402 settlement, or any financial transaction from the public smoke."
+    "truthNotice": "This proves the managed BSC Testnet trial deployment, active runtime, ERC-8004 identity, authenticated public A2A access, and an independently recovered wallet signature. Independent-buyer Job 1254 is separately proven paid and submitted; final settlement and B402 payment remain unclaimed."
   },
-  "evidenceRoot": "0x58f595ffe4932463d41ca261d4ee7d66436a406c4d352216203dfc4a81ed1eb7"
+  "evidenceRoot": "0xe6c1e5a8de562b7332d6535c8de03f8e33d09b36f45a326e2422939a27db181a"
 }

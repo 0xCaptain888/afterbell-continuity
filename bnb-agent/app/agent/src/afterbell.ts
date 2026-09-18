@@ -59,12 +59,62 @@ function sha256(value: Json): `0x${string}` {
   return `0x${createHash("sha256").update(stableJson(value)).digest("hex")}`;
 }
 
+function normalizeSdkTupleArrays(input: string): string {
+  let output = "";
+  let inString = false;
+  let escaped = false;
+  for (const character of input) {
+    if (inString) {
+      output += character;
+      if (escaped) escaped = false;
+      else if (character === "\\") escaped = true;
+      else if (character === '"') inString = false;
+      continue;
+    }
+    if (character === '"') {
+      inString = true;
+      output += character;
+    } else if (character === "(") output += "[";
+    else if (character === ")") output += "]";
+    else output += character;
+  }
+  return output;
+}
+
+function parseJsonCompat(input: string): unknown {
+  try {
+    return JSON.parse(input);
+  } catch (error) {
+    // SDK 0.5.5 serializes nested arrays inside task strings using tuple
+    // parentheses. Parentheses are not valid JSON, so normalize only those
+    // occurring outside quoted strings and retry. This keeps signed string
+    // content intact while accepting the exact on-chain JobDescription form.
+    if (!input.includes("(") || !input.includes(")")) throw error;
+    return JSON.parse(normalizeSdkTupleArrays(input));
+  }
+}
+
 function unwrapJson(input: string): unknown {
   const trimmed = input.trim();
   const unfenced = trimmed.startsWith("```")
     ? trimmed.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "")
     : trimmed;
-  return JSON.parse(unfenced);
+  const jobContextMarker = "JOB CONTEXT:";
+  const candidate = unfenced.includes(jobContextMarker)
+    ? unfenced.slice(unfenced.indexOf(jobContextMarker) + jobContextMarker.length).trim()
+    : unfenced;
+  const parsed = parseJsonCompat(candidate);
+
+  // ERC-8183 delivery wraps the signed JobDescription as
+  // { task: <original task_description>, terms: ... } inside a human-readable
+  // execution prompt. The deterministic Watchtower evaluates the original
+  // task payload, not the wrapper prose.
+  if (parsed !== null && typeof parsed === "object" && !Array.isArray(parsed)) {
+    const task = (parsed as Record<string, unknown>).task;
+    if (typeof task === "string") return unwrapJson(task);
+    if (task !== undefined) return task;
+  }
+  return parsed;
 }
 
 export function inspectAfterBellPosition(prompt: string): string {
@@ -125,4 +175,37 @@ export function inspectAfterBellPosition(prompt: string): string {
   } as const;
 
   return JSON.stringify({ ...decision, decisionHash: sha256(decision as unknown as Json) }, null, 2);
+}
+
+/**
+ * Paid-runtime boundary: malformed buyer input must produce a deterministic,
+ * fail-closed deliverable instead of crashing the background worker and
+ * leaving a funded job stranded forever.
+ */
+export function inspectAfterBellWorkPrompt(prompt: string): string {
+  try {
+    return inspectAfterBellPosition(prompt);
+  } catch (error) {
+    const decision = {
+      schema: "afterbell-watchtower-result/1",
+      service: "AfterBell Watchtower",
+      observedAt: new Date().toISOString(),
+      positionId: "unresolved",
+      state: "BLOCKED",
+      reasons: ["invalidTaskPayload"],
+      checks: { taskPayloadValid: false },
+      metrics: {
+        premiumBps: null,
+        normalizedReferencePriceUsd: null,
+        exitLiquidityUsd: null,
+        attestationAgeSeconds: null
+      },
+      mode: "LIVE",
+      financialTransactionCreated: false,
+      signingRequested: false,
+      errorClass: error instanceof Error ? error.name : "UnknownError",
+      truthNotice: "The paid task was submitted on-chain, but its payload did not satisfy the WatchedPosition schema. AfterBell failed closed and performed no financial action."
+    } as const;
+    return JSON.stringify({ ...decision, decisionHash: sha256(decision as unknown as Json) }, null, 2);
+  }
 }

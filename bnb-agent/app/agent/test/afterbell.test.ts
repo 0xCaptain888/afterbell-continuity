@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { inspectAfterBellPosition } from "../src/afterbell.js";
+import { inspectAfterBellPosition, inspectAfterBellWorkPrompt } from "../src/afterbell.js";
 
 type Overrides = {
   snapshot?: Record<string, unknown>;
@@ -91,4 +91,45 @@ test("unverified rights evidence blocks the position", () => {
 test("invalid buyer JSON is rejected", () => {
   assert.throws(() => inspectAfterBellPosition("not-json"));
   assert.throws(() => inspectAfterBellPosition(JSON.stringify({ positionId: "missing-fields" })));
+});
+
+test("ERC-8183 funded-job prompt unwraps the signed task description", () => {
+  const signedTask = request();
+  const runtimePrompt = [
+    "You accepted and were paid for the following job. Produce the deliverable now. Be complete and self-contained.",
+    "",
+    "JOB CONTEXT:",
+    JSON.stringify({
+      task: signedTask,
+      terms: {
+        deliverables: "afterbell-watchtower-result/1 JSON",
+        quality_standards: "deterministic fail-closed policy"
+      }
+    })
+  ].join("\n");
+  const result = inspect(runtimePrompt);
+  assert.equal(result.state, "PROTECTED");
+  assert.equal(result.financialTransactionCreated, false);
+  assert.equal(result.signingRequested, false);
+});
+
+test("malformed paid task fails closed instead of stranding the funded job", () => {
+  const result = JSON.parse(inspectAfterBellWorkPrompt(
+    "You accepted and were paid for the following job.\n\nJOB CONTEXT:\n" +
+    JSON.stringify({ task: JSON.stringify({ asset: "AAPLx" }), terms: {} })
+  )) as Record<string, unknown>;
+  assert.equal(result.state, "BLOCKED");
+  assert.deepEqual(result.reasons, ["invalidTaskPayload"]);
+  assert.equal(result.financialTransactionCreated, false);
+  assert.equal(result.signingRequested, false);
+});
+
+test("ERC-8183 SDK tuple-style arrays are normalized outside strings", () => {
+  const tupleTask = request()
+    .replace('"requiredRights":["dividend","redemption","one-to-one-backing"]', '"requiredRights":("dividend","redemption","one-to-one-backing")')
+    .replace('"allowedPlatforms":["Ondo"]', '"allowedPlatforms":("Ondo")');
+  const runtimePrompt = "Paid job\n\nJOB CONTEXT:\n" + JSON.stringify({ task: tupleTask, terms: {} });
+  const result = JSON.parse(inspectAfterBellWorkPrompt(runtimePrompt)) as Record<string, unknown>;
+  assert.equal(result.state, "PROTECTED");
+  assert.equal(result.financialTransactionCreated, false);
 });

@@ -20,6 +20,7 @@ const consumerAdmission = await readJson("evidence/live/guarded-consumer-admissi
 const deployment = await readJson("evidence/deployment/bsc-mainnet.json");
 const agentDeployment = await readJson("evidence/live/agent-studio-deployment.json");
 const agentNegotiation = await readJson("evidence/live/agent-studio-public-negotiate.json");
+const agentPaidDelivery = await readJson("evidence/live/agent-studio-paid-delivery.json");
 
 const inventoryPairs = Array.isArray(inventory?.continuityPairs) ? inventory.continuityPairs as Array<Record<string, unknown>> : [];
 const quoteResults = Array.isArray(quotes?.results) ? quotes.results as Array<Record<string, unknown>> : [];
@@ -171,6 +172,15 @@ const summary = {
     negotiation: (agentNegotiation.payload as Record<string, unknown> | undefined)?.negotiation,
     deploymentEvidenceRoot: agentDeployment.evidenceRoot,
     negotiationEvidenceRoot: agentNegotiation.evidenceRoot,
+    paidDelivery: agentPaidDelivery ? {
+      status: (agentPaidDelivery.payload as Record<string, unknown> | undefined)?.status,
+      job: (agentPaidDelivery.payload as Record<string, unknown> | undefined)?.job,
+      participants: (agentPaidDelivery.payload as Record<string, unknown> | undefined)?.participants,
+      deliverable: (agentPaidDelivery.payload as Record<string, unknown> | undefined)?.deliverable,
+      settlement: (agentPaidDelivery.payload as Record<string, unknown> | undefined)?.settlement,
+      evidenceRoot: agentPaidDelivery.evidenceRoot,
+      truthNotice: (agentPaidDelivery.payload as Record<string, unknown> | undefined)?.truthNotice
+    } : { status: "UNAVAILABLE" },
     truthNotice: ((agentDeployment.payload as Record<string, unknown> | undefined)?.boundaries as Record<string, unknown> | undefined)?.statement
   } : { status: "UNAVAILABLE" }
 };

@@ -20,6 +20,7 @@ const officialAgentPackage = JSON.parse(await readFile("bnb-agent/app/agent/pack
 const operatorReadiness = JSON.parse(await readFile("evidence/bnb-agent-operator-readiness.json", "utf8")) as Json;
 const publicNegotiation = JSON.parse(await readFile("evidence/live/agent-studio-public-negotiate.json", "utf8")) as Json;
 const deployment = JSON.parse(await readFile("evidence/live/agent-studio-deployment.json", "utf8")) as Json;
+const paidDelivery = JSON.parse(await readFile("evidence/live/agent-studio-paid-delivery.json", "utf8")) as Json;
 const http = manifest.http as Json;
 const billing = manifest.billing as Json;
 
@@ -39,7 +40,7 @@ assert(studioToml.includes('price = "10000000000000000"'), "official_erc8183_pri
 assert(studioToml.includes('price_usd = "0.01"'), "official_b402_price_missing");
 assert(!studioToml.includes("[llm]"), "llm_must_not_control_watchtower_delivery");
 assert(officialAgentSource.includes("inspectAfterBellPosition"), "deterministic_watchtower_missing");
-assert(officialEntrypoint.includes("inspectAfterBellPosition(prompt)"), "official_runtime_not_wired_to_watchtower");
+assert(officialEntrypoint.includes("inspectAfterBellWorkPrompt(prompt)"), "official_runtime_not_wired_to_watchtower");
 assert(!officialEntrypoint.includes("generateText("), "official_runtime_delivery_must_not_use_llm");
 assert(officialAgentTest.includes('result.state, "PROTECTED"') && officialAgentTest.includes('result.state, "BLOCKED"'), "official_agent_state_tests_missing");
 const rebuiltOperatorReadiness = createEvidenceArtifact({
@@ -55,6 +56,7 @@ assert((operatorReadiness.payload as Json).status === "DEPLOYED_TESTNET_TRIAL", 
 assert(((operatorReadiness.payload as Json).platform as Json).trialClockStarted === true, "trial_must_be_active_after_deploy");
 assert((deployment.payload as Json).status === "DEPLOYED_TESTNET_TRIAL", "managed_deployment_evidence_missing");
 assert(((publicNegotiation.payload as Json).negotiation as Json).signatureVerified === true, "public_quote_signature_not_verified");
+assert((paidDelivery.payload as Json).status === "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT", "paid_delivery_evidence_missing");
 
 const basePosition: WatchedPosition = {
   positionId: "agent-studio-nvda-1",
@@ -107,7 +109,8 @@ const artifact = createEvidenceArtifact({
   parentHashes: [
     String(operatorReadiness.evidenceRoot) as `0x${string}`,
     String(deployment.evidenceRoot) as `0x${string}`,
-    String(publicNegotiation.evidenceRoot) as `0x${string}`
+    String(publicNegotiation.evidenceRoot) as `0x${string}`,
+    String(paidDelivery.evidenceRoot) as `0x${string}`
   ],
   payload: {
     status: "DEPLOYED_TESTNET_TRIAL",
@@ -137,7 +140,7 @@ const artifact = createEvidenceArtifact({
       erc8183Price: "0.01 U",
       b402Price: "0.01 USD",
       deterministicStates: ["PROTECTED", "WATCH", "RESCUE_REQUIRED", "BLOCKED"],
-      tests: "5/5 PASS",
+      tests: "8/8 PASS",
       build: "PASS",
       zipBundleDryRun: "PASS",
       deploymentReadiness: "DEPLOYED_TESTNET_TRIAL",
@@ -145,13 +148,13 @@ const artifact = createEvidenceArtifact({
       deploymentEvidence: deployment.evidenceRoot,
       publicNegotiationEvidence: publicNegotiation.evidenceRoot,
       agentId: "01M2T4KMDTJCBQ25HAMPZ9JZ9D",
-      deploymentId: "01M2T4KMDT387DD25BNN602NE5",
+      deploymentId: "01M2T6J1RNRQVP9573A1GDJRNX",
       erc8004AgentId: "2447",
       runtimeState: "running (ready)",
       agentCard: "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json",
       trialExpiresAt: "2026-09-20T11:32:43.000Z",
       externalBlockers: [
-        "Use an independent funded buyer wallet for the paid ERC-8183 end-to-end lifecycle.",
+        "Approve independent-buyer Job 1254 after its canonical 24-hour dispute window closes.",
         "Apply for wallet-specific B402 merchant credentials only if a paid X402 settlement is required."
       ]
     },
@@ -168,9 +171,12 @@ const artifact = createEvidenceArtifact({
       "Runtime reports running (ready); official deploy verify passed.",
       "ERC-8004 Agent ID 2447 registered.",
       "OAuth-protected public A2A negotiate returned a signed 0.01 U quote.",
-      "Provider signature independently recovered to the deployed Agent wallet."
+      "Provider signature independently recovered to the deployed Agent wallet.",
+      "Independent buyer funded Job 1254 with 0.01 U; the Agent submitted a content-addressed PROTECTED result on-chain.",
+      "Fail-closed regression jobs 1252 and 1253 exposed malformed-payload and SDK tuple-array compatibility issues before the successful paid run."
     ],
-    truthNotice: "The official BNB Agent Studio runtime is live in the managed BSC Testnet trial, with an ERC-8004 identity and authenticated public signed quote. No funded ERC-8183 delivery, B402 settlement, or public-smoke financial transaction is claimed."
+    paidDeliveryEvidence: paidDelivery.evidenceRoot,
+    truthNotice: "The official BNB Agent Studio runtime is live in the managed BSC Testnet trial, with an ERC-8004 identity, authenticated public signed quote, and a real independent-buyer ERC-8183 delivery submitted on-chain. Buyer approval remains time-gated; no completed settlement or B402 payment is claimed."
   }
 });
 

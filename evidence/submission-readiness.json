@@ -2,18 +2,19 @@
   "schema": "afterbell-evidence/1",
   "artifactType": "SUBMISSION_READINESS",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T11:46:40.337Z",
+  "observedAt": "2026-09-18T12:20:14.282Z",
   "source": "AfterBell repository-local submission audit",
   "parentHashes": [
     "0x5a36ce020f566893d938aa0f61bce03723112caa592c0202243ff138cf61522a",
     "0xc71493b59800e9d40bac0cabb1dd0f8d1f00df495b31b16c138e73377b2a6d7b",
     "0xe053cb996a48732c0f5a8e9612df50459c70068d93357d64dd137c9304b02f3f",
     "0xaf8752255c975da3968c32b92bd31258d845d7a8bc33a46130c6e0cd195aa9e4",
-    "0xcbde08b6c256a16d3d066da7ed1a3bf8c219191959a02126d7d42b6dd5cf187a",
-    "0xe2cacfe887355e5402e6cc64ab55acf4bcaffb1af3cbecc87013bcb3f481db9f",
-    "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed"
+    "0x738fb84fce25d424186cae3c7e88ab4d8714b741e9bbcef1533dddf3f3852c39",
+    "0x53f434283ad50f85cc560e496f9f9611e2f02aa9477ffeef44c92add0068e1df",
+    "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092",
+    "0xa1d91d451f818a7f3004e063c8d27d79dadd98aa19ca13281a393f38ba631b67"
   ],
-  "payloadHash": "0x50dfec9a8604df69a45293bc30a7a6f0765bbc5d274b0535d2f0d895826ac6bc",
+  "payloadHash": "0x3f715eb5bcd1c2dbfa33ed131b39989a6254687a44d67d7d44142b07137e8a32",
   "payload": {
     "status": "TECHNICALLY_READY",
     "checks": [
@@ -44,13 +45,13 @@
       {
         "id": "independent-fail-closed-consumer",
         "result": "PASS",
-        "evidence": "0xcbde08b6c256a16d3d066da7ed1a3bf8c219191959a02126d7d42b6dd5cf187a",
+        "evidence": "0x738fb84fce25d424186cae3c7e88ab4d8714b741e9bbcef1533dddf3f3852c39",
         "detail": "An independent consumer permits monitoring but blocks deposits and automated rescue."
       },
       {
         "id": "public-evidence-synchronized",
         "result": "PASS",
-        "evidence": "2026-09-18T11:46:40.337Z",
+        "evidence": "2026-09-18T12:20:14.282Z",
         "detail": "Public summary roots match deployment, Credential, Passport, and consumer artifacts."
       },
       {
@@ -68,14 +69,20 @@
       {
         "id": "agent-service-package",
         "result": "PASS",
-        "evidence": "0x3df8491474cc4dc2f54e2fe594423c26b6055e675610effb730cd3510e3e77f4",
+        "evidence": "0xe10164bd119cac76447db75e1d6f65a2ab279812a8557c576ddd635deb6b2ee6",
         "detail": "The official BNB Agent Studio A2A/X402 workspace is deployed in the managed BSC Testnet trial with fixed 0.01 U pricing."
       },
       {
         "id": "public-agent-negotiation",
         "result": "PASS",
-        "evidence": "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed",
+        "evidence": "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092",
         "detail": "OAuth-protected public A2A negotiation returned an accepted quote whose provider signature recovers to the deployed Agent wallet."
+      },
+      {
+        "id": "paid-agent-delivery",
+        "result": "PASS",
+        "evidence": "0xa1d91d451f818a7f3004e063c8d27d79dadd98aa19ca13281a393f38ba631b67",
+        "detail": "An independent buyer funded Job 1254 with 0.01 U and the public Agent submitted a content-addressed PROTECTED decision on-chain."
       },
       {
         "id": "official-agent-safety",
@@ -98,8 +105,9 @@
     ],
     "remainingExternalItems": [
       {
-        "id": "funded-erc8183-delivery",
-        "status": "NOT_EXECUTED",
+        "id": "erc8183-buyer-settlement",
+        "status": "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT",
+        "settlementEligibleAt": "2026-09-19T12:07:31.000Z",
         "blockingCoreVerification": false
       },
       {
@@ -113,7 +121,7 @@
         "blockingCoreVerification": false
       }
     ],
-    "truthNotice": "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, independent consumer, managed Agent Studio trial, and authenticated signed public quote. It does not claim a funded ERC-8183 delivery, B402 settlement, or completed submission video."
+    "truthNotice": "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, independent consumer, managed Agent Studio trial, authenticated signed public quote, and a real independent-buyer ERC-8183 delivery submitted on-chain. It does not claim final buyer settlement, B402 settlement, or a completed submission video."
   },
-  "evidenceRoot": "0x152a1725ae77f84bd07685051a3e25f7f2ac4b7c568c99eb7fd1b4af241f3983"
+  "evidenceRoot": "0x4207a789a6ab567773744900274f9029fce4d50b4daf36290bb5798d8850b9c8"
 }

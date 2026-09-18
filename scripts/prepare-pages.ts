@@ -13,6 +13,7 @@ const evidenceFiles = [
   { source: "evidence/live/guarded-consumer-admission.json", name: "guarded-consumer-admission.json" },
   { source: "evidence/live/agent-studio-deployment.json", name: "agent-studio-deployment.json" },
   { source: "evidence/live/agent-studio-public-negotiate.json", name: "agent-studio-public-negotiate.json" },
+  { source: "evidence/live/agent-studio-paid-delivery.json", name: "agent-studio-paid-delivery.json" },
   { source: "evidence/agent-studio-package.json", name: "agent-studio-package.json" },
   { source: "evidence/bnb-agent-operator-readiness.json", name: "bnb-agent-operator-readiness.json" },
   { source: "evidence/submission-readiness.json", name: "submission-readiness.json" }

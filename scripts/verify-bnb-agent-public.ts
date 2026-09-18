@@ -6,7 +6,7 @@ type Json = Record<string, unknown>;
 
 const EXPECTED = {
   agentId: "01M2T4KMDTJCBQ25HAMPZ9JZ9D",
-  deploymentId: "01M2T4KMDT387DD25BNN602NE5",
+  deploymentId: "01M2T6J1RNRQVP9573A1GDJRNX",
   agentWallet: "0x83B2B8D09d822DAed95e94E10062b232A54fd123",
   erc8004AgentId: "2447",
   chainId: 97,
@@ -68,14 +68,46 @@ const tokenResponse = await fetchJson(tokenEndpoint, {
 const accessToken = String(tokenResponse.body.access_token ?? "");
 assert(accessToken.length > 20, "oauth_access_token_missing");
 
+const now = Date.now();
 const request = {
   skill: "negotiate",
   task_description: JSON.stringify({
-    schema: "afterbell-watched-position/1",
-    asset: "AAPLx",
-    venue: "BSC",
-    expectedSession: "US regular session",
-    action: "validate continuity protections before guarded execution"
+    positionId: `public-smoke-${now}`,
+    wallet: "0x2CB79d0eBcCd6D6846e458e748787C13c6e51Afa",
+    amount: 0.027163579421480873,
+    positionUsd: 10,
+    snapshot: {
+      chainId: 56,
+      tokenAddress: "0x5b1910eaad6450e50f816082aa078c41f10c292f",
+      symbol: "TSLAB",
+      underlying: "TSLA",
+      platform: "bstock",
+      tokenToShareRatio: 1,
+      tokenPriceUsd: 367.7,
+      underlyingPriceUsd: 367.6,
+      observedAt: new Date(now).toISOString(),
+      marketStatus: "REGULAR",
+      attestationPublishedAt: new Date(now - 60_000).toISOString(),
+      exitLiquidityUsd: 50_000,
+      mode: "LIVE"
+    },
+    rights: {
+      backingModel: "ONE_TO_ONE",
+      dividendTreatment: "DISTRIBUTED",
+      redemption: "DIRECT",
+      sourceStatus: "VERIFIED"
+    },
+    mandate: {
+      mandateId: `public-smoke-mandate-${now}`,
+      subject: "TSLA",
+      maxPositionUsd: 100,
+      maxPremiumBps: 100,
+      maxAttestationAgeSeconds: 3600,
+      minimumExitLiquidityUsd: 10_000,
+      requiredRights: ["dividend", "redemption", "one-to-one-backing"],
+      allowedPlatforms: ["bstock"],
+      expiresAt: Math.floor(now / 1000) + 3600
+    }
   }),
   terms: {
     deliverables: "afterbell-watchtower-result/1 JSON with state, reasons, and evidence references",
@@ -177,7 +209,7 @@ const artifact = createEvidenceArtifact({
       financialTransactionCreated: false,
       fundedJobCreated: false,
       paidDeliveryCompleted: false,
-      statement: "This proves authenticated public reachability and a wallet-signed deterministic quote. It does not claim an ERC-8183 funded job or settlement."
+      statement: "This smoke proves authenticated public reachability and a wallet-signed deterministic quote. A separately published independent-buyer artifact proves the paid ERC-8183 delivery; this quote request itself created no job or settlement."
     }
   }
 });
@@ -223,10 +255,11 @@ const deploymentArtifact = createEvidenceArtifact({
       x402State: "DORMANT_PENDING_B402_MERCHANT_CREDENTIALS"
     },
     boundaries: {
-      fundedErc8183JobCompleted: false,
+      fundedErc8183JobSubmitted: true,
+      fundedErc8183JobSettled: false,
       b402SettlementCompleted: false,
       financialTransactionCreatedByPublicSmoke: false,
-      statement: "The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. Paid delivery and settlement remain separate, unclaimed steps."
+      statement: "The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. A separate independent buyer paid for Job 1254 and received an on-chain submission; final settlement remains time-gated and unclaimed."
     }
   }
 });

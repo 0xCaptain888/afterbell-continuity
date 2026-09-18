@@ -368,11 +368,12 @@ verifyEvidenceButton?.addEventListener("click", async () => {
       verifyPublishedArtifact("./evidence/bsc-mainnet.json", "BSC_MAINNET_DEPLOYMENT", "Verified contract deployment"),
       verifyPublishedArtifact("./evidence/mainnet-credential.json", "LIVE_CONTINUITY_CREDENTIAL", "EIP-712 credential", "wrapped"),
       verifyPublishedArtifact("./evidence/mainnet-passport.json", "LIVE_CONTINUITY_PASSPORT", "Continuity Passport", "wrapped"),
-      verifyPublishedArtifact("./evidence/guarded-consumer-admission.json", "LIVE_GUARDED_CONSUMER_ADMISSION", "Guarded consumer", "wrapped")
+      verifyPublishedArtifact("./evidence/guarded-consumer-admission.json", "LIVE_GUARDED_CONSUMER_ADMISSION", "Guarded consumer", "wrapped"),
+      verifyPublishedArtifact("./evidence/agent-studio-paid-delivery.json", "BNB_AGENT_ERC8183_PAID_DELIVERY", "Paid Agent delivery", "wrapped")
     ]);
     results.forEach(renderVerificationResult);
     const verified = results.every((result) => result.verified);
-    verifyEvidenceState.textContent = verified ? "8/8 VERIFIED · canonical roots match" : "FAILED · published evidence mismatch";
+    verifyEvidenceState.textContent = verified ? "9/9 VERIFIED · canonical roots match" : "FAILED · published evidence mismatch";
     verifyEvidenceState.className = `verify-state ${verified ? "ok" : "bad"}`;
   } catch (error) {
     verifyEvidenceState.textContent = `FAILED · ${error instanceof Error ? error.message : String(error)}`;

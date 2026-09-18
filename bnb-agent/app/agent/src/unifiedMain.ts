@@ -92,7 +92,7 @@ import {
 } from "@bnbagent/studio-runtime/b402";
 import express from "express";
 import { buildAgentCard } from "./agentCard.js";
-import { inspectAfterBellPosition } from "./afterbell.js";
+import { inspectAfterBellWorkPrompt } from "./afterbell.js";
 import { SellerAgentExecutor } from "./executor.js";
 import { requestLimitContext } from "./requestLimits.js";
 import type { RunWork } from "./sellerCore.js";
@@ -175,7 +175,7 @@ function defaultNetwork(): string {
 export function buildRunWork(): RunWork {
   return async (prompt, { abortSignal }) => {
     if (abortSignal?.aborted) throw new Error("inspection_aborted");
-    return inspectAfterBellPosition(prompt);
+    return inspectAfterBellWorkPrompt(prompt);
   };
 }
 

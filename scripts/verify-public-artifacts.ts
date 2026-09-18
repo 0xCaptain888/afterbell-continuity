@@ -107,6 +107,7 @@ const consumerAdmission = await readJson("evidence/live/guarded-consumer-admissi
 const deployment = await readJson("evidence/deployment/bsc-mainnet.json");
 const agentDeployment = await readJson("evidence/live/agent-studio-deployment.json");
 const agentNegotiation = await readJson("evidence/live/agent-studio-public-negotiate.json");
+const agentPaidDelivery = await readJson("evidence/live/agent-studio-paid-delivery.json");
 const trustedIssuers = await readJson("site/trusted-issuers.json");
 const publicSummary = await readJson("site/live-evidence.json");
 
@@ -124,6 +125,7 @@ verifyWrappedRoot(mainnetPassport, "LIVE_CONTINUITY_PASSPORT");
 verifyWrappedRoot(consumerAdmission, "LIVE_GUARDED_CONSUMER_ADMISSION");
 verifyWrappedRoot(agentNegotiation, "BNB_AGENT_PUBLIC_NEGOTIATION");
 verifyWrappedRoot(agentDeployment, "BNB_AGENT_STUDIO_DEPLOYMENT");
+verifyWrappedRoot(agentPaidDelivery, "BNB_AGENT_ERC8183_PAID_DELIVERY");
 assert(Array.isArray(agentDeployment.parentHashes) && agentDeployment.parentHashes.includes(agentNegotiation.evidenceRoot), "agent_deployment_negotiation_parent_missing");
 const agentDeploymentPayload = agentDeployment.payload as Json;
 const agentNegotiationPayload = agentNegotiation.payload as Json;
@@ -132,6 +134,15 @@ assert(agentDeploymentPayload.status === "DEPLOYED_TESTNET_TRIAL", "agent_studio
 assert(publicAgentNegotiation.signatureVerified === true, "agent_public_signature_not_verified");
 assert(publicAgentNegotiation.priceRaw === "10000000000000000", "agent_public_price_mismatch");
 assert(publicAgentNegotiation.chainId === 97, "agent_public_chain_mismatch");
+const paidDeliveryPayload = agentPaidDelivery.payload as Json;
+const paidDeliveryJob = paidDeliveryPayload.job as Json;
+const paidDeliveryParticipants = paidDeliveryPayload.participants as Json;
+const paidDeliveryResult = paidDeliveryPayload.deliverable as Json;
+assert(paidDeliveryPayload.status === "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT", "paid_delivery_status_mismatch");
+assert(paidDeliveryJob.id === 1254 && paidDeliveryJob.status === "SUBMITTED", "paid_delivery_job_not_submitted");
+assert(paidDeliveryJob.budgetRaw === "10000000000000000", "paid_delivery_budget_mismatch");
+assert(paidDeliveryParticipants.separatedWallets === true, "paid_delivery_wallet_separation_missing");
+assert(paidDeliveryResult.state === "PROTECTED" && paidDeliveryResult.financialTransactionCreated === false && paidDeliveryResult.signingRequested === false, "paid_delivery_safety_boundary_mismatch");
 
 const credentialPayload = mainnetCredential.payload as Json;
 const signedCredentialJson = credentialPayload.signedCredential as Json;
@@ -224,6 +235,7 @@ const publicPassport = publicSummary.continuityPassport as Json | undefined;
 const publicConsumer = publicSummary.guardedConsumer as Json | undefined;
 const publicDeployment = publicSummary.deployment as Json | undefined;
 const publicAgentStudio = publicSummary.agentStudio as Json | undefined;
+const publicPaidDelivery = publicAgentStudio?.paidDelivery as Json | undefined;
 assert(publicSummary.schema === "afterbell-public-live-evidence/4", "unexpected_public_summary_schema");
 assert(publicRights?.evidenceRoot === rights.evidenceRoot, "public_rights_root_mismatch");
 assert(publicQuotes?.evidenceRoot === quotes.evidenceRoot, "public_quotes_root_mismatch");
@@ -246,6 +258,8 @@ assert(publicConsumer?.result === publishedConsumerDecision.result, "public_cons
 assert(publicAgentStudio?.status === "DEPLOYED_TESTNET_TRIAL", "public_agent_studio_status_mismatch");
 assert(publicAgentStudio?.deploymentEvidenceRoot === agentDeployment.evidenceRoot, "public_agent_deployment_root_mismatch");
 assert(publicAgentStudio?.negotiationEvidenceRoot === agentNegotiation.evidenceRoot, "public_agent_negotiation_root_mismatch");
+assert(publicPaidDelivery?.status === "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT", "public_paid_delivery_status_mismatch");
+assert(publicPaidDelivery?.evidenceRoot === agentPaidDelivery.evidenceRoot, "public_paid_delivery_root_mismatch");
 assert(records(publicSummary.featured).length === 2, "public_featured_assets_missing");
 
 const html = await readFile("site/index.html", "utf8");
@@ -266,6 +280,7 @@ await readFile("evidence/submission-readiness.json", "utf8");
 assert(html.includes("agent-studio-package.json"), "agent_studio_package_not_linked");
 assert(html.includes("agent-studio-deployment.json"), "agent_studio_deployment_not_linked");
 assert(html.includes("agent-studio-public-negotiate.json"), "agent_studio_negotiation_not_linked");
+assert(html.includes("agent-studio-paid-delivery.json"), "agent_studio_paid_delivery_not_linked");
 await readFile("evidence/agent-studio-package.json", "utf8");
 assert(app.includes("eth_requestAccounts"), "wallet_connect_not_implemented");
 assert(app.includes("eth_sendTransaction"), "bounded_approval_not_implemented");
@@ -280,7 +295,7 @@ assert(leakedFiles.length === 0, `public_secret_pattern_detected:${leakedFiles.j
 
 console.log(JSON.stringify({
   status: "PUBLIC_ARTIFACTS_VERIFIED",
-  evidence: { rights: rights.evidenceRoot, quotes: quotes.evidenceRoot, equivalence: equivalence.evidenceRoot, mainnetSwap: mainnetSwap.evidenceRoot, deployment: deployment.evidenceRoot, credential: mainnetCredential.evidenceRoot, passport: mainnetPassport.evidenceRoot, consumer: consumerAdmission.evidenceRoot, agentDeployment: agentDeployment.evidenceRoot, agentNegotiation: agentNegotiation.evidenceRoot },
+  evidence: { rights: rights.evidenceRoot, quotes: quotes.evidenceRoot, equivalence: equivalence.evidenceRoot, mainnetSwap: mainnetSwap.evidenceRoot, deployment: deployment.evidenceRoot, credential: mainnetCredential.evidenceRoot, passport: mainnetPassport.evidenceRoot, consumer: consumerAdmission.evidenceRoot, agentDeployment: agentDeployment.evidenceRoot, agentNegotiation: agentNegotiation.evidenceRoot, agentPaidDelivery: agentPaidDelivery.evidenceRoot },
   rightsProfiles: rightResults.length,
   roundTripRoutes,
   featuredAssets: equivalenceResults.length,

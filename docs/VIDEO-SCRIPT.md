@@ -52,11 +52,11 @@ Target length: **3:45–3:55**. Record at 1440p or 1080p, browser zoom 100%, not
 
 ## 2:52–3:17 — Browser verification
 
-**Screen:** Click **Verify evidence roots** and wait for `8/8 VERIFIED`.
+**Screen:** Click **Verify evidence roots** and wait for `9/9 VERIFIED`.
 
 **Narration:**
 
-> A judge does not need to trust this dashboard. This browser downloads eight public artifacts and recomputes their canonical SHA-256 roots locally. The full verifier also recovers the EIP-712 signer, checks the Registry binding, and recomputes the consumer decision.
+> A judge does not need to trust this dashboard. This browser downloads nine public artifacts and recomputes their canonical SHA-256 roots locally, including a real independent-buyer Agent delivery. The full verifier also recovers the EIP-712 signer, checks the Registry binding, and recomputes the consumer decision.
 
 ## 3:17–3:40 — One-click adversarial demo
 
@@ -79,5 +79,5 @@ Target length: **3:45–3:55**. Record at 1440p or 1080p, browser zoom 100%, not
 - Do not show `.env`, terminal history, wallet balances, email, API credentials, or private browser tabs.
 - Keep the wallet disconnected unless demonstrating the read-only allowance check.
 - Never describe the challenged Passport as failed; say that it honestly exposes an unprovable timing property.
-- Claim only the verified BSC Testnet managed-trial deployment: show the Agent/Deployment IDs, ERC-8004 ID, public Agent Card, and signed quote receipt. Do not claim a funded ERC-8183 delivery or B402 settlement.
+- Show the verified BSC Testnet managed-trial deployment, Agent/Deployment IDs, ERC-8004 ID, public Agent Card, signed quote, and Job `1254` paid-delivery receipt. Say “submitted, awaiting the canonical dispute window” rather than “settled”; do not claim B402 settlement.
 - End on the public Demo URL and GitHub repository for at least three seconds.

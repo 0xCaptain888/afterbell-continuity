@@ -1,0 +1,154 @@
+{
+  "schema": "afterbell-evidence/1",
+  "artifactType": "BNB_AGENT_ERC8183_PAID_DELIVERY",
+  "mode": "LIVE",
+  "observedAt": "2026-09-18T12:18:40.148Z",
+  "source": "BSC Testnet RPC, BNB Agent Studio managed deliverable storage, and independent buyer workflow",
+  "parentHashes": [
+    "0x53f434283ad50f85cc560e496f9f9611e2f02aa9477ffeef44c92add0068e1df",
+    "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092"
+  ],
+  "payloadHash": "0xde7a5ef05803604e552a0fec7135388fb0030c80a56a9e3f767b703b4248b895",
+  "payload": {
+    "status": "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT",
+    "network": "bsc-testnet",
+    "chainId": 97,
+    "deployment": {
+      "agentId": "01M2T4KMDTJCBQ25HAMPZ9JZ9D",
+      "deploymentId": "01M2T6J1RNRQVP9573A1GDJRNX",
+      "erc8004AgentId": "2447"
+    },
+    "participants": {
+      "buyer": "0x2CB79d0eBcCd6D6846e458e748787C13c6e51Afa",
+      "provider": "0x83B2B8D09d822DAed95e94E10062b232A54fd123",
+      "separatedWallets": true
+    },
+    "quote": {
+      "accepted": true,
+      "priceRaw": "10000000000000000",
+      "currency": "0xc70B8741B8B07A6d61E54fd4B20f22Fa648E5565",
+      "negotiationHash": "0xdc34a868455f4f73b6d3f0c9aafd9823a477990c7fb00130b0167ec170c7037c",
+      "providerSignature": "0xb3ff38123854b46605da49ad1c9f583753469decd172c7616bbf0297220af8f26f02213db533fd2b2baf465aa0af16cd567411b599b0f4feacec498be2758e951b",
+      "chainId": 97,
+      "verifyingContract": "0xa206c0517b6371c6638cd9e4a42cc9f02a33b0de"
+    },
+    "job": {
+      "id": 1254,
+      "statusCode": 2,
+      "status": "SUBMITTED",
+      "budgetRaw": "10000000000000000",
+      "budgetDisplay": "0.01 U",
+      "expiredAt": "2026-09-18T12:52:00.000Z",
+      "submittedAt": "2026-09-18T12:07:31.000Z",
+      "settlementEligibleAt": "2026-09-19T12:07:31.000Z",
+      "deliverableHash": "0x4cec715b3cc21db25d700f4cfbf97cb0f5a9baf998b031d57f6b3780cc942c60",
+      "deliverableUrl": "https://bnbagent-api.bnbchain.world/v1/deliverables/sha256/23c78693baea47fdcd1b8a9120943c564f70e6c988bccb1c5072d97951e7ea13.json"
+    },
+    "deliverable": {
+      "contentType": "text/plain",
+      "state": "PROTECTED",
+      "reasons": [],
+      "checks": {
+        "mandateActive": true,
+        "subjectMatches": true,
+        "platformAllowed": true,
+        "positionWithinLimit": true,
+        "premiumWithinLimit": true,
+        "marketNotHalted": true,
+        "evidenceSufficient": true,
+        "attestationFresh": true,
+        "exitLiquiditySufficient": true,
+        "rightDividend": true,
+        "rightRedemption": true,
+        "rightOneToOne": true
+      },
+      "metrics": {
+        "premiumBps": 3,
+        "normalizedReferencePriceUsd": 367.6,
+        "exitLiquidityUsd": 50000,
+        "attestationAgeSeconds": 93
+      },
+      "decisionHash": "0x203966c21cf79a45240d98896916b155a8d23e723af43dbc09e61bea4bc4a00e",
+      "financialTransactionCreated": false,
+      "signingRequested": false,
+      "truthNotice": "Deterministic continuity inspection. The service does not possess the buyer wallet, sign a rescue, or broadcast a transaction."
+    },
+    "transactions": {
+      "buyerFundingNative": {
+        "hash": "0x9c0f37cf37ccbdc0bfaadc82acf14d6156429746d2df825184d69eeed1c4e5e6",
+        "blockNumber": "131746079",
+        "status": "success",
+        "gasUsed": "21000"
+      },
+      "buyerFundingU": {
+        "hash": "0x5d238c6502c0c59762c19abd31961527fde9d94414b7f7159f23c2791a1ebfaa",
+        "blockNumber": "131746090",
+        "status": "success",
+        "gasUsed": "65408"
+      },
+      "createJob": {
+        "hash": "0x59d9160faa92885d05aec3d71531fd102d586c81a0fd18469e6ec70025e95099",
+        "blockNumber": "131747904",
+        "status": "success",
+        "gasUsed": "1470963"
+      },
+      "registerJob": {
+        "hash": "0x09b1d28d6e1e713a28f8063288da6dad049349aa286e77431dce9cf84f2549c0",
+        "blockNumber": "131747907",
+        "status": "success",
+        "gasUsed": "215997"
+      },
+      "setBudget": {
+        "hash": "0x2f882443aa6f95dfbd74af44d42adc1b45e8486ed6772622dd9474d2761cb981",
+        "blockNumber": "131747909",
+        "status": "success",
+        "gasUsed": "96341"
+      },
+      "fund": {
+        "hash": "0x6a10dd12a4a84fe7e172195d2a75a8336ca8e569e5dec80ef6659734984cce1a",
+        "blockNumber": "131747917",
+        "status": "success",
+        "gasUsed": "105368"
+      },
+      "submit": {
+        "hash": "0xf26786a929ab2a7955e0006a6367886060f9a899ee715d6e75751c3e63ba853b",
+        "blockNumber": "131747967",
+        "status": "success",
+        "gasUsed": "270798"
+      }
+    },
+    "balancesAtObservation": {
+      "buyer": {
+        "tBNB": "0.014801536",
+        "U": "0.07"
+      },
+      "provider": {
+        "tBNB": "0.0799913592",
+        "U": "9.9"
+      }
+    },
+    "failClosedRegression": [
+      {
+        "jobId": 1252,
+        "outcome": "BLOCKED",
+        "reason": "invalidTaskPayload",
+        "submitTransaction": "0xc63de05cf274f31172a4d408975acb5eb26f6b225e6583eebd340c06b9de0a39",
+        "deliverableUrl": "https://bnbagent-api.bnbchain.world/v1/deliverables/sha256/fd2a8d41e2ba32946d99178f7f10f88aac93fb669f6b39abaf9a1717759d9d6f.json"
+      },
+      {
+        "jobId": 1253,
+        "outcome": "BLOCKED",
+        "reason": "SDK tuple-array compatibility discovered and fixed",
+        "submitTransaction": "0x05259ba8b5e86ef2c588c8bf13d8f99d587dcd9f2279e8acc6ef21fb093beb8c",
+        "deliverableUrl": "https://bnbagent-api.bnbchain.world/v1/deliverables/sha256/a3f9dba011774b01e4a0c37e89764587c0a0d2303c05879bfb1b8dbe685f09dc.json"
+      }
+    ],
+    "settlement": {
+      "completed": false,
+      "reason": "Canonical 24-hour dispute window has not elapsed.",
+      "earliestBuyerApproval": "2026-09-19T12:07:31.000Z"
+    },
+    "truthNotice": "An independent buyer paid 0.01 U, the public Agent verified and fulfilled the job, and the seller submitted a content-addressed PROTECTED decision on-chain. Final buyer approval is time-gated by the canonical 24-hour dispute window and is not claimed yet."
+  },
+  "evidenceRoot": "0xa1d91d451f818a7f3004e063c8d27d79dadd98aa19ca13281a393f38ba631b67"
+}

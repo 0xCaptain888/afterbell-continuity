@@ -30,7 +30,8 @@
 - [x] Dedicated throwaway BSC Testnet wallet, platform login, official preflight, and local signed A2A quote
 - [x] Fund the throwaway wallet and execute the 48-hour managed-trial deployment
 - [x] Register ERC-8004 Agent ID `2447` and independently recover the public quote signer
-- [ ] Complete a funded ERC-8183 delivery from an independent buyer wallet
+- [x] Complete an independent-buyer paid ERC-8183 delivery through on-chain submission (Job `1254`, `0.01 U`, `PROTECTED`)
+- [ ] Approve Job `1254` after the canonical dispute window closes on September 19, 2026 at 20:07:31 Beijing time
 - [ ] Activate paid x402 only after official B402 merchant credentials are available
 - [x] Public demo
 - [ ] Four-minute demo video

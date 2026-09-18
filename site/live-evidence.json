@@ -1,6 +1,6 @@
 {
   "schema": "afterbell-public-live-evidence/4",
-  "generatedAt": "2026-09-18T11:46:40.337Z",
+  "generatedAt": "2026-09-18T12:20:14.282Z",
   "truthNotice": "LIVE and MAINNET labels refer to authenticated API, on-chain receipts, independently matched bytecode, and BscScan-published sources. One bounded stock-token swap and three protocol deployments are verified; incomplete holder-rights evidence remains UNKNOWN and still blocks automatic rescue.",
   "inventory": {
     "status": "LIVE_DATA_GATE_PASSED",
@@ -285,19 +285,19 @@
       "allowGuardedDeposit": false,
       "allowReadOnlyMonitoring": true
     },
-    "evaluatedAt": "2026-09-18T11:46:40.000Z",
-    "evidenceRoot": "0xcbde08b6c256a16d3d066da7ed1a3bf8c219191959a02126d7d42b6dd5cf187a",
+    "evaluatedAt": "2026-09-18T12:20:13.000Z",
+    "evidenceRoot": "0x738fb84fce25d424186cae3c7e88ab4d8714b741e9bbcef1533dddf3f3852c39",
     "truthNotice": "The reference consumer allows read-only monitoring but blocks automated rescue and Guarded Vault deposits because the live credential is WATCH/HIGH and the Passport is CHALLENGED."
   },
   "agentStudio": {
     "status": "DEPLOYED_TESTNET_TRIAL",
-    "observedAt": "2026-09-18T11:43:16.196Z",
+    "observedAt": "2026-09-18T12:17:03.706Z",
     "deployment": {
       "status": "DEPLOYED_TESTNET_TRIAL",
       "provider": "bnb",
       "slug": "afterbellwatchtower",
       "agentId": "01M2T4KMDTJCBQ25HAMPZ9JZ9D",
-      "deploymentId": "01M2T4KMDT387DD25BNN602NE5",
+      "deploymentId": "01M2T6J1RNRQVP9573A1GDJRNX",
       "runtimeState": "running (ready)",
       "trial": {
         "status": "active",
@@ -318,22 +318,23 @@
       "runtime": {
         "officialDeployVerify": "PASS",
         "publicOauthA2aNegotiate": "PASS",
-        "publicNegotiationEvidenceRoot": "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed",
+        "publicNegotiationEvidenceRoot": "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092",
         "erc8183Price": "0.01 U",
         "b402ConfiguredPrice": "0.01 USD",
         "x402State": "DORMANT_PENDING_B402_MERCHANT_CREDENTIALS"
       },
       "boundaries": {
-        "fundedErc8183JobCompleted": false,
+        "fundedErc8183JobSubmitted": true,
+        "fundedErc8183JobSettled": false,
         "b402SettlementCompleted": false,
         "financialTransactionCreatedByPublicSmoke": false,
-        "statement": "The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. Paid delivery and settlement remain separate, unclaimed steps."
+        "statement": "The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. A separate independent buyer paid for Job 1254 and received an on-chain submission; final settlement remains time-gated and unclaimed."
       }
     },
     "negotiation": {
       "request": {
         "skill": "negotiate",
-        "task_description": "{\"schema\":\"afterbell-watched-position/1\",\"asset\":\"AAPLx\",\"venue\":\"BSC\",\"expectedSession\":\"US regular session\",\"action\":\"validate continuity protections before guarded execution\"}",
+        "task_description": "{\"positionId\":\"public-smoke-1789733820459\",\"wallet\":\"0x2CB79d0eBcCd6D6846e458e748787C13c6e51Afa\",\"amount\":0.027163579421480875,\"positionUsd\":10,\"snapshot\":{\"chainId\":56,\"tokenAddress\":\"0x5b1910eaad6450e50f816082aa078c41f10c292f\",\"symbol\":\"TSLAB\",\"underlying\":\"TSLA\",\"platform\":\"bstock\",\"tokenToShareRatio\":1,\"tokenPriceUsd\":367.7,\"underlyingPriceUsd\":367.6,\"observedAt\":\"2026-09-18T12:17:00.459Z\",\"marketStatus\":\"REGULAR\",\"attestationPublishedAt\":\"2026-09-18T12:16:00.459Z\",\"exitLiquidityUsd\":50000,\"mode\":\"LIVE\"},\"rights\":{\"backingModel\":\"ONE_TO_ONE\",\"dividendTreatment\":\"DISTRIBUTED\",\"redemption\":\"DIRECT\",\"sourceStatus\":\"VERIFIED\"},\"mandate\":{\"mandateId\":\"public-smoke-mandate-1789733820459\",\"subject\":\"TSLA\",\"maxPositionUsd\":100,\"maxPremiumBps\":100,\"maxAttestationAgeSeconds\":3600,\"minimumExitLiquidityUsd\":10000,\"requiredRights\":[\"dividend\",\"redemption\",\"one-to-one-backing\"],\"allowedPlatforms\":[\"bstock\"],\"expiresAt\":1789737420}}",
         "terms": {
           "deliverables": "afterbell-watchtower-result/1 JSON with state, reasons, and evidence references",
           "quality_standards": "deterministic fail-closed policy; no autonomous financial transaction"
@@ -345,15 +346,71 @@
       "currency": "0xc70B8741B8B07A6d61E54fd4B20f22Fa648E5565",
       "chainId": 97,
       "verifyingContract": "0xa206c0517b6371c6638cd9e4a42cc9f02a33b0de",
-      "negotiationHash": "0x372ed26efadc5085bbd006bbdf72110a3bed51bc756588d844631c040775766a",
-      "responseHash": "0x1c9dd348a0125fe4042a98a7d86ee56be01696c01e7586f175a9c0c306208e33",
-      "providerSignature": "0xf286c8a0ba988075a7512e3300180eb36280ce9d28841dcb500c0e3c124cbb3348669ccd43aee550f66bed299eb8404801d7e8134f123bec9a0f49662a5940871c",
+      "negotiationHash": "0x0d3992a85ae74d499f02c9ff45c30a9ee7508bcea35e263a9ef1a0c2ef57e5ca",
+      "responseHash": "0x97f7ace96ca45f6c5c0002fed08e647a1fdb73a0fee829ca6f372d8488cb84be",
+      "providerSignature": "0xa81e56db1e1a1c3a3910739c6ea269c8c451e8cf35af23155097321e16a196a24dc0722c8576745a2c40f7082e047e3ba28f7cee5691672d38ff70665ab522c31c",
       "recoveredSigner": "0x83B2B8D09d822DAed95e94E10062b232A54fd123",
       "signatureVerified": true,
-      "quoteExpiresAt": 1789732696
+      "quoteExpiresAt": 1789734723
     },
-    "deploymentEvidenceRoot": "0xe2cacfe887355e5402e6cc64ab55acf4bcaffb1af3cbecc87013bcb3f481db9f",
-    "negotiationEvidenceRoot": "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed",
-    "truthNotice": "The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. Paid delivery and settlement remain separate, unclaimed steps."
+    "deploymentEvidenceRoot": "0x53f434283ad50f85cc560e496f9f9611e2f02aa9477ffeef44c92add0068e1df",
+    "negotiationEvidenceRoot": "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092",
+    "paidDelivery": {
+      "status": "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT",
+      "job": {
+        "id": 1254,
+        "statusCode": 2,
+        "status": "SUBMITTED",
+        "budgetRaw": "10000000000000000",
+        "budgetDisplay": "0.01 U",
+        "expiredAt": "2026-09-18T12:52:00.000Z",
+        "submittedAt": "2026-09-18T12:07:31.000Z",
+        "settlementEligibleAt": "2026-09-19T12:07:31.000Z",
+        "deliverableHash": "0x4cec715b3cc21db25d700f4cfbf97cb0f5a9baf998b031d57f6b3780cc942c60",
+        "deliverableUrl": "https://bnbagent-api.bnbchain.world/v1/deliverables/sha256/23c78693baea47fdcd1b8a9120943c564f70e6c988bccb1c5072d97951e7ea13.json"
+      },
+      "participants": {
+        "buyer": "0x2CB79d0eBcCd6D6846e458e748787C13c6e51Afa",
+        "provider": "0x83B2B8D09d822DAed95e94E10062b232A54fd123",
+        "separatedWallets": true
+      },
+      "deliverable": {
+        "contentType": "text/plain",
+        "state": "PROTECTED",
+        "reasons": [],
+        "checks": {
+          "mandateActive": true,
+          "subjectMatches": true,
+          "platformAllowed": true,
+          "positionWithinLimit": true,
+          "premiumWithinLimit": true,
+          "marketNotHalted": true,
+          "evidenceSufficient": true,
+          "attestationFresh": true,
+          "exitLiquiditySufficient": true,
+          "rightDividend": true,
+          "rightRedemption": true,
+          "rightOneToOne": true
+        },
+        "metrics": {
+          "premiumBps": 3,
+          "normalizedReferencePriceUsd": 367.6,
+          "exitLiquidityUsd": 50000,
+          "attestationAgeSeconds": 93
+        },
+        "decisionHash": "0x203966c21cf79a45240d98896916b155a8d23e723af43dbc09e61bea4bc4a00e",
+        "financialTransactionCreated": false,
+        "signingRequested": false,
+        "truthNotice": "Deterministic continuity inspection. The service does not possess the buyer wallet, sign a rescue, or broadcast a transaction."
+      },
+      "settlement": {
+        "completed": false,
+        "reason": "Canonical 24-hour dispute window has not elapsed.",
+        "earliestBuyerApproval": "2026-09-19T12:07:31.000Z"
+      },
+      "evidenceRoot": "0xa1d91d451f818a7f3004e063c8d27d79dadd98aa19ca13281a393f38ba631b67",
+      "truthNotice": "An independent buyer paid 0.01 U, the public Agent verified and fulfilled the job, and the seller submitted a content-addressed PROTECTED decision on-chain. Final buyer approval is time-gated by the canonical 24-hour dispute window and is not claimed yet."
+    },
+    "truthNotice": "The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. A separate independent buyer paid for Job 1254 and received an on-chain submission; final settlement remains time-gated and unclaimed."
   }
 }

@@ -2,18 +2,18 @@
   "schema": "afterbell-evidence/1",
   "artifactType": "BNB_AGENT_STUDIO_DEPLOYMENT",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T11:43:16.196Z",
+  "observedAt": "2026-09-18T12:17:03.706Z",
   "source": "Official bag CLI deployment status, verify, ERC-8004 registration, and authenticated public A2A smoke",
   "parentHashes": [
-    "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed"
+    "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092"
   ],
-  "payloadHash": "0x4e08e94502719d830aa367488f84ca74a9696226974b906a9fc6ec90057a595c",
+  "payloadHash": "0xab06b0f91a9c26ba1e653f5b1ab83ec90d7a4ca684ba981da511cd19a06a19a2",
   "payload": {
     "status": "DEPLOYED_TESTNET_TRIAL",
     "provider": "bnb",
     "slug": "afterbellwatchtower",
     "agentId": "01M2T4KMDTJCBQ25HAMPZ9JZ9D",
-    "deploymentId": "01M2T4KMDT387DD25BNN602NE5",
+    "deploymentId": "01M2T6J1RNRQVP9573A1GDJRNX",
     "runtimeState": "running (ready)",
     "trial": {
       "status": "active",
@@ -34,17 +34,18 @@
     "runtime": {
       "officialDeployVerify": "PASS",
       "publicOauthA2aNegotiate": "PASS",
-      "publicNegotiationEvidenceRoot": "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed",
+      "publicNegotiationEvidenceRoot": "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092",
       "erc8183Price": "0.01 U",
       "b402ConfiguredPrice": "0.01 USD",
       "x402State": "DORMANT_PENDING_B402_MERCHANT_CREDENTIALS"
     },
     "boundaries": {
-      "fundedErc8183JobCompleted": false,
+      "fundedErc8183JobSubmitted": true,
+      "fundedErc8183JobSettled": false,
       "b402SettlementCompleted": false,
       "financialTransactionCreatedByPublicSmoke": false,
-      "statement": "The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. Paid delivery and settlement remain separate, unclaimed steps."
+      "statement": "The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. A separate independent buyer paid for Job 1254 and received an on-chain submission; final settlement remains time-gated and unclaimed."
     }
   },
-  "evidenceRoot": "0xe2cacfe887355e5402e6cc64ab55acf4bcaffb1af3cbecc87013bcb3f481db9f"
+  "evidenceRoot": "0x53f434283ad50f85cc560e496f9f9611e2f02aa9477ffeef44c92add0068e1df"
 }

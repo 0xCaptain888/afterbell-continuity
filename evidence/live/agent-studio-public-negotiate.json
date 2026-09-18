@@ -2,17 +2,17 @@
   "schema": "afterbell-evidence/1",
   "artifactType": "BNB_AGENT_PUBLIC_NEGOTIATION",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T11:43:16.196Z",
+  "observedAt": "2026-09-18T12:17:03.706Z",
   "source": "BNB Agent Studio managed trial OAuth + public A2A message/send",
   "parentHashes": [],
-  "payloadHash": "0xf380d05dc8173ac66a51089e9637eda21ae2eefedd6caecad167e6a7a3969028",
+  "payloadHash": "0x25f7fe159fc6177e5e04d12f079d0d707f6ba7b50007989a7faa33fa7b6f5923",
   "payload": {
     "status": "PUBLIC_NEGOTIATION_VERIFIED",
     "deployment": {
       "provider": "bnb",
       "environment": "BSC Testnet managed 48-hour trial",
       "agentId": "01M2T4KMDTJCBQ25HAMPZ9JZ9D",
-      "deploymentId": "01M2T4KMDT387DD25BNN602NE5",
+      "deploymentId": "01M2T6J1RNRQVP9573A1GDJRNX",
       "agentWallet": "0x83B2B8D09d822DAed95e94E10062b232A54fd123",
       "erc8004AgentId": "2447",
       "runtimeState": "running (ready)",
@@ -29,7 +29,7 @@
     "negotiation": {
       "request": {
         "skill": "negotiate",
-        "task_description": "{\"schema\":\"afterbell-watched-position/1\",\"asset\":\"AAPLx\",\"venue\":\"BSC\",\"expectedSession\":\"US regular session\",\"action\":\"validate continuity protections before guarded execution\"}",
+        "task_description": "{\"positionId\":\"public-smoke-1789733820459\",\"wallet\":\"0x2CB79d0eBcCd6D6846e458e748787C13c6e51Afa\",\"amount\":0.027163579421480875,\"positionUsd\":10,\"snapshot\":{\"chainId\":56,\"tokenAddress\":\"0x5b1910eaad6450e50f816082aa078c41f10c292f\",\"symbol\":\"TSLAB\",\"underlying\":\"TSLA\",\"platform\":\"bstock\",\"tokenToShareRatio\":1,\"tokenPriceUsd\":367.7,\"underlyingPriceUsd\":367.6,\"observedAt\":\"2026-09-18T12:17:00.459Z\",\"marketStatus\":\"REGULAR\",\"attestationPublishedAt\":\"2026-09-18T12:16:00.459Z\",\"exitLiquidityUsd\":50000,\"mode\":\"LIVE\"},\"rights\":{\"backingModel\":\"ONE_TO_ONE\",\"dividendTreatment\":\"DISTRIBUTED\",\"redemption\":\"DIRECT\",\"sourceStatus\":\"VERIFIED\"},\"mandate\":{\"mandateId\":\"public-smoke-mandate-1789733820459\",\"subject\":\"TSLA\",\"maxPositionUsd\":100,\"maxPremiumBps\":100,\"maxAttestationAgeSeconds\":3600,\"minimumExitLiquidityUsd\":10000,\"requiredRights\":[\"dividend\",\"redemption\",\"one-to-one-backing\"],\"allowedPlatforms\":[\"bstock\"],\"expiresAt\":1789737420}}",
         "terms": {
           "deliverables": "afterbell-watchtower-result/1 JSON with state, reasons, and evidence references",
           "quality_standards": "deterministic fail-closed policy; no autonomous financial transaction"
@@ -41,19 +41,19 @@
       "currency": "0xc70B8741B8B07A6d61E54fd4B20f22Fa648E5565",
       "chainId": 97,
       "verifyingContract": "0xa206c0517b6371c6638cd9e4a42cc9f02a33b0de",
-      "negotiationHash": "0x372ed26efadc5085bbd006bbdf72110a3bed51bc756588d844631c040775766a",
-      "responseHash": "0x1c9dd348a0125fe4042a98a7d86ee56be01696c01e7586f175a9c0c306208e33",
-      "providerSignature": "0xf286c8a0ba988075a7512e3300180eb36280ce9d28841dcb500c0e3c124cbb3348669ccd43aee550f66bed299eb8404801d7e8134f123bec9a0f49662a5940871c",
+      "negotiationHash": "0x0d3992a85ae74d499f02c9ff45c30a9ee7508bcea35e263a9ef1a0c2ef57e5ca",
+      "responseHash": "0x97f7ace96ca45f6c5c0002fed08e647a1fdb73a0fee829ca6f372d8488cb84be",
+      "providerSignature": "0xa81e56db1e1a1c3a3910739c6ea269c8c451e8cf35af23155097321e16a196a24dc0722c8576745a2c40f7082e047e3ba28f7cee5691672d38ff70665ab522c31c",
       "recoveredSigner": "0x83B2B8D09d822DAed95e94E10062b232A54fd123",
       "signatureVerified": true,
-      "quoteExpiresAt": 1789732696
+      "quoteExpiresAt": 1789734723
     },
     "boundaries": {
       "financialTransactionCreated": false,
       "fundedJobCreated": false,
       "paidDeliveryCompleted": false,
-      "statement": "This proves authenticated public reachability and a wallet-signed deterministic quote. It does not claim an ERC-8183 funded job or settlement."
+      "statement": "This smoke proves authenticated public reachability and a wallet-signed deterministic quote. A separately published independent-buyer artifact proves the paid ERC-8183 delivery; this quote request itself created no job or settlement."
     }
   },
-  "evidenceRoot": "0x23ca9aea7e2ae32e3675f28e61b2212834fd98f553d7453ec855573726f4feed"
+  "evidenceRoot": "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092"
 }
