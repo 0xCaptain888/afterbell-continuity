@@ -22,6 +22,7 @@ AfterBell Continuity is the economic-equivalence, rights-continuity, and verifia
 - Public continuity artifacts: [`LIVE` EIP-712 Credential](./evidence/live/mainnet-credential.json) and [`CHALLENGED` Passport](./evidence/live/mainnet-passport.json)
 - Machine-readable readiness: [`TECHNICALLY_READY`](./evidence/submission-readiness.json)
 - Official BNB Agent Studio package: [`READY_TO_DEPLOY / UNPUBLISHED`](./evidence/agent-studio-package.json)
+- BNB operator readiness: [`READY_TO_DEPLOY / TRIAL AVAILABLE`](./evidence/bnb-agent-operator-readiness.json) — dedicated testnet wallet, platform login, preflight, and local signed A2A quote complete
 
 The current `v0.1.0` baseline combines clearly labelled `SIMULATED` / `ADVERSARIAL_TEST` scenarios, authenticated `LIVE` BNB Chain evidence, one user-confirmed BSC mainnet stock-token swap, three source-verified mainnet contracts, and a Registry-bound Credential. It does **not** claim Agentic Wallet custody, Agent Studio deployment, or automated rescue settlement. The historical zero-address Credential remains preserved beside its active Registry-bound successor.
 
@@ -101,7 +102,7 @@ observe the position
 | Swap calldata build | `LIVE` | TSLAB route, LiquidMesh |
 | Transaction API simulation | `LIVE_PASS` | exact 10 USDT allowance; simulation spends 10 USDT, receives TSLAB, and reduces allowance to zero |
 | Funded OKX Wallet authorization | `LIVE` | connected, first anomalous approval revoked, exact 10 USDT allowance independently re-read on-chain |
-| BNB Agent Studio Watchtower | `READY_TO_DEPLOY / UNPUBLISHED` | deterministic `PROTECTED / WATCH / RESCUE_REQUIRED / BLOCKED`; throwaway testnet wallet, platform login, and deployment receipt still required |
+| BNB Agent Studio Watchtower | `READY_TO_DEPLOY / UNPUBLISHED` | throwaway wallet `0x83B2…d123`, platform authenticated, official preflight passed, local signed `0.01 U` quote passed; funding and deployment receipt remain |
 | BSC mainnet contracts | `MAINNET_DEPLOYED_VERIFIED` | Registry `0xCb1587…C823A`, Vault `0x8f996A…CE1bD`, Bond `0x52B6FF…12029` |
 | BSC mainnet stock trade | `LIVE_SUCCESS` | 10 USDT → 0.027163579421480873 TSLAB; calldata, receipt, slippage, Gas, and zero post-swap allowance independently verified |
 | Live continuity credential | `LIVE / WATCH / REGISTRY_BOUND` | Issuer-signed Credential binds the deployed Registry and deployment evidence root; historical zero-address artifact preserved |

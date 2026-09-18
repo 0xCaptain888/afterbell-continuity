@@ -27,7 +27,8 @@
 - [x] Registry-bound Credential reissuance and public evidence refresh
 - [ ] Agent Studio Watchtower deployment receipt
 - [x] Official BNB Agent Studio A2A/X402 workspace, deterministic delivery, fixed pricing, tests, build, and ZIP bundle dry-run
-- [ ] Dedicated throwaway BSC Testnet wallet, platform login, and 48-hour managed-trial deployment
+- [x] Dedicated throwaway BSC Testnet wallet, platform login, official preflight, and local signed A2A quote
+- [ ] Fund the throwaway wallet and execute the 48-hour managed-trial deployment
 - [x] Public demo
 - [ ] Four-minute demo video
 - [x] Machine-verifiable submission-readiness report

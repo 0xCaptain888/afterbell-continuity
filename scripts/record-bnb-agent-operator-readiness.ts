@@ -1,0 +1,70 @@
+import { mkdir, writeFile } from "node:fs/promises";
+import { createEvidenceArtifact } from "../src/evidence.js";
+
+const artifact = createEvidenceArtifact({
+  artifactType: "BNB_AGENT_OPERATOR_READINESS",
+  mode: "LIVE",
+  observedAt: "2026-09-18T11:11:01.000Z",
+  source: "Official bag CLI platform, wallet, preflight, Agent Card, and signed negotiation smoke",
+  payload: {
+    status: "READY_TO_DEPLOY",
+    platform: {
+      provider: "bnb",
+      account: "0xCaptain888",
+      authenticated: true,
+      trialStatus: "available",
+      trialClockStarted: false,
+      deployedAgents: 0
+    },
+    wallet: {
+      purpose: "throwaway BSC Testnet trial signer",
+      address: "0x83B2B8D09d822DAed95e94E10062b232A54fd123",
+      network: "bsc-testnet",
+      chainId: 97,
+      encryptedKeystore: true,
+      gitIgnored: true,
+      balanceAtObservation: { tBNB: "0", U: "0" }
+    },
+    preflight: {
+      readyToDeploy: true,
+      critical: 0,
+      warnings: 4,
+      zipBundleDryRun: "PASS"
+    },
+    localSignedSmoke: {
+      status: "PASS",
+      agentCard: "http://127.0.0.1:9000/.well-known/agent-card.json",
+      protocols: ["A2A", "X402"],
+      x402State: "DORMANT_PENDING_B402_CREDENTIALS",
+      negotiationAccepted: true,
+      priceRaw: "10000000000000000",
+      priceDisplay: "0.01 U",
+      currency: "0xc70B8741B8B07A6d61E54fd4B20f22Fa648E5565",
+      requestHash: "0x24ec6c440b28f5da655a6ed7119b35e42b125c8db330b477063897dc041b6a91",
+      responseHash: "0x4bf86172dd32a313da91f566ca2b1b82e5bb88c3bb72c04cf2ca26fd309bfe86",
+      negotiationHash: "0x40112e2fac8fb415b6f188e46c9156c2d436be524d78089e0856468f3090f999",
+      providerSignature: "0x5e39303c9d98c6bbb2fe9c5ccf40039ced126d5f5e5a93904880502e6b162e9d7a05fa31e8e5f3b309b185cf8c304145079051c3a6f57493ec86d4dc26513f841c",
+      verifyingContract: "0xa206c0517b6371c6638cd9e4a42cc9f02a33b0de",
+      financialTransactionCreated: false
+    },
+    remainingBeforeFirstDeployment: [
+      "Fund the throwaway wallet with at least 0.05 tBNB for registration and seller delivery gas.",
+      "Fund a buyer wallet with testnet U for a paid ERC-8183 end-to-end invocation.",
+      "Configure wallet-specific B402 merchant credentials only if the paid X402 face is required.",
+      "Start the 48-hour trial only when deployment verification and recording can begin immediately."
+    ],
+    truthNotice: "This proves local wallet creation, platform authentication, a passing official deployment preflight, and a real local EIP-191 quote signature. It does not claim a managed-platform deployment, ERC-8004 registration, funded ERC-8183 job, B402 settlement, or financial transaction."
+  }
+});
+
+await mkdir("evidence", { recursive: true });
+await writeFile("evidence/bnb-agent-operator-readiness.json", `${JSON.stringify(artifact, null, 2)}\n`);
+console.log(JSON.stringify({
+  status: artifact.payload.status,
+  trialStatus: artifact.payload.platform.trialStatus,
+  trialClockStarted: artifact.payload.platform.trialClockStarted,
+  wallet: artifact.payload.wallet.address,
+  localSignedSmoke: artifact.payload.localSignedSmoke.status,
+  evidenceRoot: artifact.evidenceRoot,
+  output: "evidence/bnb-agent-operator-readiness.json"
+}, null, 2));

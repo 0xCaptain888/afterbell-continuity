@@ -17,6 +17,7 @@ const officialAgentSource = await readFile("bnb-agent/app/agent/src/afterbell.ts
 const officialEntrypoint = await readFile("bnb-agent/app/agent/src/unifiedMain.ts", "utf8");
 const officialAgentTest = await readFile("bnb-agent/app/agent/test/afterbell.test.ts", "utf8");
 const officialAgentPackage = JSON.parse(await readFile("bnb-agent/app/agent/package.json", "utf8")) as Json;
+const operatorReadiness = JSON.parse(await readFile("evidence/bnb-agent-operator-readiness.json", "utf8")) as Json;
 const http = manifest.http as Json;
 const billing = manifest.billing as Json;
 
@@ -39,6 +40,16 @@ assert(officialAgentSource.includes("inspectAfterBellPosition"), "deterministic_
 assert(officialEntrypoint.includes("inspectAfterBellPosition(prompt)"), "official_runtime_not_wired_to_watchtower");
 assert(!officialEntrypoint.includes("generateText("), "official_runtime_delivery_must_not_use_llm");
 assert(officialAgentTest.includes('result.state, "PROTECTED"') && officialAgentTest.includes('result.state, "BLOCKED"'), "official_agent_state_tests_missing");
+const rebuiltOperatorReadiness = createEvidenceArtifact({
+  artifactType: String(operatorReadiness.artifactType),
+  mode: "LIVE",
+  observedAt: String(operatorReadiness.observedAt),
+  source: String(operatorReadiness.source),
+  payload: operatorReadiness.payload
+});
+assert(rebuiltOperatorReadiness.payloadHash === operatorReadiness.payloadHash && rebuiltOperatorReadiness.evidenceRoot === operatorReadiness.evidenceRoot, "operator_readiness_evidence_root_mismatch");
+assert((operatorReadiness.payload as Json).status === "READY_TO_DEPLOY", "operator_preflight_not_ready");
+assert(((operatorReadiness.payload as Json).platform as Json).trialClockStarted === false, "trial_must_remain_unstarted_before_deploy");
 
 const basePosition: WatchedPosition = {
   positionId: "agent-studio-nvda-1",
@@ -88,6 +99,7 @@ const artifact = createEvidenceArtifact({
   mode: "DESIGN",
   observedAt: "2026-09-18T09:20:00.000Z",
   source: "AfterBell deterministic package audit",
+  parentHashes: [String(operatorReadiness.evidenceRoot) as `0x${string}`],
   payload: {
     status: "READY_TO_DEPLOY",
     deploymentStatus: "UNPUBLISHED",
@@ -119,10 +131,11 @@ const artifact = createEvidenceArtifact({
       tests: "5/5 PASS",
       build: "PASS",
       zipBundleDryRun: "PASS",
-      deploymentReadiness: "PREFLIGHT_BLOCKED_OPERATOR_SETUP",
+      deploymentReadiness: "READY_TO_DEPLOY",
+      operatorReadinessEvidence: operatorReadiness.evidenceRoot,
       externalBlockers: [
-        "Create a new throwaway BSC Testnet wallet and set its ignored WALLET_PASSWORD.",
-        "Authenticate to the BNB managed trial platform.",
+        "Fund the throwaway BSC Testnet wallet for registration and seller delivery gas.",
+        "Fund a buyer wallet with testnet U for the paid ERC-8183 end-to-end smoke.",
         "Apply for wallet-specific B402 merchant credentials if the paid X402 face is required.",
         "Start the 48-hour trial only when the submission recording window is ready."
       ]
@@ -135,14 +148,14 @@ const artifact = createEvidenceArtifact({
       expectedTransitions: ["PROTECTED", "RESCUE_REQUIRED"]
     },
     publicationChecklist: [
-      "Create a dedicated throwaway BSC Testnet wallet; never reuse a mainnet key.",
-      "Complete `bag platform login` and inspect trial credit.",
+      "Fund the dedicated throwaway BSC Testnet wallet; never reuse a mainnet key.",
+      "Confirm the recorded platform session still reports trial available.",
       "Run `bag deploy prepare --provider bnb --backend aws` without bypassing safety checks.",
       "Deploy the official A2A/X402 seller runtime when the 48-hour recording window is ready.",
       "Capture platform service ID, URL, ERC-8004 identity, Agent Card, timestamps, and paid invocation receipts.",
       "Only then change deploymentStatus from UNPUBLISHED."
     ],
-    truthNotice: "The official BNB Agent Studio A2A/X402 workspace, deterministic inspection, fixed pricing, tests, TypeScript build, and ZIP bundle are verified. No managed-platform deployment, ERC-8004 identity, paid invocation, wallet creation, or trial activation is claimed."
+    truthNotice: "The official BNB Agent Studio A2A/X402 workspace, deterministic inspection, fixed pricing, tests, TypeScript build, ZIP bundle, dedicated testnet wallet, platform authentication, preflight, and local signed quote are verified. No managed-platform deployment, ERC-8004 identity, funded invocation, B402 settlement, or trial activation is claimed."
   }
 });
 
@@ -151,7 +164,7 @@ await writeFile("evidence/agent-studio-package.json", `${JSON.stringify(artifact
 console.log(JSON.stringify({
   status: "AGENT_STUDIO_READY_TO_DEPLOY",
   deploymentStatus: "UNPUBLISHED",
-  price: "0.01 USDT per inspection",
+  price: "0.01 U via ERC-8183; 0.01 USD via B402",
   transitions: ["PROTECTED", "WATCH", "RESCUE_REQUIRED", "BLOCKED"],
   evidenceRoot: artifact.evidenceRoot,
   output: "evidence/agent-studio-package.json"

@@ -4,8 +4,10 @@
   "mode": "DESIGN",
   "observedAt": "2026-09-18T09:20:00.000Z",
   "source": "AfterBell deterministic package audit",
-  "parentHashes": [],
-  "payloadHash": "0x36b4cce82eae8a228bee99d1a5ca2a45fba38de4ba7212fad543d9d583476387",
+  "parentHashes": [
+    "0xd366cbe4190dd0e3915da0535be9d44528cf6a8dc3150970ab1461ff22d7c0ae"
+  ],
+  "payloadHash": "0x38ab549fe76164f9e207bdf0d752bbe598e842075cce5cda09422392e49c9797",
   "payload": {
     "status": "READY_TO_DEPLOY",
     "deploymentStatus": "UNPUBLISHED",
@@ -52,10 +54,11 @@
       "tests": "5/5 PASS",
       "build": "PASS",
       "zipBundleDryRun": "PASS",
-      "deploymentReadiness": "PREFLIGHT_BLOCKED_OPERATOR_SETUP",
+      "deploymentReadiness": "READY_TO_DEPLOY",
+      "operatorReadinessEvidence": "0xd366cbe4190dd0e3915da0535be9d44528cf6a8dc3150970ab1461ff22d7c0ae",
       "externalBlockers": [
-        "Create a new throwaway BSC Testnet wallet and set its ignored WALLET_PASSWORD.",
-        "Authenticate to the BNB managed trial platform.",
+        "Fund the throwaway BSC Testnet wallet for registration and seller delivery gas.",
+        "Fund a buyer wallet with testnet U for the paid ERC-8183 end-to-end smoke.",
         "Apply for wallet-specific B402 merchant credentials if the paid X402 face is required.",
         "Start the 48-hour trial only when the submission recording window is ready."
       ]
@@ -71,14 +74,14 @@
       ]
     },
     "publicationChecklist": [
-      "Create a dedicated throwaway BSC Testnet wallet; never reuse a mainnet key.",
-      "Complete `bag platform login` and inspect trial credit.",
+      "Fund the dedicated throwaway BSC Testnet wallet; never reuse a mainnet key.",
+      "Confirm the recorded platform session still reports trial available.",
       "Run `bag deploy prepare --provider bnb --backend aws` without bypassing safety checks.",
       "Deploy the official A2A/X402 seller runtime when the 48-hour recording window is ready.",
       "Capture platform service ID, URL, ERC-8004 identity, Agent Card, timestamps, and paid invocation receipts.",
       "Only then change deploymentStatus from UNPUBLISHED."
     ],
-    "truthNotice": "The official BNB Agent Studio A2A/X402 workspace, deterministic inspection, fixed pricing, tests, TypeScript build, and ZIP bundle are verified. No managed-platform deployment, ERC-8004 identity, paid invocation, wallet creation, or trial activation is claimed."
+    "truthNotice": "The official BNB Agent Studio A2A/X402 workspace, deterministic inspection, fixed pricing, tests, TypeScript build, ZIP bundle, dedicated testnet wallet, platform authentication, preflight, and local signed quote are verified. No managed-platform deployment, ERC-8004 identity, funded invocation, B402 settlement, or trial activation is claimed."
   },
-  "evidenceRoot": "0xd436bd15132d502a963762bf0d3eb5683500719062edc4ba23b404cdf1dd1626"
+  "evidenceRoot": "0x20e4e955ddd40afb78623c449b05f54a6d032925e7bb5bc4b4bb4b397b5d5c4b"
 }

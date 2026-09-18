@@ -53,6 +53,7 @@ const officialAgentPackage = await readJson("bnb-agent/app/agent/package.json");
 const officialStudioToml = await readFile("bnb-agent/app/agent/studio.toml", "utf8");
 const officialAgentSource = await readFile("bnb-agent/app/agent/src/afterbell.ts", "utf8");
 const officialAgentTests = await readFile("bnb-agent/app/agent/test/afterbell.test.ts", "utf8");
+const operatorReadiness = await readJson("evidence/bnb-agent-operator-readiness.json");
 
 const contracts = records(deployment.contracts);
 const sourceVerification = deployment.sourceVerification as Json;
@@ -122,6 +123,16 @@ assert(officialStudioToml.includes('default = "bsc-testnet"'), "official_agent_n
 assert(!officialStudioToml.includes("[llm]"), "official_agent_llm_boundary_invalid");
 assert(officialAgentSource.includes("financialTransactionCreated: false") && officialAgentSource.includes("signingRequested: false"), "official_agent_safety_boundary_missing");
 assert(officialAgentTests.includes('result.state, "PROTECTED"') && officialAgentTests.includes('result.state, "BLOCKED"'), "official_agent_tests_missing");
+const rebuiltOperatorReadiness = createEvidenceArtifact({
+  artifactType: String(operatorReadiness.artifactType),
+  mode: "LIVE",
+  observedAt: String(operatorReadiness.observedAt),
+  source: String(operatorReadiness.source),
+  payload: operatorReadiness.payload
+});
+assert(rebuiltOperatorReadiness.payloadHash === operatorReadiness.payloadHash && rebuiltOperatorReadiness.evidenceRoot === operatorReadiness.evidenceRoot, "operator_readiness_evidence_root_mismatch");
+assert((operatorReadiness.payload as Json).status === "READY_TO_DEPLOY", "operator_readiness_not_ready");
+assert(((operatorReadiness.payload as Json).platform as Json).trialClockStarted === false, "trial_truth_label_invalid");
 await readJson("agent-studio/examples/protected-request.json");
 await readJson("agent-studio/examples/protected-response.json");
 await readJson("agent-studio/examples/rescue-request.json");

@@ -11,7 +11,7 @@
     "0xaf8752255c975da3968c32b92bd31258d845d7a8bc33a46130c6e0cd195aa9e4",
     "0x64c8341184b3fffc6145227092f37875b74b3f889f484693dc035a9d0f2fe810"
   ],
-  "payloadHash": "0x5870c38c056cf84427d3a09e1e7d5213d853a3f211c28b5ecdeb378899f2816b",
+  "payloadHash": "0xf798ae9b80072f0e38359c0f5a1c8b5c2adf6dee1ba8f7a5d0bbc52cd2280b40",
   "payload": {
     "status": "TECHNICALLY_READY",
     "checks": [
@@ -66,7 +66,7 @@
       {
         "id": "agent-service-package",
         "result": "PASS",
-        "evidence": "0xd436bd15132d502a963762bf0d3eb5683500719062edc4ba23b404cdf1dd1626",
+        "evidence": "0x20e4e955ddd40afb78623c449b05f54a6d032925e7bb5bc4b4bb4b397b5d5c4b",
         "detail": "The official BNB Agent Studio A2A/X402 workspace, fixed 0.01 pricing, deterministic inspection, and truthful UNPUBLISHED label are ready for deployment."
       },
       {
@@ -102,5 +102,5 @@
     ],
     "truthNotice": "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, and independent consumer. It does not claim an Agent Studio deployment receipt or a completed submission video."
   },
-  "evidenceRoot": "0xe7f74641517cd4d354625633ad7e4c70c8026778488d5a4831474acaa27a09f4"
+  "evidenceRoot": "0xa21ff2d1a2c7ee277384422073a1ab0c828a84b79fd4869c7cee47d6e6ad4b6c"
 }
