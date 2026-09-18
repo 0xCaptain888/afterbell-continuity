@@ -1,5 +1,9 @@
 # AfterBell Continuity
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Open-8fffc1?style=for-the-badge)](https://0xcaptain888.github.io/afterbell-continuity/)
+[![CI](https://github.com/0xCaptain888/afterbell-continuity/actions/workflows/ci.yml/badge.svg)](https://github.com/0xCaptain888/afterbell-continuity/actions/workflows/ci.yml)
+[![Pages](https://github.com/0xCaptain888/afterbell-continuity/actions/workflows/pages.yml/badge.svg)](https://github.com/0xCaptain888/afterbell-continuity/actions/workflows/pages.yml)
+
 > **Own the exposure. Preserve the rights. Verify every rescue.**
 
 AfterBell Continuity is the economic-equivalence, rights-continuity, and verifiable-rescue layer for tokenized stocks on BNB Chain.
@@ -9,7 +13,7 @@ AfterBell Continuity is the economic-equivalence, rights-continuity, and verifia
 - Local control center: `npm run dev` → `http://127.0.0.1:4173`
 - One-click evidence run: `npm run judge`
 - Full verification: `npm run check`
-- Public demo: **not deployed yet**
+- Public demo: **https://0xcaptain888.github.io/afterbell-continuity/**
 - BSC mainnet evidence: **not created yet**
 
 The current `v0.1.0` baseline combines clearly labelled `SIMULATED` / `ADVERSARIAL_TEST` scenarios with authenticated `LIVE` read-only BNB Chain evidence. It does **not** claim a signed stock trade, Agentic Wallet authorization, Agent Studio deployment, or BSC mainnet settlement.

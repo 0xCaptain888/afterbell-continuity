@@ -37,11 +37,12 @@
     "quote:discover": "NODE_USE_ENV_PROXY=1 node --env-file-if-exists=.env --import tsx scripts/quote-discovery.ts",
     "equivalence:live": "node --import tsx scripts/build-live-equivalence.ts",
     "site:evidence": "node --import tsx scripts/publish-live-evidence.ts",
+    "public:verify": "node --import tsx scripts/verify-public-artifacts.ts",
     "trade:gate": "NODE_USE_ENV_PROXY=1 node --env-file-if-exists=.env --import tsx scripts/quote-simulate-gate.ts",
     "contracts:compile": "node --import tsx scripts/compile-contracts.ts",
     "contracts:plan": "npm run contracts:compile && node --import tsx scripts/deployment-plan.ts",
     "contracts:deploy:bsc": "npm run contracts:compile && node --env-file-if-exists=.env --import tsx scripts/deploy-contracts.ts",
-    "check": "npm run typecheck && npm test && npm run contracts:compile && npm run judge && npm run benchmark && npm run watchtower:demo",
+    "check": "npm run typecheck && npm test && npm run contracts:compile && npm run judge && npm run benchmark && npm run watchtower:demo && npm run public:verify",
     "security:audit": "npm audit --omit=dev --audit-level=high"
   },
   "dependencies": {
