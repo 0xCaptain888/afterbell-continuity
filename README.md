@@ -1,6 +1,7 @@
 # AfterBell Continuity
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-Open-8fffc1?style=for-the-badge)](https://0xcaptain888.github.io/afterbell-continuity/)
+[![Demo Video](https://img.shields.io/badge/Demo_Video-Watch_on_YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/dDzOB1M77Ak)
 [![Public API](https://img.shields.io/badge/Public_API-Live-f4c86b?style=for-the-badge)](https://afterbell-continuity-api.vercel.app/api/health)
 [![Edge Verifier](https://img.shields.io/badge/Edge_Verifier-4%2F4_PASS-f6821f?style=for-the-badge)](https://afterbell-public-verifier.fluoridated-rhinoceros.workers.dev/verify)
 [![CI](https://github.com/0xCaptain888/afterbell-continuity/actions/workflows/ci.yml/badge.svg)](https://github.com/0xCaptain888/afterbell-continuity/actions/workflows/ci.yml)
@@ -12,6 +13,7 @@ AfterBell Continuity is the economic-equivalence, rights-continuity, and verifia
 
 ## Demo
 
+- Four-minute demo video: **https://youtu.be/dDzOB1M77Ak**
 - Local control center: `npm run dev` → `http://127.0.0.1:4173`
 - One-click evidence run: `npm run judge`
 - Full verification: `npm run check`

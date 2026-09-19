@@ -34,7 +34,7 @@
 - [x] Approve Job `1265` after the canonical 900-second dispute window
 - [ ] Activate paid x402 only after official B402 merchant credentials are available
 - [x] Public demo
-- [ ] Four-minute demo video
+- [x] Four-minute demo video — https://youtu.be/dDzOB1M77Ak
 - [x] Machine-verifiable submission-readiness report
 - [x] Validated Agent Studio package, pricing, portable invocation fixtures, and official runtime scaffold
 

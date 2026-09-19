@@ -14,7 +14,7 @@
     "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092",
     "0x77bbdee3c3bf68544db7911bf35e53d7fbbaa03226886d7fadf29b357b377628"
   ],
-  "payloadHash": "0x24c185ca32a7bd709d90177846d79d3297be91eb8001bc7f0a28a3f9e17c200b",
+  "payloadHash": "0x1f8b4b37fff26f1ac2d44047030bfe0fbcb8870ff55936a1e82da7331543f3b0",
   "payload": {
     "status": "TECHNICALLY_READY",
     "checks": [
@@ -111,11 +111,12 @@
       },
       {
         "id": "four-minute-demo-video",
-        "status": "NOT_RECORDED",
+        "status": "PUBLISHED",
+        "url": "https://youtu.be/dDzOB1M77Ak",
         "blockingCoreVerification": false
       }
     ],
-    "truthNotice": "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, independent consumer, managed Agent Studio trial, authenticated signed public quote, and a completed independent-buyer ERC-8183 delivery. It does not claim B402 settlement or a completed submission video."
+    "truthNotice": "TECHNICALLY_READY covers the reproducible repository, public demo, published four-minute demo video, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, independent consumer, managed Agent Studio trial, authenticated signed public quote, and a completed independent-buyer ERC-8183 delivery. It does not claim B402 settlement."
   },
-  "evidenceRoot": "0xc8282b21e2258166898e92b9efd19531d1c850c04002df53a78ed9c8b5901c05"
+  "evidenceRoot": "0x7606d0d5f353838eb5834e2ca7decd4b8ad437dfb2ee8f054f5c0fbff8f55919"
 }

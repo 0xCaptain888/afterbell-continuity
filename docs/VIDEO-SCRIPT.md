@@ -1,5 +1,7 @@
 # Four-minute demo script
 
+Published demo: **https://youtu.be/dDzOB1M77Ak**
+
 Target length: **3:45–3:55**. Record at 1440p or 1080p, browser zoom 100%, notifications disabled. Use a calm human voice and pause after every proof claim.
 
 ## 0:00–0:20 — The problem

@@ -234,11 +234,11 @@ const artifact = createEvidenceArtifact({
     remainingExternalItems: [
       ...(paidDeliverySettled ? [] : [{ id: "erc8183-buyer-settlement", status: "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT", settlementEligibleAt: String(paidDeliveryJob.settlementEligibleAt), blockingCoreVerification: false }]),
       { id: "b402-settlement", status: "DORMANT_PENDING_MERCHANT_CREDENTIALS", blockingCoreVerification: false },
-      { id: "four-minute-demo-video", status: "NOT_RECORDED", blockingCoreVerification: false }
+      { id: "four-minute-demo-video", status: "PUBLISHED", url: "https://youtu.be/dDzOB1M77Ak", blockingCoreVerification: false }
     ],
     truthNotice: paidDeliverySettled
-      ? "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, independent consumer, managed Agent Studio trial, authenticated signed public quote, and a completed independent-buyer ERC-8183 delivery. It does not claim B402 settlement or a completed submission video."
-      : "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, independent consumer, managed Agent Studio trial, authenticated signed public quote, and a real independent-buyer ERC-8183 delivery submitted on-chain. It does not claim final buyer settlement, B402 settlement, or a completed submission video."
+      ? "TECHNICALLY_READY covers the reproducible repository, public demo, published four-minute demo video, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, independent consumer, managed Agent Studio trial, authenticated signed public quote, and a completed independent-buyer ERC-8183 delivery. It does not claim B402 settlement."
+      : "TECHNICALLY_READY covers the reproducible repository, public demo, published four-minute demo video, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, independent consumer, managed Agent Studio trial, authenticated signed public quote, and a real independent-buyer ERC-8183 delivery submitted on-chain. It does not claim final buyer settlement or B402 settlement."
   }
 });
 
