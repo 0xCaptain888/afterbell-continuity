@@ -2,6 +2,7 @@
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-Open-8fffc1?style=for-the-badge)](https://0xcaptain888.github.io/afterbell-continuity/)
 [![Public API](https://img.shields.io/badge/Public_API-Live-f4c86b?style=for-the-badge)](https://afterbell-continuity-api.vercel.app/api/health)
+[![Edge Verifier](https://img.shields.io/badge/Edge_Verifier-4%2F4_PASS-f6821f?style=for-the-badge)](https://afterbell-public-verifier.fluoridated-rhinoceros.workers.dev/verify)
 [![CI](https://github.com/0xCaptain888/afterbell-continuity/actions/workflows/ci.yml/badge.svg)](https://github.com/0xCaptain888/afterbell-continuity/actions/workflows/ci.yml)
 [![Pages](https://github.com/0xCaptain888/afterbell-continuity/actions/workflows/pages.yml/badge.svg)](https://github.com/0xCaptain888/afterbell-continuity/actions/workflows/pages.yml)
 
@@ -18,6 +19,7 @@ AfterBell Continuity is the economic-equivalence, rights-continuity, and verifia
 - Public demo: **https://0xcaptain888.github.io/afterbell-continuity/**
 - Public non-custodial API: **https://afterbell-continuity-api.vercel.app/api/health**
 - Public Judge Run: **https://afterbell-continuity-api.vercel.app/api/v1/demo/judge**
+- Independent edge verifier: **https://afterbell-public-verifier.fluoridated-rhinoceros.workers.dev/verify**
 - Browser verifier: open **Live proof → Verify evidence roots** to recompute nine canonical SHA-256 commitments without a wallet
 - BSC mainnet evidence: [verified 10 USDT → TSLAB transaction](https://bscscan.com/tx/0xb4f2bd0cd1383ec16ca72d61fe353ed81eb8f2843f038f5e11bf7ecd22ef431c)
 - Source-verified contracts: [Registry](https://bscscan.com/address/0xCb158746e0855ECeC2703CE20EC3aA780c0C823A#code) · [Guarded Vault](https://bscscan.com/address/0x8f996AFcb61eaa3FCc6BCe21B691240e6eACE1bD#code) · [Bond Escrow](https://bscscan.com/address/0x52B6FF2243c3366E14aC13C6490A48580dE12029#code)
@@ -105,7 +107,7 @@ observe the position
 | TypeScript SDK | `IMPLEMENTED` | package dry build and SDK tests |
 | Persistent Watchtower tasks | `IMPLEMENTED` | JSONL journal and local API smoke test |
 | Public serverless Agent API | `LIVE / READ_ONLY` | [Vercel health](https://afterbell-continuity-api.vercel.app/api/health) and [public Judge Run](https://afterbell-continuity-api.vercel.app/api/v1/demo/judge); no secrets, signing, persistence, or broadcasts |
-| Independent edge verifier | `DEPLOYMENT_READY` | Cloudflare Worker passes all four local public-artifact checks; account OAuth is the only deployment dependency |
+| Independent edge verifier | `LIVE / READ_ONLY / 4 OF 4 PASS` | [Cloudflare Worker verification](https://afterbell-public-verifier.fluoridated-rhinoceros.workers.dev/verify) independently fetches GitHub Pages evidence, recomputes transport digests, and fails closed |
 | BNB Agent Studio service package | `DEPLOYED_TESTNET_TRIAL / RUNNING_READY` | official `bag` scaffold, A2A/X402, ERC-8183/B402, fixed 0.01 pricing, 8/8 deterministic tests, public OAuth quote |
 | Binance RWA inventory | `LIVE` | 488 parsed assets, 40 cross-wrapper pairs |
 | Underlying + market profiles | `LIVE` | 4/4 TSLA/NVDA wrapper profiles |

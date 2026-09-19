@@ -36,6 +36,8 @@ npx --yes vercel@latest deploy --prod --yes \
 
 The Worker lives in `cloudflare-worker/` and exposes:
 
+- Production URL: `https://afterbell-public-verifier.fluoridated-rhinoceros.workers.dev`
+
 - `GET /health`
 - `GET /verify`
 - `GET /verify/live-evidence`
@@ -45,13 +47,16 @@ The Worker lives in `cloudflare-worker/` and exposes:
 
 It fetches the GitHub Pages artifacts independently, calculates a raw transport SHA-256 digest, and applies explicit semantic checks. It does not replace AfterBell's canonical evidence-root schema and says so in every response.
 
-Deploy after Cloudflare OAuth:
+The production Worker was claimed into the project owner's Cloudflare account through Cloudflare's temporary-preview handoff. No broad account OAuth grant or Cloudflare API token was supplied to the deployment operator. Public verification on September 19, 2026 returned `PASS` for all four critical artifacts.
+
+Deploy without granting broad account OAuth permissions:
 
 ```bash
 cd cloudflare-worker
-npx --yes wrangler@latest login
-npx --yes wrangler@latest deploy
+npx --yes wrangler@latest deploy --temporary
 ```
+
+Wrangler returns a temporary Worker URL and a claim link. Open the claim link within 60 minutes and move the Worker into the project owner's Cloudflare account. For later automated updates, create a narrowly scoped token for this Worker instead of granting Wrangler unrelated KV, D1, AI, email, certificate, or account-wide permissions.
 
 ## Availability and truth boundaries
 
