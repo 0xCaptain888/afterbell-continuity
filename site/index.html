@@ -96,7 +96,7 @@
         <article><span class="ready-dot waiting" id="executionDot"></span><div><b>BSC mainnet execution</b><small id="executionStatus">Loading public evidence…</small></div></article>
         <article><span class="ready-dot waiting" id="deploymentDot"></span><div><b>Source-verified BSC contracts</b><small id="deploymentStatus">Loading public evidence…</small></div></article>
         <article><span class="ready-dot waiting" id="passportDot"></span><div><b>Passport + EIP-712 credential</b><small id="passportStatus">Loading public evidence…</small></div></article>
-        <article><span class="ready-dot live"></span><div><b>BNB Agent Studio Watchtower</b><small><a id="agentReadinessStatus" href="./evidence/agent-studio-paid-delivery.json" target="_blank" rel="noreferrer">PAID JOB 1254 · loading chain state ↗</a></small></div></article>
+        <article><span class="ready-dot live"></span><div><b>BNB Agent Studio Watchtower</b><small><a id="agentReadinessStatus" href="./evidence/agent-studio-paid-delivery.json" target="_blank" rel="noreferrer">PAID JOB 1265 · COMPLETED · settlement verified ↗</a></small></div></article>
         <article><span class="ready-dot live"></span><div><b>Submission readiness</b><small><a href="./evidence/submission-readiness.json" target="_blank" rel="noreferrer">TECHNICALLY READY · 14/14 checks ↗</a></small></div></article>
       </div>
     </section>
@@ -127,7 +127,7 @@
           <div class="complete"><i>2</i><span>0.01 U funded</span></div><b></b>
           <div class="complete"><i>3</i><span>Agent verified</span></div><b></b>
           <div class="complete"><i>4</i><span>Result submitted</span></div><b></b>
-          <div class="pending" id="agentApprovalStep"><i>5</i><span>Buyer approves</span></div>
+          <div class="complete" id="agentApprovalStep"><i>5</i><span>Buyer approved</span></div>
         </div>
         <div class="commerce-actions">
           <a id="agentSubmitTxLink" href="#" target="_blank" rel="noreferrer">Open submit transaction ↗</a>
@@ -135,7 +135,7 @@
           <a id="agentDeliverableLink" href="#" target="_blank" rel="noreferrer">Open content-addressed result ↗</a>
           <a href="./evidence/agent-studio-paid-delivery.json" target="_blank" rel="noreferrer">Open full evidence artifact ↗</a>
         </div>
-        <p class="commerce-truth">No rescue transaction was signed or broadcast by the Watchtower. Final payment release remains under buyer authority and the canonical dispute-window rules.</p>
+        <p class="commerce-truth">Buyer approval released payment only after the canonical dispute window. No rescue transaction was signed or broadcast by the Watchtower, and no B402 payment is claimed.</p>
       </div>
     </section>
 
@@ -219,7 +219,7 @@
         <span class="run-state" id="runState">Waiting</span>
       </div>
       <div class="stage-list" id="stageList"></div>
-      <p class="run-note">The Judge Run itself is reproducible and simulated. Separate LIVE artifacts prove authenticated inventory, TSLA/NVDA quotes, conservative rights discovery, one bounded BSC execution, an issuer-signed credential, a deliberately CHALLENGED Passport, and an independent buyer's paid Agent Job 1254 through on-chain submission. Final buyer settlement remains time-gated and is not claimed.</p>
+      <p class="run-note">The Judge Run itself is reproducible and simulated. Separate LIVE artifacts prove authenticated inventory, TSLA/NVDA quotes, conservative rights discovery, one bounded BSC execution, an issuer-signed credential, a deliberately CHALLENGED Passport, and an independent buyer's paid Agent Job 1265 through completed settlement. The buyer approval is backed by its own BSC Testnet receipt; B402 settlement is not claimed.</p>
     </section>
 
     <section class="protocol shell" id="protocol">

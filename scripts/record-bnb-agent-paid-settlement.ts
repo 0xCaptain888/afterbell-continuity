@@ -13,15 +13,19 @@ function assert(condition: unknown, message: string): asserts condition {
 
 const root = process.cwd();
 const buyerWorkspace = resolve(root, ".runtime/AfterBellBuyer");
-const privateReceiptPath = resolve(buyerWorkspace, "evidence/job-1254-settlement.json");
 const publicEvidencePath = resolve(root, "evidence/live/agent-studio-paid-delivery.json");
 const evidence = JSON.parse(await readFile(publicEvidencePath, "utf8")) as Json;
 const payload = evidence.payload as Json;
 const job = payload.job as Json;
 const settlement = payload.settlement as Json;
+const jobId = process.argv.includes("--job-id")
+  ? Number(process.argv[process.argv.indexOf("--job-id") + 1])
+  : Number(process.env.BNB_AGENT_PAID_JOB_ID ?? job.id);
+assert(Number.isSafeInteger(jobId) && jobId > 0, "invalid_paid_job_id");
+const privateReceiptPath = resolve(buyerWorkspace, `evidence/job-${jobId}-settlement.json`);
 
 if (payload.status === "PAID_DELIVERY_SETTLED" && settlement.completed === true) {
-  console.log(JSON.stringify({ status: "SETTLEMENT_EVIDENCE_ALREADY_PUBLISHED", jobId: 1254, transactionHash: settlement.transactionHash, evidenceRoot: evidence.evidenceRoot }, null, 2));
+  console.log(JSON.stringify({ status: "SETTLEMENT_EVIDENCE_ALREADY_PUBLISHED", jobId, transactionHash: settlement.transactionHash, evidenceRoot: evidence.evidenceRoot }, null, 2));
   process.exit(0);
 }
 
@@ -33,7 +37,7 @@ const completedAt = String(receipt.observedAt ?? "");
 const eligibleIso = String(job.settlementEligibleAt ?? settlement.earliestBuyerApproval ?? "");
 const eligibleAt = Date.parse(eligibleIso);
 
-assert(receipt.jobId === 1254 && receipt.action === "approve" && receipt.status === "COMPLETED", "invalid_private_settlement_receipt");
+assert(receipt.jobId === jobId && receipt.action === "approve" && receipt.status === "COMPLETED", "invalid_private_settlement_receipt");
 assert(/^0x[0-9a-f]{64}$/i.test(transactionHash), "settlement_transaction_hash_missing");
 assert(Number.isFinite(Date.parse(completedAt)), "settlement_observed_at_invalid");
 assert(Number.isFinite(eligibleAt) && Date.parse(completedAt) >= eligibleAt, "settlement_dispute_window_not_respected");
@@ -48,7 +52,7 @@ process.chdir(resolve(root, "bnb-agent/app/agent"));
 const runtimeModuleUrl = pathToFileURL(resolve(root, "bnb-agent/app/agent/node_modules/@bnbagent/studio-runtime/dist/erc8183/index.js")).href;
 const { get8183Client } = await import(runtimeModuleUrl) as { get8183Client: () => Promise<{ getJob: (id: bigint) => Promise<Json> }> };
 const client = await get8183Client();
-const chainJob = await client.getJob(1254n);
+const chainJob = await client.getJob(BigInt(jobId));
 process.chdir(root);
 assert(Number(chainJob.status) === 3, "post_settlement_job_not_completed");
 
@@ -91,7 +95,7 @@ const artifact = createEvidenceArtifact({
 await writeFile(publicEvidencePath, `${JSON.stringify(artifact, null, 2)}\n`);
 console.log(JSON.stringify({
   status: "PAID_DELIVERY_SETTLEMENT_EVIDENCE_PUBLISHED",
-  jobId: 1254,
+  jobId,
   transactionHash,
   evidenceRoot: artifact.evidenceRoot,
   output: "evidence/live/agent-studio-paid-delivery.json"

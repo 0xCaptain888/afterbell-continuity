@@ -5,16 +5,22 @@ type Json = Record<string, unknown>;
 
 const publicNegotiation = JSON.parse(await readFile("evidence/live/agent-studio-public-negotiate.json", "utf8")) as Json;
 const deployment = JSON.parse(await readFile("evidence/live/agent-studio-deployment.json", "utf8")) as Json;
+const paidDelivery = JSON.parse(await readFile("evidence/live/agent-studio-paid-delivery.json", "utf8")) as Json;
 const deploymentPayload = deployment.payload as Json;
 const negotiationPayload = publicNegotiation.payload as Json;
 const negotiation = negotiationPayload.negotiation as Json;
+const paidPayload = paidDelivery.payload as Json;
+const paidJob = paidPayload.job as Json;
+const paidSettlement = paidPayload.settlement as Json;
+const paidSettled = paidPayload.status === "PAID_DELIVERY_SETTLED";
+const paidJobId = Number(paidJob.id);
 
 const artifact = createEvidenceArtifact({
   artifactType: "BNB_AGENT_OPERATOR_READINESS",
   mode: "LIVE",
   observedAt: String(deployment.observedAt),
   source: "Official bag CLI platform, wallet, deployment, ERC-8004, and authenticated public A2A verification",
-  parentHashes: [deployment.evidenceRoot as `0x${string}`, publicNegotiation.evidenceRoot as `0x${string}`],
+  parentHashes: [deployment.evidenceRoot as `0x${string}`, publicNegotiation.evidenceRoot as `0x${string}`, paidDelivery.evidenceRoot as `0x${string}`],
   payload: {
     status: "DEPLOYED_TESTNET_TRIAL",
     platform: {
@@ -63,11 +69,13 @@ const artifact = createEvidenceArtifact({
       financialTransactionCreated: false
     },
     remainingExternalItems: [
-      "Approve independent-buyer Job 1254 after the canonical 24-hour dispute window closes on 2026-09-19T12:07:31.000Z.",
+      ...(paidSettled ? [] : [`Approve independent-buyer Job ${paidJobId} after the canonical ${String(paidJob.disputeWindowSeconds)}-second dispute window closes on ${String(paidSettlement.earliestBuyerApproval)}.`]),
       "Configure official B402 merchant credentials only if a paid x402 settlement receipt is required.",
       "Record the demo while the managed 48-hour trial remains active."
     ],
-    truthNotice: "This proves the managed BSC Testnet trial deployment, active runtime, ERC-8004 identity, authenticated public A2A access, and an independently recovered wallet signature. Independent-buyer Job 1254 is separately proven paid and submitted; final settlement and B402 payment remain unclaimed."
+    truthNotice: paidSettled
+      ? `This proves the managed BSC Testnet trial deployment, active runtime, ERC-8004 identity, authenticated public A2A access, and completed independent-buyer Job ${paidJobId}. B402 payment remains unclaimed.`
+      : `This proves the managed BSC Testnet trial deployment, active runtime, ERC-8004 identity, authenticated public A2A access, and independently funded Job ${paidJobId}. Final settlement and B402 payment remain unclaimed.`
   }
 });
 

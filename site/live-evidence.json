@@ -1,6 +1,6 @@
 {
   "schema": "afterbell-public-live-evidence/4",
-  "generatedAt": "2026-09-18T12:52:25.227Z",
+  "generatedAt": "2026-09-19T13:12:56.213Z",
   "truthNotice": "LIVE and MAINNET labels refer to authenticated API, on-chain receipts, independently matched bytecode, and BscScan-published sources. One bounded stock-token swap and three protocol deployments are verified; incomplete holder-rights evidence remains UNKNOWN and still blocks automatic rescue.",
   "inventory": {
     "status": "LIVE_DATA_GATE_PASSED",
@@ -285,8 +285,8 @@
       "allowGuardedDeposit": false,
       "allowReadOnlyMonitoring": true
     },
-    "evaluatedAt": "2026-09-18T12:52:24.000Z",
-    "evidenceRoot": "0x41decebab22b65378e3290a65a3f625b619b4caf8c3f9f3a89a524719f047071",
+    "evaluatedAt": "2026-09-19T13:11:19.000Z",
+    "evidenceRoot": "0x5932fe8e1de52af46be74e13901ccb89650f90adaaa7f79e9bb084bba808c7ff",
     "truthNotice": "The reference consumer allows read-only monitoring but blocks automated rescue and Guarded Vault deposits because the live credential is WATCH/HIGH and the Passport is CHALLENGED."
   },
   "agentStudio": {
@@ -325,10 +325,10 @@
       },
       "boundaries": {
         "fundedErc8183JobSubmitted": true,
-        "fundedErc8183JobSettled": false,
+        "fundedErc8183JobSettled": true,
         "b402SettlementCompleted": false,
         "financialTransactionCreatedByPublicSmoke": false,
-        "statement": "The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. A separate independent buyer paid for Job 1254 and received an on-chain submission; final settlement remains time-gated and unclaimed."
+        "statement": "An independent buyer paid 0.01 U, the public Agent submitted a content-addressed PROTECTED decision, and the buyer approved it after the canonical dispute window. The job is COMPLETED on BSC Testnet; no B402 settlement or rescue transaction is claimed."
       }
     },
     "negotiation": {
@@ -356,18 +356,21 @@
     "deploymentEvidenceRoot": "0x53f434283ad50f85cc560e496f9f9611e2f02aa9477ffeef44c92add0068e1df",
     "negotiationEvidenceRoot": "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092",
     "paidDelivery": {
-      "status": "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT",
+      "status": "PAID_DELIVERY_SETTLED",
       "job": {
-        "id": 1254,
-        "statusCode": 2,
-        "status": "SUBMITTED",
+        "id": 1265,
+        "statusCode": 3,
+        "status": "COMPLETED",
         "budgetRaw": "10000000000000000",
         "budgetDisplay": "0.01 U",
-        "expiredAt": "2026-09-18T12:52:00.000Z",
-        "submittedAt": "2026-09-18T12:07:31.000Z",
-        "settlementEligibleAt": "2026-09-19T12:07:31.000Z",
-        "deliverableHash": "0x4cec715b3cc21db25d700f4cfbf97cb0f5a9baf998b031d57f6b3780cc942c60",
-        "deliverableUrl": "https://bnbagent-api.bnbchain.world/v1/deliverables/sha256/23c78693baea47fdcd1b8a9120943c564f70e6c988bccb1c5072d97951e7ea13.json"
+        "expiredAt": "2026-09-19T13:32:31.000Z",
+        "submittedAt": "2026-09-19T12:48:50.000Z",
+        "settlementEligibleAt": "2026-09-19T13:03:50.000Z",
+        "deliverableHash": "0x5ffbe941c78a188cba2e37249c705cf1e48e0fc470fcb57d6e83f82f50e51fbc",
+        "deliverableUrl": "https://bnbagent-api.bnbchain.world/v1/deliverables/sha256/de34639dcb1f6c855cda245482954e76b3b0b248a6ec6e34008d9b03d2566ea6.json",
+        "contentAddressSha256": "de34639dcb1f6c855cda245482954e76b3b0b248a6ec6e34008d9b03d2566ea6",
+        "policy": "0xd6a4217588F6B1F5657a92A3e94E6422aD771cEA",
+        "disputeWindowSeconds": 900
       },
       "participants": {
         "buyer": "0x2CB79d0eBcCd6D6846e458e748787C13c6e51Afa",
@@ -396,9 +399,9 @@
           "premiumBps": 3,
           "normalizedReferencePriceUsd": 367.6,
           "exitLiquidityUsd": 50000,
-          "attestationAgeSeconds": 93
+          "attestationAgeSeconds": 190
         },
-        "decisionHash": "0x203966c21cf79a45240d98896916b155a8d23e723af43dbc09e61bea4bc4a00e",
+        "decisionHash": "0x357e57bbabb8ff527ed6bb9890dfe63b73134f5515fab00cedfeec5f196fa2ba",
         "financialTransactionCreated": false,
         "signingRequested": false,
         "truthNotice": "Deterministic continuity inspection. The service does not possess the buyer wallet, sign a rescue, or broadcast a transaction."
@@ -417,44 +420,54 @@
           "gasUsed": "65408"
         },
         "createJob": {
-          "hash": "0x59d9160faa92885d05aec3d71531fd102d586c81a0fd18469e6ec70025e95099",
-          "blockNumber": "131747904",
+          "hash": "0xa2f7643bc07aab5e844990af872698cb7d37d84468b7253e4624bdd367fe5d87",
+          "blockNumber": "131945307",
           "status": "success",
           "gasUsed": "1470963"
         },
         "registerJob": {
-          "hash": "0x09b1d28d6e1e713a28f8063288da6dad049349aa286e77431dce9cf84f2549c0",
-          "blockNumber": "131747907",
+          "hash": "0x1438f9a42c719a73a5b3120a3e3d8445cf8e2da042db4c0d6fd6c98f807a414d",
+          "blockNumber": "131945315",
           "status": "success",
           "gasUsed": "215997"
         },
         "setBudget": {
-          "hash": "0x2f882443aa6f95dfbd74af44d42adc1b45e8486ed6772622dd9474d2761cb981",
-          "blockNumber": "131747909",
+          "hash": "0xe36b951faba943da39976b2860efc7975d4f15f956f43857d5aaa2b36dca85b6",
+          "blockNumber": "131945328",
           "status": "success",
           "gasUsed": "96341"
         },
         "fund": {
-          "hash": "0x6a10dd12a4a84fe7e172195d2a75a8336ca8e569e5dec80ef6659734984cce1a",
-          "blockNumber": "131747917",
+          "hash": "0x83a8ee2ae0e28a761cfea7d48adaab2ae0a077f35d91c4aaf8583eb2656cdc2f",
+          "blockNumber": "131945343",
           "status": "success",
           "gasUsed": "105368"
         },
         "submit": {
-          "hash": "0xf26786a929ab2a7955e0006a6367886060f9a899ee715d6e75751c3e63ba853b",
-          "blockNumber": "131747967",
+          "hash": "0x6668161261f70dff96520b5558722839cfbccf75116dca9b8e91ef439f2c6e20",
+          "blockNumber": "131945474",
           "status": "success",
           "gasUsed": "270798"
+        },
+        "buyerApproval": {
+          "hash": "0xeafaf2063ee2dd564abd80572ba4eb9ef26199c6a2292e10089b338e473f8e98",
+          "blockNumber": "131947548",
+          "status": "success",
+          "gasUsed": "118124"
         }
       },
       "settlement": {
-        "completed": false,
-        "reason": "Canonical 24-hour dispute window has not elapsed.",
-        "earliestBuyerApproval": "2026-09-19T12:07:31.000Z"
+        "completed": true,
+        "action": "approve",
+        "completedAt": "2026-09-19T13:05:47.332Z",
+        "transactionHash": "0xeafaf2063ee2dd564abd80572ba4eb9ef26199c6a2292e10089b338e473f8e98",
+        "blockNumber": "131947548",
+        "earliestBuyerApproval": "2026-09-19T13:03:50.000Z",
+        "disputeWindowRespected": true
       },
-      "evidenceRoot": "0xa1d91d451f818a7f3004e063c8d27d79dadd98aa19ca13281a393f38ba631b67",
-      "truthNotice": "An independent buyer paid 0.01 U, the public Agent verified and fulfilled the job, and the seller submitted a content-addressed PROTECTED decision on-chain. Final buyer approval is time-gated by the canonical 24-hour dispute window and is not claimed yet."
+      "evidenceRoot": "0x77bbdee3c3bf68544db7911bf35e53d7fbbaa03226886d7fadf29b357b377628",
+      "truthNotice": "An independent buyer paid 0.01 U, the public Agent submitted a content-addressed PROTECTED decision, and the buyer approved it after the canonical dispute window. The job is COMPLETED on BSC Testnet; no B402 settlement or rescue transaction is claimed."
     },
-    "truthNotice": "The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. A separate independent buyer paid for Job 1254 and received an on-chain submission; final settlement remains time-gated and unclaimed."
+    "truthNotice": "An independent buyer paid 0.01 U, the public Agent submitted a content-addressed PROTECTED decision, and the buyer approved it after the canonical dispute window. The job is COMPLETED on BSC Testnet; no B402 settlement or rescue transaction is claimed."
   }
 }

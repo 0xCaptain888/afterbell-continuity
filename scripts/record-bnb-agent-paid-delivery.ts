@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -12,17 +13,15 @@ const rpc = process.env.STUDIO_BSC_TESTNET_RPC ?? "https://data-seed-prebsc-1-s1
 const buyer = "0x2CB79d0eBcCd6D6846e458e748787C13c6e51Afa" as const;
 const provider = "0x83B2B8D09d822DAed95e94E10062b232A54fd123" as const;
 const uToken = "0xc70B8741B8B07A6d61E54fd4B20f22Fa648E5565" as const;
-const jobId = 1254;
-const deliverableUrl = "https://bnbagent-api.bnbchain.world/v1/deliverables/sha256/23c78693baea47fdcd1b8a9120943c564f70e6c988bccb1c5072d97951e7ea13.json";
-const transactions = {
-  buyerFundingNative: "0x9c0f37cf37ccbdc0bfaadc82acf14d6156429746d2df825184d69eeed1c4e5e6",
-  buyerFundingU: "0x5d238c6502c0c59762c19abd31961527fde9d94414b7f7159f23c2791a1ebfaa",
-  createJob: "0x59d9160faa92885d05aec3d71531fd102d586c81a0fd18469e6ec70025e95099",
-  registerJob: "0x09b1d28d6e1e713a28f8063288da6dad049349aa286e77431dce9cf84f2549c0",
-  setBudget: "0x2f882443aa6f95dfbd74af44d42adc1b45e8486ed6772622dd9474d2761cb981",
-  fund: "0x6a10dd12a4a84fe7e172195d2a75a8336ca8e569e5dec80ef6659734984cce1a",
-  submit: "0xf26786a929ab2a7955e0006a6367886060f9a899ee715d6e75751c3e63ba853b"
-} as const;
+const runManifest = JSON.parse(await readFile(resolve(root, "evidence/bnb-agent-paid-job-run.json"), "utf8")) as Json;
+const jobId = process.argv.includes("--job-id")
+  ? Number(process.argv[process.argv.indexOf("--job-id") + 1])
+  : Number(process.env.BNB_AGENT_PAID_JOB_ID ?? runManifest.activeJobId);
+const run = (runManifest.runs as Json)[String(jobId)] as Json | undefined;
+assert(Number.isSafeInteger(jobId) && jobId > 0, "invalid_paid_job_id");
+assert(run, `paid_job_run_missing:${jobId}`);
+const deliverableUrl = String(run.deliverableUrl);
+const transactions = run.transactions as Record<string, `0x${string}`>;
 
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);
@@ -37,7 +36,11 @@ const receipts = Object.fromEntries(await Promise.all(Object.entries(transaction
 
 const deliverableResponse = await fetch(deliverableUrl, { signal: AbortSignal.timeout(30_000) });
 assert(deliverableResponse.ok, `deliverable_http_${deliverableResponse.status}`);
-const deliverable = await deliverableResponse.json() as Json;
+const deliverableBytes = Buffer.from(await deliverableResponse.arrayBuffer());
+const expectedContentHash = deliverableUrl.match(/\/sha256\/([0-9a-f]{64})\.json$/i)?.[1];
+const actualContentHash = createHash("sha256").update(deliverableBytes).digest("hex");
+assert(expectedContentHash === actualContentHash, "deliverable_content_address_mismatch");
+const deliverable = JSON.parse(deliverableBytes.toString("utf8")) as Json;
 const response = deliverable.response as Json;
 const decision = JSON.parse(String(response.content ?? "{}")) as Json;
 assert(deliverable.job_id === jobId, "deliverable_job_mismatch");
@@ -69,7 +72,14 @@ const quote = JSON.parse(await readFile(resolve(root, ".runtime/AfterBellBuyer/.
 const publicNegotiation = JSON.parse(await readFile(resolve(root, "evidence/live/agent-studio-public-negotiate.json"), "utf8")) as Json;
 const deployment = JSON.parse(await readFile(resolve(root, "evidence/live/agent-studio-deployment.json"), "utf8")) as Json;
 const submittedAt = Number(job.submittedAt);
-const settlementEligibleAt = new Date((submittedAt + 86_400) * 1_000).toISOString();
+const policy = "0xd6a4217588f6b1f5657a92a3e94e6422ad771cea" as const;
+const router = "0xd7d36d66d2f1b608a0f943f722d27e3744f66f25" as const;
+const [disputeWindow, boundPolicy] = await Promise.all([
+  publicClient.readContract({ address: policy, abi: parseAbi(["function disputeWindow() view returns (uint64)"]), functionName: "disputeWindow" }),
+  publicClient.readContract({ address: router, abi: parseAbi(["function jobPolicy(uint256 jobId) view returns (address)"]), functionName: "jobPolicy", args: [BigInt(jobId)] })
+]);
+assert(boundPolicy.toLowerCase() === policy.toLowerCase(), "paid_job_policy_binding_missing");
+const settlementEligibleAt = new Date((submittedAt + Number(disputeWindow)) * 1_000).toISOString();
 const payload = {
   status: "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT",
   network: "bsc-testnet",
@@ -99,7 +109,10 @@ const payload = {
     submittedAt: new Date(submittedAt * 1_000).toISOString(),
     settlementEligibleAt,
     deliverableHash: String(job.deliverable),
-    deliverableUrl
+    deliverableUrl,
+    contentAddressSha256: actualContentHash,
+    policy: boundPolicy,
+    disputeWindowSeconds: Number(disputeWindow)
   },
   deliverable: {
     schema: deliverable.schema,
@@ -136,10 +149,11 @@ const payload = {
   ],
   settlement: {
     completed: false,
-    reason: "Canonical 24-hour dispute window has not elapsed.",
+    reason: `Canonical ${Number(disputeWindow)}-second dispute window has not elapsed.`,
     earliestBuyerApproval: settlementEligibleAt
   },
-  truthNotice: "An independent buyer paid 0.01 U, the public Agent verified and fulfilled the job, and the seller submitted a content-addressed PROTECTED decision on-chain. Final buyer approval is time-gated by the canonical 24-hour dispute window and is not claimed yet."
+  replacementFor: runManifest.replacementFor,
+  truthNotice: `An independent buyer paid 0.01 U, the public Agent verified and fulfilled Job ${jobId}, and the seller submitted a content-addressed PROTECTED decision on-chain. Final buyer approval is time-gated by the canonical ${Number(disputeWindow)}-second dispute window and is not claimed yet.`
 };
 
 // Evidence hashing must operate on the exact JSON shape that is persisted.

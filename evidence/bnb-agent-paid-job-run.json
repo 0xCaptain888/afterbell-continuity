@@ -1,0 +1,22 @@
+{
+  "schema": "afterbell-paid-job-run/1",
+  "activeJobId": 1265,
+  "replacementFor": {
+    "jobId": 1254,
+    "reason": "The canonical Router returned no Policy binding for the submitted job, so buyer approval would revert with PolicyNotSet(). No settlement transaction was broadcast for Job 1254."
+  },
+  "runs": {
+    "1265": {
+      "deliverableUrl": "https://bnbagent-api.bnbchain.world/v1/deliverables/sha256/de34639dcb1f6c855cda245482954e76b3b0b248a6ec6e34008d9b03d2566ea6.json",
+      "transactions": {
+        "buyerFundingNative": "0x9c0f37cf37ccbdc0bfaadc82acf14d6156429746d2df825184d69eeed1c4e5e6",
+        "buyerFundingU": "0x5d238c6502c0c59762c19abd31961527fde9d94414b7f7159f23c2791a1ebfaa",
+        "createJob": "0xa2f7643bc07aab5e844990af872698cb7d37d84468b7253e4624bdd367fe5d87",
+        "registerJob": "0x1438f9a42c719a73a5b3120a3e3d8445cf8e2da042db4c0d6fd6c98f807a414d",
+        "setBudget": "0xe36b951faba943da39976b2860efc7975d4f15f956f43857d5aaa2b36dca85b6",
+        "fund": "0x83a8ee2ae0e28a761cfea7d48adaab2ae0a077f35d91c4aaf8583eb2656cdc2f",
+        "submit": "0x6668161261f70dff96520b5558722839cfbccf75116dca9b8e91ef439f2c6e20"
+      }
+    }
+  }
+}

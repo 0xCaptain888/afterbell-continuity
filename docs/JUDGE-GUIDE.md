@@ -52,7 +52,7 @@ Then show:
 9. Inspect the current Registry-bound Credential and its deployment evidence parent; compare it with the preserved historical zero-address artifact under `evidence/history/`.
 10. Open the [public Agent Card](https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json), then inspect `evidence/live/agent-studio-deployment.json`, `evidence/live/agent-studio-public-negotiate.json`, and `evidence/live/agent-studio-paid-delivery.json`.
 11. Confirm the managed trial reports `running (ready)`, ERC-8004 Agent ID `2447`, fixed `0.01 U` pricing, and a provider signature recovered to `0x83B2…d123`.
-12. In the paid-delivery artifact, confirm the independent buyer `0x2CB7…1Afa`, Job `1254`, all six successful chain receipts, the content-addressed deliverable, twelve passing policy checks, and `PROTECTED`. The status must remain `SUBMITTED` until buyer approval is legally available after the 24-hour dispute window.
+12. In the paid-delivery artifact, confirm the independent buyer `0x2CB7…1Afa`, Job `1265`, the content-addressed `PROTECTED` deliverable, and the buyer-approval transaction `0xeafaf2063ee2dd564abd80572ba4eb9ef26199c6a2292e10089b338e473f8e98`; the job must read `COMPLETED`.
 13. Run `npm run bnb-agent:test` and `npm run bnb-agent:build`; confirm eight Agent tests and the TypeScript build pass without an LLM in the pricing or delivery path.
 14. Run `npm run submission:audit` and confirm the repository, mainnet, integration, official-agent, paid-delivery, truth-label, and secret-scan checks pass.
 
@@ -64,7 +64,7 @@ Then show:
 - `ADVERSARIAL_TEST`: a deliberately malformed or unsafe scenario.
 - `DESIGN`: implemented packaging or plan without an external deployment receipt.
 - `DEPLOYED_TESTNET_TRIAL`: verified temporary BNB Agent Studio runtime on BSC Testnet; not a mainnet or paid-settlement claim.
-- `PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT`: an independent buyer funded the job and the Agent submitted its deliverable on-chain; payment release is not claimed until buyer approval has its own receipt.
+- `PAID_DELIVERY_SETTLED`: an independent buyer funded the job, the Agent submitted its deliverable on-chain, and buyer approval released payment after the canonical dispute window with its own receipt.
 - `UNAVAILABLE`: a required external credential, wallet, or service is absent.
 
 The demo must never relabel a simulated stage as live, or a deployment plan as a deployment.

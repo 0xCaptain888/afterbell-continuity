@@ -2,19 +2,19 @@
   "schema": "afterbell-evidence/1",
   "artifactType": "SUBMISSION_READINESS",
   "mode": "LIVE",
-  "observedAt": "2026-09-18T12:52:25.227Z",
+  "observedAt": "2026-09-19T13:12:56.213Z",
   "source": "AfterBell repository-local submission audit",
   "parentHashes": [
     "0x5a36ce020f566893d938aa0f61bce03723112caa592c0202243ff138cf61522a",
     "0xc71493b59800e9d40bac0cabb1dd0f8d1f00df495b31b16c138e73377b2a6d7b",
     "0xe053cb996a48732c0f5a8e9612df50459c70068d93357d64dd137c9304b02f3f",
     "0xaf8752255c975da3968c32b92bd31258d845d7a8bc33a46130c6e0cd195aa9e4",
-    "0x41decebab22b65378e3290a65a3f625b619b4caf8c3f9f3a89a524719f047071",
+    "0x5932fe8e1de52af46be74e13901ccb89650f90adaaa7f79e9bb084bba808c7ff",
     "0x53f434283ad50f85cc560e496f9f9611e2f02aa9477ffeef44c92add0068e1df",
     "0xaabf3e247951c0b7e087e744afe154d4c0db249cb12fd976d0676aa195281092",
-    "0xa1d91d451f818a7f3004e063c8d27d79dadd98aa19ca13281a393f38ba631b67"
+    "0x77bbdee3c3bf68544db7911bf35e53d7fbbaa03226886d7fadf29b357b377628"
   ],
-  "payloadHash": "0x5801df26cf40318860adc09b2cc2238f8dc8c47d3650ebc205bb55955c422f9d",
+  "payloadHash": "0xa268b043ec6a751f371ae426379096b108a93e06850541a565297822edcb7b10",
   "payload": {
     "status": "TECHNICALLY_READY",
     "checks": [
@@ -45,13 +45,13 @@
       {
         "id": "independent-fail-closed-consumer",
         "result": "PASS",
-        "evidence": "0x41decebab22b65378e3290a65a3f625b619b4caf8c3f9f3a89a524719f047071",
+        "evidence": "0x5932fe8e1de52af46be74e13901ccb89650f90adaaa7f79e9bb084bba808c7ff",
         "detail": "An independent consumer permits monitoring but blocks deposits and automated rescue."
       },
       {
         "id": "public-evidence-synchronized",
         "result": "PASS",
-        "evidence": "2026-09-18T12:52:25.227Z",
+        "evidence": "2026-09-19T13:12:56.213Z",
         "detail": "Public summary roots match deployment, Credential, Passport, and consumer artifacts."
       },
       {
@@ -69,7 +69,7 @@
       {
         "id": "agent-service-package",
         "result": "PASS",
-        "evidence": "0xe10164bd119cac76447db75e1d6f65a2ab279812a8557c576ddd635deb6b2ee6",
+        "evidence": "0x27fa2073cc25258c8a5577396456548346567249e88dc984787a74af8509fb29",
         "detail": "The official BNB Agent Studio A2A/X402 workspace is deployed in the managed BSC Testnet trial with fixed 0.01 U pricing."
       },
       {
@@ -81,8 +81,8 @@
       {
         "id": "paid-agent-delivery",
         "result": "PASS",
-        "evidence": "0xa1d91d451f818a7f3004e063c8d27d79dadd98aa19ca13281a393f38ba631b67",
-        "detail": "An independent buyer funded Job 1254 with 0.01 U and the public Agent submitted a content-addressed PROTECTED decision on-chain."
+        "evidence": "0x77bbdee3c3bf68544db7911bf35e53d7fbbaa03226886d7fadf29b357b377628",
+        "detail": "An independent buyer funded Job 1265 with 0.01 U, the public Agent submitted a content-addressed PROTECTED decision, and buyer approval completed after the dispute window."
       },
       {
         "id": "official-agent-safety",
@@ -105,12 +105,6 @@
     ],
     "remainingExternalItems": [
       {
-        "id": "erc8183-buyer-settlement",
-        "status": "PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT",
-        "settlementEligibleAt": "2026-09-19T12:07:31.000Z",
-        "blockingCoreVerification": false
-      },
-      {
         "id": "b402-settlement",
         "status": "DORMANT_PENDING_MERCHANT_CREDENTIALS",
         "blockingCoreVerification": false
@@ -121,7 +115,7 @@
         "blockingCoreVerification": false
       }
     ],
-    "truthNotice": "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, independent consumer, managed Agent Studio trial, authenticated signed public quote, and a real independent-buyer ERC-8183 delivery submitted on-chain. It does not claim final buyer settlement, B402 settlement, or a completed submission video."
+    "truthNotice": "TECHNICALLY_READY covers the reproducible repository, public demo, mainnet execution, source-verified contracts, Registry-bound Credential, Passport, independent consumer, managed Agent Studio trial, authenticated signed public quote, and a completed independent-buyer ERC-8183 delivery. It does not claim B402 settlement or a completed submission video."
   },
-  "evidenceRoot": "0xd63e18d71d5ae3281a0af362ef9bfc776b98d26cf3c4851ed240f91e33f70f41"
+  "evidenceRoot": "0x54fb6fd0b09a4ddd28e6889892a8373eef75cf7ccc3bcfc8d0164e00b96b7e0c"
 }

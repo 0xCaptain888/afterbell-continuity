@@ -36,7 +36,7 @@
     "bnb-agent:public:verify": "node --import tsx scripts/verify-bnb-agent-public.ts",
     "bnb-agent:paid:record": "node --env-file-if-exists=bnb-agent/.studio/.env.local --import tsx scripts/record-bnb-agent-paid-delivery.ts",
     "bnb-agent:paid:settle": "node --import tsx scripts/settle-bnb-agent-paid-job.ts",
-    "bnb-agent:paid:settlement:record": "node --import tsx scripts/record-bnb-agent-paid-settlement.ts",
+    "bnb-agent:paid:settlement:record": "node --env-file-if-exists=bnb-agent/.studio/.env.local --import tsx scripts/record-bnb-agent-paid-settlement.ts",
     "bnb-agent:paid:docs": "node --import tsx scripts/sync-bnb-agent-settlement-docs.ts",
     "bnb-agent:paid:publish": "npm run bnb-agent:paid:settlement:record && npm run bnb-agent:paid:docs && npm run check && npm run site:prepare",
     "bnb-agent:paid:finalize": "npm run bnb-agent:paid:settle -- --execute && npm run bnb-agent:paid:publish",

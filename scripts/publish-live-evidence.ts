@@ -31,6 +31,11 @@ const simulationData = simulation?.simulation as Record<string, unknown> | undef
 const simulationPayload = simulationData?.data as Record<string, unknown> | undefined;
 const deploymentContracts = Array.isArray(deployment?.contracts) ? deployment.contracts as Array<Record<string, unknown>> : [];
 const registryDeployment = deploymentContracts.find((item) => item.name === "ContinuityRegistry");
+const agentDeploymentPayload = agentDeployment?.payload as Record<string, unknown> | undefined;
+const agentPaidPayload = agentPaidDelivery?.payload as Record<string, unknown> | undefined;
+const agentPaidSettled = agentPaidPayload?.status === "PAID_DELIVERY_SETTLED";
+const agentPaidTruthNotice = agentPaidPayload?.truthNotice;
+const agentDeploymentBoundaries = agentDeploymentPayload?.boundaries as Record<string, unknown> | undefined;
 
 const featured = ["TSLA", "NVDA"].map((ticker) => {
   const pair = inventoryPairs.find((item) => item.underlyingTicker === ticker);
@@ -166,9 +171,16 @@ const summary = {
     truthNotice: (consumerAdmission.payload as Record<string, unknown> | undefined)?.truthNotice
   } : { result: "UNAVAILABLE" },
   agentStudio: agentDeployment && agentNegotiation ? {
-    status: (agentDeployment.payload as Record<string, unknown> | undefined)?.status,
+    status: agentDeploymentPayload?.status,
     observedAt: agentDeployment.observedAt,
-    deployment: (agentDeployment.payload as Record<string, unknown> | undefined),
+    deployment: {
+      ...agentDeploymentPayload,
+      boundaries: {
+        ...agentDeploymentBoundaries,
+        fundedErc8183JobSettled: agentPaidSettled,
+        statement: agentPaidTruthNotice ?? agentDeploymentBoundaries?.statement
+      }
+    },
     negotiation: (agentNegotiation.payload as Record<string, unknown> | undefined)?.negotiation,
     deploymentEvidenceRoot: agentDeployment.evidenceRoot,
     negotiationEvidenceRoot: agentNegotiation.evidenceRoot,
@@ -182,7 +194,7 @@ const summary = {
       evidenceRoot: agentPaidDelivery.evidenceRoot,
       truthNotice: (agentPaidDelivery.payload as Record<string, unknown> | undefined)?.truthNotice
     } : { status: "UNAVAILABLE" },
-    truthNotice: ((agentDeployment.payload as Record<string, unknown> | undefined)?.boundaries as Record<string, unknown> | undefined)?.statement
+    truthNotice: agentPaidTruthNotice ?? agentDeploymentBoundaries?.statement
   } : { status: "UNAVAILABLE" }
 };
 

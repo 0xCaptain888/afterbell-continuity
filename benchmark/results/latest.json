@@ -1,6 +1,6 @@
 {
   "schema": "afterbell-benchmark/1",
-  "generatedAt": "2026-09-18T12:52:20.702Z",
+  "generatedAt": "2026-09-19T13:11:15.251Z",
   "truthNotice": "All v0.1.0 benchmark scenarios are simulated or adversarial. No avoided-loss amount is claimed.",
   "scenarios": [
     {

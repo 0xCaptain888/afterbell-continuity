@@ -79,5 +79,5 @@ Target length: **3:45–3:55**. Record at 1440p or 1080p, browser zoom 100%, not
 - Do not show `.env`, terminal history, wallet balances, email, API credentials, or private browser tabs.
 - Keep the wallet disconnected unless demonstrating the read-only allowance check.
 - Never describe the challenged Passport as failed; say that it honestly exposes an unprovable timing property.
-- Show the verified BSC Testnet managed-trial deployment, Agent/Deployment IDs, ERC-8004 ID, public Agent Card, signed quote, and Job `1254` paid-delivery receipt. Say “submitted, awaiting the canonical dispute window” rather than “settled”; do not claim B402 settlement.
+- Show the verified BSC Testnet managed-trial deployment, Agent/Deployment IDs, ERC-8004 ID, public Agent Card, signed quote, and Job `1265` settlement receipt. Say “independent buyer funded, Agent delivered, buyer approved after the canonical 900-second dispute window”; do not claim B402 settlement.
 - End on the public Demo URL and GitHub repository for at least three seconds.

@@ -16,6 +16,12 @@ const EXPECTED = {
   a2aUrl: "https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/a2a"
 } as const;
 
+const paidDelivery = JSON.parse(await readFile("evidence/live/agent-studio-paid-delivery.json", "utf8")) as Json;
+const paidPayload = paidDelivery.payload as Json;
+const paidJob = paidPayload.job as Json;
+const paidJobId = Number(paidJob.id);
+const paidSettled = paidPayload.status === "PAID_DELIVERY_SETTLED";
+
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);
 }
@@ -256,10 +262,12 @@ const deploymentArtifact = createEvidenceArtifact({
     },
     boundaries: {
       fundedErc8183JobSubmitted: true,
-      fundedErc8183JobSettled: false,
+      fundedErc8183JobSettled: paidSettled,
       b402SettlementCompleted: false,
       financialTransactionCreatedByPublicSmoke: false,
-      statement: "The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. A separate independent buyer paid for Job 1254 and received an on-chain submission; final settlement remains time-gated and unclaimed."
+      statement: paidSettled
+        ? `The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. Independent-buyer Job ${paidJobId} is COMPLETED with a separate settlement receipt.`
+        : `The managed testnet runtime, public OAuth access, ERC-8004 identity, and signed quote are verified. Independent-buyer Job ${paidJobId} received an on-chain submission; final settlement remains time-gated.`
     }
   }
 });

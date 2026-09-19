@@ -25,19 +25,11 @@ AfterBell Continuity is the economic-equivalence, rights-continuity, and verifia
 - Public Agent Card: [AfterBell Watchtower on BNB Agent Studio](https://bnbagent-api.bnbchain.world/v1/rt/01M2T4KMDTJCBQ25HAMPZ9JZ9D/.well-known/agent-card.json)
 - Managed deployment evidence: [`DEPLOYED_TESTNET_TRIAL`](./evidence/live/agent-studio-deployment.json) — Agent `01M2…Z9D`, Deployment `01M2…JRNX`, ERC-8004 ID `2447`
 - Authenticated public quote: [`PUBLIC_NEGOTIATION_VERIFIED`](./evidence/live/agent-studio-public-negotiate.json) — OAuth A2A call, `0.01 U`, signature recovered to the deployed testnet wallet
-- Independent paid delivery: [`PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT`](./evidence/live/agent-studio-paid-delivery.json) — buyer `0x2CB7…1Afa`, Job `1254`, `0.01 U`, content-addressed `PROTECTED` result; buyer approval becomes eligible September 19, 2026 at 20:07:31 Beijing time
+- Independent paid delivery: [`PAID_DELIVERY_SETTLED`](./evidence/live/agent-studio-paid-delivery.json) — buyer `0x2CB7…1Afa`, replacement Job `1265`, `0.01 U`, content-addressed `PROTECTED` result, and buyer approval after the canonical 900-second dispute window; [settlement transaction](https://testnet.bscscan.com/tx/0xeafaf2063ee2dd564abd80572ba4eb9ef26199c6a2292e10089b338e473f8e98). Job `1254` remains transparently recorded as un-settled because its Router Policy binding was missing.
 
-The settlement command is deliberately time-locked and dry-run by default:
+The independent buyer settlement is complete. The time-locked command remains reproducible and idempotent; rerunning it returns `ALREADY_SETTLED`.
 
-```bash
-npm run bnb-agent:paid:settle
-# After the printed eligibility time, execute only with:
-npm run bnb-agent:paid:settle -- --execute
-```
-
-Before eligibility it returns `TIME_LOCKED` and creates no transaction. After eligibility, omitting `--execute` returns `READY_AWAITING_EXPLICIT_EXECUTE`.
-
-The current `v0.1.0` baseline combines clearly labelled `SIMULATED` / `ADVERSARIAL_TEST` scenarios, authenticated `LIVE` BNB Chain evidence, one user-confirmed BSC mainnet stock-token swap, three source-verified mainnet contracts, a Registry-bound Credential, a live BSC Testnet BNB Agent Studio trial, and one independently funded ERC-8183 delivery. It does **not** claim Agentic Wallet custody, final ERC-8183 buyer settlement, B402 settlement, or automated rescue settlement. The historical zero-address Credential remains preserved beside its active Registry-bound successor.
+The current `v0.1.0` baseline combines clearly labelled `SIMULATED` / `ADVERSARIAL_TEST` scenarios, authenticated `LIVE` BNB Chain evidence, one user-confirmed BSC mainnet stock-token swap, three source-verified mainnet contracts, a Registry-bound Credential, a live BSC Testnet BNB Agent Studio trial, and one independently settled ERC-8183 delivery. It does **not** claim Agentic Wallet custody, B402 settlement, or automated rescue settlement. The historical zero-address Credential remains preserved beside its active Registry-bound successor.
 
 ## Why this exists
 
@@ -85,7 +77,7 @@ observe the position
 - Persistent Watchtower task journal and Agent service endpoint
 - Official BNB Agent Studio seller workspace with A2A + X402 faces, ERC-8183 + B402 rails, fixed pricing, and deterministic non-LLM delivery
 - Managed BNB Agent Studio trial runtime with ERC-8004 identity, OAuth-protected public A2A access, and independently verified provider signature
-- Independent-buyer ERC-8183 lifecycle through quote, create, register, budget, `0.01 U` funding, notify, deterministic delivery, content-addressed result, and on-chain submission; final approval remains subject to the canonical dispute window
+- Independent-buyer ERC-8183 lifecycle through quote, create, register, budget, `0.01 U` funding, notify, deterministic delivery, content-addressed result, on-chain submission, and buyer approval after the canonical dispute window
 - Reproducible Judge Run
 - Responsive control-center demo
 - `ContinuityRegistry`, `GuardedStockVault`, and `ExecutionBondEscrow` contracts
@@ -117,7 +109,7 @@ observe the position
 | Swap calldata build | `LIVE` | TSLAB route, LiquidMesh |
 | Transaction API simulation | `LIVE_PASS` | exact 10 USDT allowance; simulation spends 10 USDT, receives TSLAB, and reduces allowance to zero |
 | Funded OKX Wallet authorization | `LIVE` | connected, first anomalous approval revoked, exact 10 USDT allowance independently re-read on-chain |
-| BNB Agent Studio Watchtower | `PAID_DELIVERY_SUBMITTED_AWAITING_SETTLEMENT` | runtime `running (ready)`, ERC-8004 ID `2447`; independent buyer funded Job `1254` with `0.01 U`, Agent submitted `PROTECTED`; buyer approval is eligible after the 24-hour dispute window, while B402 remains dormant |
+| BNB Agent Studio Watchtower | `PAID_DELIVERY_SETTLED` | runtime `running (ready)`, ERC-8004 ID `2447`; independent buyer funded Job `1265` with `0.01 U`, Agent submitted `PROTECTED`, and buyer approval completed after the canonical 900-second dispute window; B402 remains dormant |
 | BSC mainnet contracts | `MAINNET_DEPLOYED_VERIFIED` | Registry `0xCb1587…C823A`, Vault `0x8f996A…CE1bD`, Bond `0x52B6FF…12029` |
 | BSC mainnet stock trade | `LIVE_SUCCESS` | 10 USDT → 0.027163579421480873 TSLAB; calldata, receipt, slippage, Gas, and zero post-swap allowance independently verified |
 | Live continuity credential | `LIVE / WATCH / REGISTRY_BOUND` | Issuer-signed Credential binds the deployed Registry and deployment evidence root; historical zero-address artifact preserved |
