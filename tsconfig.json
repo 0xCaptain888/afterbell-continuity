@@ -12,5 +12,5 @@
     "types": ["node"],
     "outDir": "dist"
   },
-  "include": ["src/**/*.ts", "scripts/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "scripts/**/*.ts", "serverless/**/*.ts", "api/**/*.ts", "test/**/*.ts"]
 }

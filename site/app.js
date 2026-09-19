@@ -1,4 +1,5 @@
 const judgeButton = document.querySelector("#judgeButton");
+const publicApiBase = "https://afterbell-continuity-api.vercel.app";
 const judgePanel = document.querySelector("#judgePanel");
 const stageList = document.querySelector("#stageList");
 const runState = document.querySelector("#runState");
@@ -604,9 +605,25 @@ judgeButton.addEventListener("click", async () => {
   runState.textContent = "Running";
   stageList.innerHTML = "";
   try {
-    let response = await fetch("/api/v1/demo/judge", { cache: "no-store" });
-    if (!response.ok) response = await fetch("./demo-data.json", { cache: "no-store" });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const candidates = [
+      { url: `${publicApiBase}/api/v1/demo/judge`, label: "Public API" },
+      { url: "/api/v1/demo/judge", label: "Local API" },
+      { url: "./demo-data.json", label: "Static fallback" }
+    ];
+    let response;
+    let source = "Unavailable";
+    for (const candidate of candidates) {
+      try {
+        const attempt = await fetch(candidate.url, { cache: "no-store" });
+        if (!attempt.ok) continue;
+        response = attempt;
+        source = candidate.label;
+        break;
+      } catch {
+        // Try the next explicitly labelled source.
+      }
+    }
+    if (!response) throw new Error("No Judge Run source responded");
     const run = await response.json();
     run.stages.forEach((stage, index) => {
       const row = document.createElement("article");
@@ -618,7 +635,7 @@ judgeButton.addEventListener("click", async () => {
         <span class="stage-result ${isCaution ? "bad" : ""}">${stage.result}</span>`;
       stageList.append(row);
     });
-    runState.textContent = "Complete";
+    runState.textContent = `Complete · ${source}`;
   } catch (error) {
     runState.textContent = "Failed";
     stageList.innerHTML = `<article class="stage"><span class="stage-index">!</span><div><h3>Judge run unavailable</h3><p>${String(error)}</p></div><span class="stage-result bad">ERROR</span></article>`;

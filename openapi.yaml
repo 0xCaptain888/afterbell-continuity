@@ -4,7 +4,10 @@ info:
   version: 0.1.0
   description: Policy-bound continuity checks, rescue plans, credentials, and execution passports for tokenized stocks.
 servers:
+  - url: https://afterbell-continuity-api.vercel.app/api
+    description: Public non-custodial serverless runtime; signing and persistent tasks are disabled
   - url: http://127.0.0.1:4173/api
+    description: Local full API; mutable endpoints require a bearer token when configured
 paths:
   /health:
     get:
@@ -92,6 +95,8 @@ paths:
       responses:
         "200":
           description: Persistent Watchtower tasks
+        "501":
+          description: Disabled on the public serverless runtime
     post:
       operationId: createWatchTask
       security:
@@ -101,6 +106,8 @@ paths:
           description: Watchtower task created
         "422":
           description: Invalid position or interval
+        "501":
+          description: Disabled on the public serverless runtime
   /v1/watch/tasks/{id}/inspect:
     post:
       operationId: inspectWatchTask
@@ -119,9 +126,7 @@ paths:
   /v1/agent/watchtower:
     post:
       operationId: invokeWatchtowerAgent
-      summary: Inspect one tokenized-stock position without wallet custody or transaction authority
-      security:
-        - bearerAuth: []
+      summary: Inspect one tokenized-stock position without wallet custody or transaction authority; the public deployment is stateless
       requestBody:
         required: true
         content:

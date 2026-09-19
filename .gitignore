@@ -10,5 +10,8 @@ cache/
 typechain-types/
 .DS_Store
 .runtime/
+.vercel/
 evidence/live/*.private.json
 evidence/live/*.secret.json
+.vercel
+.env*

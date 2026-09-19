@@ -25,7 +25,7 @@
       <a href="#protocol">Protocol</a>
       <a href="#developers">Developers</a>
     </nav>
-    <button class="wallet" id="connectButton">Connect OKX Wallet</button>
+    <button class="wallet" id="connectButton">Connect Wallet</button>
   </header>
 
   <main id="top">
@@ -67,7 +67,7 @@
         <p>The bounded 10 USDT execution is complete. Connect the funded OKX Wallet to independently re-read the BNB Chain allowance; AfterBell expects zero and exposes an emergency revoke if chain state says otherwise.</p>
         <div class="wallet-state" id="walletState">Not connected · no transaction requested</div>
         <div class="wallet-actions">
-          <button class="primary" id="walletConnectButton">Connect OKX Wallet <span>→</span></button>
+          <button class="primary" id="walletConnectButton">Connect Wallet <span>→</span></button>
           <button class="approval-button" id="approveButton" disabled>Live execution complete · allowance 0</button>
           <button class="revoke-button" id="revokeButton" hidden>Revoke unexpected allowance</button>
         </div>
@@ -88,7 +88,8 @@
         <p>Every capability is labelled by what exists today—not what the roadmap promises.</p>
       </div>
       <div class="readiness-grid">
-        <article><span class="ready-dot live"></span><div><b>Continuity engine</b><small>IMPLEMENTED · 27 deterministic tests</small></div></article>
+        <article><span class="ready-dot live"></span><div><b>Continuity engine</b><small>IMPLEMENTED · 31 deterministic tests</small></div></article>
+        <article><span class="ready-dot live"></span><div><b>Public read-only Agent API</b><small><a href="https://afterbell-continuity-api.vercel.app/api/health" target="_blank" rel="noreferrer">LIVE · Vercel health endpoint ↗</a></small></div></article>
         <article><span class="ready-dot live"></span><div><b>SDK + persistent Watchtower</b><small>IMPLEMENTED · local API verified</small></div></article>
         <article><span class="ready-dot live" id="liveDataDot"></span><div><b>Live RWA + round-trip quotes</b><small id="liveDataStatus">Loading public evidence…</small></div></article>
         <article><span class="ready-dot waiting" id="rightsDataDot"></span><div><b>Rights-continuity gate</b><small id="rightsDataStatus">Loading public evidence…</small></div></article>

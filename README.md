@@ -1,6 +1,7 @@
 # AfterBell Continuity
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-Open-8fffc1?style=for-the-badge)](https://0xcaptain888.github.io/afterbell-continuity/)
+[![Public API](https://img.shields.io/badge/Public_API-Live-f4c86b?style=for-the-badge)](https://afterbell-continuity-api.vercel.app/api/health)
 [![CI](https://github.com/0xCaptain888/afterbell-continuity/actions/workflows/ci.yml/badge.svg)](https://github.com/0xCaptain888/afterbell-continuity/actions/workflows/ci.yml)
 [![Pages](https://github.com/0xCaptain888/afterbell-continuity/actions/workflows/pages.yml/badge.svg)](https://github.com/0xCaptain888/afterbell-continuity/actions/workflows/pages.yml)
 
@@ -15,6 +16,8 @@ AfterBell Continuity is the economic-equivalence, rights-continuity, and verifia
 - Full verification: `npm run check`
 - Submission readiness: `npm run submission:audit`
 - Public demo: **https://0xcaptain888.github.io/afterbell-continuity/**
+- Public non-custodial API: **https://afterbell-continuity-api.vercel.app/api/health**
+- Public Judge Run: **https://afterbell-continuity-api.vercel.app/api/v1/demo/judge**
 - Browser verifier: open **Live proof → Verify evidence roots** to recompute nine canonical SHA-256 commitments without a wallet
 - BSC mainnet evidence: [verified 10 USDT → TSLAB transaction](https://bscscan.com/tx/0xb4f2bd0cd1383ec16ca72d61fe353ed81eb8f2843f038f5e11bf7ecd22ef431c)
 - Source-verified contracts: [Registry](https://bscscan.com/address/0xCb158746e0855ECeC2703CE20EC3aA780c0C823A#code) · [Guarded Vault](https://bscscan.com/address/0x8f996AFcb61eaa3FCc6BCe21B691240e6eACE1bD#code) · [Bond Escrow](https://bscscan.com/address/0x52B6FF2243c3366E14aC13C6490A48580dE12029#code)
@@ -75,6 +78,8 @@ observe the position
 - OKX Wallet EIP-1193 connection with funded-address enforcement, exact 10 USDT approval, post-broadcast calldata verification, on-chain allowance re-read, and emergency revoke
 - Publishable TypeScript SDK with structured errors and timeouts
 - Persistent Watchtower task journal and Agent service endpoint
+- Public Vercel Agent API with deterministic continuity checks, Passport/Credential verification, consumer admission, and a stateless Watchtower; wallet signing, credential issuance, transaction broadcasting, and persistent writes are disabled by construction
+- Cloudflare edge verifier package that independently downloads public artifacts, recomputes transport SHA-256 digests, and fails closed on semantic evidence checks
 - Official BNB Agent Studio seller workspace with A2A + X402 faces, ERC-8183 + B402 rails, fixed pricing, and deterministic non-LLM delivery
 - Managed BNB Agent Studio trial runtime with ERC-8004 identity, OAuth-protected public A2A access, and independently verified provider signature
 - Independent-buyer ERC-8183 lifecycle through quote, create, register, budget, `0.01 U` funding, notify, deterministic delivery, content-addressed result, on-chain submission, and buyer approval after the canonical dispute window
@@ -99,6 +104,8 @@ observe the position
 | UI and Judge Run | `IMPLEMENTED` | Local/static demo |
 | TypeScript SDK | `IMPLEMENTED` | package dry build and SDK tests |
 | Persistent Watchtower tasks | `IMPLEMENTED` | JSONL journal and local API smoke test |
+| Public serverless Agent API | `LIVE / READ_ONLY` | [Vercel health](https://afterbell-continuity-api.vercel.app/api/health) and [public Judge Run](https://afterbell-continuity-api.vercel.app/api/v1/demo/judge); no secrets, signing, persistence, or broadcasts |
+| Independent edge verifier | `DEPLOYMENT_READY` | Cloudflare Worker passes all four local public-artifact checks; account OAuth is the only deployment dependency |
 | BNB Agent Studio service package | `DEPLOYED_TESTNET_TRIAL / RUNNING_READY` | official `bag` scaffold, A2A/X402, ERC-8183/B402, fixed 0.01 pricing, 8/8 deterministic tests, public OAuth quote |
 | Binance RWA inventory | `LIVE` | 488 parsed assets, 40 cross-wrapper pairs |
 | Underlying + market profiles | `LIVE` | 4/4 TSLA/NVDA wrapper profiles |
@@ -286,6 +293,14 @@ Binance RWA / Market / Trading / Transaction APIs
                                                   │
                                                   ▼
                                       Guarded Wallet / Vault
+
+Judge-facing public delivery plane
+  GitHub Pages UI → Vercel read-only Agent API
+                  → Cloudflare independent evidence verifier
+
+Private authority boundary
+  wallet signing / credential issuance / persistent jobs / transaction broadcast
+  stay outside the public serverless runtimes
 ```
 
 ## Repository layout
@@ -297,6 +312,9 @@ scripts/     judge, live gates, asset ranking, deployment safety
 agent-studio/ service packaging boundary and honest deployment status
 bnb-agent/   official BNB Agent Studio A2A/X402 seller workspace
 site/        judge-facing control center
+api/         Vercel entry point for the public read-only Agent API
+serverless/  provider adapter with explicit capability boundaries
+cloudflare-worker/ independent edge evidence verifier
 test/        deterministic and adversarial tests
 benchmark/   reproducible baseline-vs-AfterBell scenarios
 evidence/    public evidence artifacts
@@ -306,6 +324,8 @@ docs/        architecture, security, DX, development plan
 ## Public API surface
 
 The implemented integration endpoints are documented in [`openapi.yaml`](./openapi.yaml):
+
+The live public base URL is `https://afterbell-continuity-api.vercel.app/api`. It exposes only deterministic, non-custodial operations. Credential issuance, persistent Watchtower tasks, and any wallet or transaction operation return `501` on this runtime. See the [`free-cloud deployment runbook`](./docs/FREE-CLOUD-DEPLOYMENT.md).
 
 ```text
 POST /v1/continuity/check

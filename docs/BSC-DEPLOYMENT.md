@@ -41,7 +41,7 @@ Open `http://127.0.0.1:43120/` in the browser that contains OKX Wallet. Do not h
 
 ## 3. Estimate before each confirmation
 
-1. Connect OKX Wallet.
+1. Connect Wallet.
 2. Confirm the selected account exactly matches the expected deployer.
 3. Confirm the network is BNB Smart Chain mainnet.
 4. Click **Estimate next deployment**.
